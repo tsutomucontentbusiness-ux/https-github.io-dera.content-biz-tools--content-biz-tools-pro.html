@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コンテンツビジネス ツール戦略ガイド</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #181b25;
+  --surface: #22273a;
+  --surface2: #2a3048;
+  --border: #353d58;
+  --border2: #424d6e;
+  --text: #f0f2fa;
+  --muted: #8a94b8;
+  --dim: #4a5270;
+
+  --gold: #ffd54f;
+  --gold2: #ffb300;
+  --teal: #40e0cc;
+  --teal2: #1ab8a6;
+  --rose: #ff8096;
+  --rose2: #f43f5e;
+  --violet: #c4a8ff;
+  --violet2: #9b6dff;
+  --sky: #60cdff;
+  --green: #6ee89a;
+
+  --c1: #ffd54f;
+  --c2: #40e0cc;
+  --c3: #ff8096;
+  --c4: #c4a8ff;
+  --c5: #60cdff;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── ノイズ背景 ─── */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image:
+    radial-gradient(ellipse 80% 40% at 20% 10%, rgba(240,192,64,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(45,212,191,0.05) 0%, transparent 60%),
+    linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+  pointer-events:none; z-index:0;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  z-index:1;
+  padding: 80px 40px 60px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: inline-flex; align-items:center; gap:10px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after { content:''; width:30px; height:1px; background:var(--gold); opacity:0.5; }
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 6vw, 68px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.hero h1 span { color: var(--gold); }
+.hero-sub {
+  font-size: 16px;
+  color: #b8c0de;
+  max-width: 560px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+}
+.hero-badge {
+  display: inline-flex; align-items:center; gap:8px;
+  background: rgba(240,192,64,0.1);
+  border: 1px solid rgba(240,192,64,0.3);
+  padding: 8px 20px; border-radius: 999px;
+  font-size: 13px; color: var(--gold);
+}
+
+/* ─── STEP 1: ジャンル選択 ─── */
+.section {
+  position: relative; z-index:1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 24px;
+}
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #a8b2d0;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 800;
+  margin-bottom: 36px;
+  line-height: 1.2;
+}
+.section-title span { color: var(--gold); }
+
+/* ジャンルグリッド */
+.genre-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 60px;
+}
+.genre-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 18px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.genre-btn::before {
+  content:'';
+  position:absolute; inset:0;
+  background: var(--gc, var(--gold));
+  opacity:0; transition: opacity 0.25s;
+  border-radius: 16px;
+}
+.genre-btn:hover::before { opacity: 0.06; }
+.genre-btn.active::before { opacity: 0.12; }
+.genre-btn.active { border-color: var(--gc, var(--gold)); box-shadow: 0 0 0 1px var(--gc, var(--gold)); }
+.genre-icon { font-size: 32px; margin-bottom: 10px; display:block; }
+.genre-name { font-size: 14px; font-weight: 700; color: var(--text); position:relative; }
+.genre-desc { font-size: 11px; color: #a8b2d0; margin-top:4px; position:relative; line-height:1.5; }
+
+/* ─── パターンカード ─── */
+.patterns-wrap { display:none; }
+.patterns-wrap.show { display:block; animation: fadeUp 0.4s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+.pattern-divider {
+  display: flex; align-items: center; gap:16px;
+  margin: 20px 0 40px;
+}
+.pattern-divider-line { flex:1; height:1px; background: linear-gradient(90deg, var(--border), transparent); }
+.pattern-divider-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing:0.2em; color: var(--gold); text-transform:uppercase;
+}
+
+.pattern-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 60px;
+}
+.pattern-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.pattern-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+.pattern-card-header {
+  padding: 20px 24px;
+  display: flex; align-items:center; gap:14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.pattern-rank {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 800;
+  color: var(--pc, var(--gold));
+  line-height:1;
+  min-width: 36px;
+}
+.pattern-card-title { font-size: 16px; font-weight: 700; line-height:1.3; }
+.pattern-card-sub { font-size: 12px; color: #a8b2d0; margin-top:2px; }
+.pattern-cost-badge {
+  margin-left:auto;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 6px 12px;
+  text-align:center;
+  flex-shrink:0;
+}
+.pattern-cost-badge .cost-mo { font-family: 'JetBrains Mono', monospace; font-size:14px; font-weight:700; color: var(--pc, var(--gold)); }
+.pattern-cost-badge .cost-label { font-size:10px; color: #a8b2d0; }
+.pattern-body { padding: 20px 24px; }
+.tool-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.tool-tag {
+  display:inline-flex; align-items:center; gap:5px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px; color: var(--text);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.tool-tag:hover { border-color: var(--pc, var(--gold)); color: var(--pc, var(--gold)); }
+.tool-tag .tool-icon { font-size: 14px; }
+.pattern-purpose { font-size: 13px; color: #c8cfea; line-height:1.7; }
+
+/* ─── コンテンツ例 ─── */
+.examples-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 800;
+  margin-bottom: 28px;
+}
+.examples-title span { color: var(--teal); }
+
+.example-cards { display: grid; gap: 28px; }
+.example-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+.example-card-inner {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+}
+@media (max-width:780px) {
+  .example-card-inner { grid-template-columns:1fr; }
+}
+.example-content { padding: 28px 32px; }
+.example-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing:0.2em; color: #a8b2d0;
+  margin-bottom:10px;
+}
+.example-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 800;
+  line-height:1.2; margin-bottom:10px;
+}
+.example-desc { font-size: 14px; color: #c8cfea; line-height:1.8; margin-bottom:20px; }
+
+/* 図解 */
+.diagram-box {
+  background: var(--surface2);
+  border-left: 1px solid var(--border);
+  padding: 28px 24px;
+  display:flex; flex-direction:column; justify-content:center; gap:10px;
+}
+.diagram-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing:0.2em; color: #a8b2d0;
+  margin-bottom:6px; text-transform:uppercase;
+}
+.flow-step {
+  display:flex; align-items:center; gap:10px;
+}
+.flow-step-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  flex:1;
+  line-height:1.4;
+  color: #d8ddf5;
+}
+.flow-step-box strong { display:block; font-size:11px; color: var(--ec, var(--teal)); margin-bottom:2px; }
+.flow-arrow { color: #a8b2d0; font-size:16px; flex-shrink:0; }
+.flow-income {
+  margin-top:10px;
+  background: rgba(74,222,128,0.1);
+  border: 1px solid rgba(74,222,128,0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display:flex; align-items:center; gap:8px;
+}
+.flow-income-label { font-size:12px; color: var(--green); font-weight:700; }
+.flow-income-amount { font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--green); margin-left:auto; }
+
+/* 戦略コメント */
+.strategy-box {
+  margin-top: 16px;
+  background: rgba(255,213,79,0.1);
+  border: 1px solid rgba(255,213,79,0.35);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #e8ecfa;
+}
+.strategy-box::before {
+  content: '💡 戦略ポイント　';
+  font-weight:700; color: var(--gold);
+}
+
+/* ─── データテーブル ─── */
+.data-section {
+  position:relative; z-index:1;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 60px 24px;
+}
+.data-inner { max-width: 1100px; margin:0 auto; }
+.data-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(20px, 3vw, 32px); font-weight:800;
+  margin-bottom: 8px;
+}
+.data-title span { color: var(--violet); }
+.data-sub { font-size:13px; color: #b8c0de; margin-bottom:32px; }
+
+.tab-nav {
+  display:flex; gap:6px; flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.tab-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 7px 16px;
+  font-size: 12px; font-family:'Zen Kaku Gothic New', sans-serif;
+  color: #a8b2d0;
+  cursor:pointer; transition: all 0.2s;
+}
+.tab-btn.active { background: rgba(167,139,250,0.15); border-color: var(--violet); color: var(--violet); }
+.tab-btn:hover:not(.active) { border-color: var(--border2); color: var(--text); }
+
+.table-wrap { overflow-x:auto; }
+table {
+  width:100%; border-collapse:collapse;
+  font-size:13px;
+}
+thead tr { background: var(--surface2); }
+th {
+  padding: 12px 16px;
+  text-align:left;
+  font-size:11px; font-family:'JetBrains Mono', monospace;
+  letter-spacing:0.1em; color: #b8c0de;
+  border-bottom: 1px solid var(--border);
+  white-space:nowrap;
+}
+td {
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  vertical-align: middle;
+  color: var(--text);
+}
+tr:hover td { background: rgba(255,255,255,0.05); }
+.td-num {
+  font-family:'JetBrains Mono', monospace;
+  font-size:12px; color: var(--muted);
+}
+.td-name { font-weight:700; }
+.td-name a { color: var(--text); text-decoration:none; transition:color 0.2s; }
+.td-name a:hover { color: var(--violet); }
+.td-price {
+  font-family:'JetBrains Mono', monospace;
+  font-size:13px; font-weight:700;
+}
+.price-free { color: var(--green); }
+.price-low { color: var(--teal); }
+.price-mid { color: var(--gold); }
+.price-high { color: var(--rose); }
+.td-note { font-size:12px; color: #a8b2d0; }
+.td-cat span {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius:6px;
+  padding: 3px 8px;
+  font-size:11px; color: #a8b2d0;
+}
+.total-row td { background: rgba(196,168,255,0.12); color: var(--violet); font-weight:700; border-top: 1px solid rgba(196,168,255,0.4); }
+
+.table-pane { display:none; }
+.table-pane.active { display:block; animation: fadeUp 0.3s ease; }
+
+/* footer note */
+.footnote {
+  margin-top: 28px;
+  font-size:12px; color: #a8b2d0;
+  line-height:1.8;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+/* ─── 選択・合計パネル ─── */
+.calc-panel {
+  margin-top: 32px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.calc-panel-header {
+  padding: 18px 24px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(196,168,255,0.07);
+}
+.calc-panel-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 800;
+  color: var(--violet);
+  flex: 1;
+}
+.calc-clear-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-size: 12px; color: #a8b2d0;
+  cursor: pointer;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  transition: all 0.2s;
+}
+.calc-clear-btn:hover { border-color: var(--rose); color: var(--rose); }
+.calc-empty-msg {
+  font-size: 13px; color: #a8b2d0;
+  padding: 8px 0;
+}
+
+/* 選択ツール個別行 */
+.calc-item-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  animation: chipIn 0.2s ease;
+}
+@keyframes chipIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+.calc-item-name { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
+.calc-item-cat { font-size: 11px; color: #a8b2d0; margin-top: 2px; }
+.calc-item-billing {
+  display: flex; gap: 4px;
+}
+.bill-toggle {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 11px; color: #a8b2d0;
+  cursor: pointer;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: 700;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.bill-toggle.active-mo { background: rgba(255,213,79,0.15); border-color: var(--gold); color: var(--gold); }
+.bill-toggle.active-yr { background: rgba(96,205,255,0.15); border-color: var(--sky); color: var(--sky); }
+.bill-toggle.free-tag { background: rgba(110,232,154,0.12); border-color: rgba(110,232,154,0.4); color: var(--green); cursor: default; }
+.calc-item-remove {
+  background: none; border: none;
+  color: #a8b2d0; font-size: 16px;
+  cursor: pointer; padding: 0 4px;
+  transition: color 0.15s;
+  line-height: 1;
+}
+.calc-item-remove:hover { color: var(--rose); }
+
+/* 計算ボタン */
+.calc-run-btn {
+  background: linear-gradient(135deg, var(--violet), var(--sky));
+  border: none;
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-size: 14px; font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(196,168,255,0.3);
+}
+.calc-run-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,168,255,0.45); }
+.calc-run-btn:active { transform: translateY(0); }
+
+.calc-totals {
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.calc-total-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-align: center;
+}
+.calc-total-box.highlight {
+  background: rgba(255,213,79,0.07);
+  border-color: rgba(255,213,79,0.4);
+}
+.calc-total-label {
+  font-size: 11px; color: #a8b2d0;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.calc-total-jpy {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.calc-total-usd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: #a8b2d0;
+}
+.calc-total-free { font-size: 12px; color: var(--green); margin-top: 4px; }
+
+/* 内訳行 */
+.breakdown-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+}
+.breakdown-name { flex: 1; color: var(--text); font-weight: 700; }
+.breakdown-billing { font-size: 11px; padding: 2px 8px; border-radius: 6px; font-weight: 700; }
+.breakdown-billing.mo { background: rgba(255,213,79,0.12); color: var(--gold); }
+.breakdown-billing.yr { background: rgba(96,205,255,0.12); color: var(--sky); }
+.breakdown-billing.free { background: rgba(110,232,154,0.12); color: var(--green); }
+.breakdown-price { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text); min-width: 80px; text-align: right; }
+
+/* チェックボックスカラム */
+.td-check { width: 40px; text-align: center; }
+.tool-checkbox {
+  width: 18px; height: 18px;
+  cursor: pointer;
+  accent-color: var(--violet);
+}
+tr.selected td { background: rgba(196,168,255,0.06) !important; }
+
+/* ツール名クリック */
+.tool-name-btn {
+  background: none; border: none;
+  color: var(--text); font-weight: 700;
+  cursor: pointer; font-family: inherit;
+  font-size: 13px; text-align: left;
+  padding: 0; transition: color 0.15s;
+  text-decoration: underline dotted rgba(255,255,255,0.2);
+}
+.tool-name-btn:hover { color: var(--violet); }
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Content Business Tool Strategy</div>
+  <h1>ジャンルを選んで<br><span>最強の組み合わせ</span>を見つけろ</h1>
+  <p class="hero-sub">やりたいことを選ぶだけで、最適なツール構成・費用・今熱いビジネス例が全部わかる。</p>
+  <div class="hero-badge">🔥 2025〜2026年版　コンテンツビジネス特化</div>
+</div>
+
+<!-- コンテンツビジネスとは？ -->
+<div style="position:relative;z-index:1;padding:60px 24px 0;max-width:900px;margin:0 auto;">
+
+  <!-- 大見出し -->
+  <div style="text-align:center;margin-bottom:40px;">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,213,79,0.1);border:1px solid rgba(255,213,79,0.35);border-radius:999px;padding:6px 18px;font-size:12px;color:var(--gold);font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;margin-bottom:20px;">WHAT IS CONTENT BUSINESS?</div>
+    <h2 style="font-family:'Syne',sans-serif;font-size:clamp(24px,5vw,42px);font-weight:800;line-height:1.15;color:#f0f2fa;">コンテンツビジネスって<br><span style="color:var(--gold);">何ができるの？</span></h2>
+  </div>
+
+  <!-- 一言定義 -->
+  <div style="background:rgba(255,213,79,0.06);border:1px solid rgba(255,213,79,0.3);border-radius:18px;padding:28px 28px;margin-bottom:32px;text-align:center;">
+    <div style="font-size:13px;color:var(--gold);font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;margin-bottom:12px;">DEFINITION</div>
+    <p style="font-size:clamp(15px,3.5vw,20px);font-weight:700;color:#f0f2fa;line-height:1.8;">「自分の知識・スキル・体験」を<br>デジタルコンテンツにして売るビジネス。<br><span style="color:var(--gold);">在庫ゼロ・仕入れゼロ・作ったら何度でも売れる。</span></p>
+  </div>
+
+  <!-- 3つの特徴 -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:40px;">
+    <div style="background:rgba(255,255,255,0.04);border:1px solid #353d58;border-radius:16px;padding:24px;">
+      <div style="font-size:28px;margin-bottom:12px;">🏭</div>
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#f0f2fa;margin-bottom:8px;">普通のビジネスと何が違う？</div>
+      <p style="font-size:13px;color:#a8b2d0;line-height:1.8;">物販は「仕入れ→在庫→配送」が必要。コンテンツビジネスは<strong style="color:#f0f2fa;">一度作ったものを何千回でも売れる。</strong>寝ている間にも売上が入る仕組みを作れるのが最大の特徴。</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid #353d58;border-radius:16px;padding:24px;">
+      <div style="font-size:28px;margin-bottom:12px;">🤖</div>
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#f0f2fa;margin-bottom:8px;">AIが出てきて何が変わった？</div>
+      <p style="font-size:13px;color:#a8b2d0;line-height:1.8;">記事・画像・音声・動画——全部AIが作れる時代になった。<strong style="color:#f0f2fa;">「アイデアと方向性を決める人間」と「実際に作るAI」</strong>の組み合わせで、個人でも本格的なコンテンツを量産できる。</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid #353d58;border-radius:16px;padding:24px;">
+      <div style="font-size:28px;margin-bottom:12px;">💰</div>
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#f0f2fa;margin-bottom:8px;">実際にどうやって稼ぐの？</div>
+      <p style="font-size:13px;color:#a8b2d0;line-height:1.8;">noteの有料記事・Brainのデジタル教材・Gumroadのテンプレ販売など。<strong style="color:#f0f2fa;">1本3,000円の教材が月100本売れれば月30万円。</strong>作り続けるほど収益の天井が上がる。</p>
+    </div>
+  </div>
+
+  <!-- 初心者向けロードマップ -->
+  <div style="margin-bottom:40px;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(64,224,204,0.1);border:1px solid rgba(64,224,204,0.3);border-radius:999px;padding:6px 18px;font-size:12px;color:var(--teal);font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;">BEGINNER ROADMAP</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:clamp(18px,4vw,28px);font-weight:800;color:#f0f2fa;margin-top:14px;">初心者が最初にやること<span style="color:var(--teal);">3ステップ</span></h3>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <!-- Step 1 -->
+      <div style="background:rgba(255,255,255,0.04);border:1px solid #353d58;border-radius:14px;padding:20px 22px;display:flex;align-items:flex-start;gap:18px;">
+        <div style="background:linear-gradient(135deg,var(--gold),#ffb300);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#000;flex-shrink:0;">1</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#f0f2fa;margin-bottom:6px;">ジャンルを1つ決める</div>
+          <p style="font-size:13px;color:#a8b2d0;line-height:1.8;">テキスト・イラスト・動画・AI自動化・デジタル商品の5つから、<strong style="color:#f0f2fa;">「自分が一番続けられそうなもの」</strong>を1つ選ぶ。最初から完璧に選ばなくていい。やってみて合わなかったら変えればいい。</p>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div style="background:rgba(255,255,255,0.04);border:1px solid #353d58;border-radius:14px;padding:20px 22px;display:flex;align-items:flex-start;gap:18px;">
+        <div style="background:linear-gradient(135deg,var(--teal),#1ab8a6);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#000;flex-shrink:0;">2</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#f0f2fa;margin-bottom:6px;">まず無料ツールだけで始める</div>
+          <p style="font-size:13px;color:#a8b2d0;line-height:1.8;">Claude（無料）・Canva（無料）・note（無料）の3つだけで、<strong style="color:#f0f2fa;">月0円でコンテンツビジネスはスタートできる。</strong>お金をかけるのは「稼ぎ始めてから」でいい。まず動くことが最優先。</p>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div style="background:rgba(255,255,255,0.04);border:1px solid #353d58;border-radius:14px;padding:20px 22px;display:flex;align-items:flex-start;gap:18px;">
+        <div style="background:linear-gradient(135deg,var(--violet),#9b6dff);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff;flex-shrink:0;">3</div>
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#f0f2fa;margin-bottom:6px;">最初の1本を出す。完璧じゃなくていい</div>
+          <p style="font-size:13px;color:#a8b2d0;line-height:1.8;">最初の記事・イラスト・動画は<strong style="color:#f0f2fa;">60点でいい。</strong>出して反応を見てから改善する。100点を目指して出さないより、60点を出して1件売れる体験をする方が、100倍速くビジネスが育つ。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- よくある誤解 -->
+  <div style="background:rgba(255,128,150,0.06);border:1px solid rgba(255,128,150,0.3);border-radius:16px;padding:24px 26px;margin-bottom:48px;">
+    <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--rose);margin-bottom:16px;letter-spacing:0.05em;">🙅 よくある「始められない」理由と、本当のこと</div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span style="background:rgba(255,128,150,0.15);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--rose);white-space:nowrap;flex-shrink:0;margin-top:1px;">誤解</span>
+        <div>
+          <div style="font-size:13px;color:#a8b2d0;line-height:1.7;">「特別なスキルや知識がないと無理」<br><strong style="color:#f0f2fa;">→ AIが全部補ってくれる時代。「どのジャンルに興味があるか」だけ決めれば動き出せる。</strong></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span style="background:rgba(255,128,150,0.15);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--rose);white-space:nowrap;flex-shrink:0;margin-top:1px;">誤解</span>
+        <div>
+          <div style="font-size:13px;color:#a8b2d0;line-height:1.7;">「フォロワーがいないと売れない」<br><strong style="color:#f0f2fa;">→ noteはフォロワー0人でも検索から買われる。最初の1件はフォロワー数と関係ない。</strong></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <span style="background:rgba(255,128,150,0.15);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--rose);white-space:nowrap;flex-shrink:0;margin-top:1px;">誤解</span>
+        <div>
+          <div style="font-size:13px;color:#a8b2d0;line-height:1.7;">「初期費用がかかりそう」<br><strong style="color:#f0f2fa;">→ Claude・Canva・noteは全部無料プランで始められる。最初の1円も必要ない。</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:8px;">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,213,79,0.1);border:1px solid rgba(255,213,79,0.35);border-radius:999px;padding:8px 22px;font-size:13px;font-weight:700;color:var(--gold);">👇 まず自分のジャンルを選んでみよう</div>
+  </div>
+</div>
+
+<!-- STEP 1 ジャンル選択 -->
+<div class="section">
+  <div class="section-label">Step 01</div>
+  <div class="section-title">やりたい<span>ジャンル</span>を選んでください</div>
+
+  <div class="genre-grid">
+    <button class="genre-btn" style="--gc:var(--gold)" onclick="selectGenre(0)" id="g0">
+      <span class="genre-icon">✍️</span>
+      <div class="genre-name">テキスト発信</div>
+      <div class="genre-desc">note・ブログ・メルマガ</div>
+    </button>
+    <button class="genre-btn" style="--gc:var(--teal)" onclick="selectGenre(1)" id="g1">
+      <span class="genre-icon">🎨</span>
+      <div class="genre-name">イラスト・画像</div>
+      <div class="genre-desc">AIアート・デザイン販売</div>
+    </button>
+    <button class="genre-btn" style="--gc:var(--rose)" onclick="selectGenre(2)" id="g2">
+      <span class="genre-icon">🎬</span>
+      <div class="genre-name">動画・音声</div>
+      <div class="genre-desc">YouTube・Podcast・MV</div>
+    </button>
+    <button class="genre-btn" style="--gc:var(--violet)" onclick="selectGenre(3)" id="g3">
+      <span class="genre-icon">⚙️</span>
+      <div class="genre-name">AI自動化</div>
+      <div class="genre-desc">ツール販売・コンサル</div>
+    </button>
+    <button class="genre-btn" style="--gc:var(--sky)" onclick="selectGenre(4)" id="g4">
+      <span class="genre-icon">📦</span>
+      <div class="genre-name">デジタル商品</div>
+      <div class="genre-desc">テンプレ・教材・ガイド</div>
+    </button>
+  </div>
+
+  <!-- ジャンル別コンテンツ -->
+  <div id="genre-content"></div>
+</div>
+
+<!-- サブスクデータ -->
+<!-- ★ 有料版誘導CTA -->
+<div style="position:relative;z-index:1;background:linear-gradient(135deg,#1a1230 0%,#0e1f35 100%);border-top:1px solid #2a2040;border-bottom:1px solid #2a2040;padding:60px 24px;" id="cta-section">
+  <div style="max-width:900px;margin:0 auto;">
+    <!-- 上部ラベル -->
+    <div style="text-align:center;margin-bottom:28px;">
+      <span style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,168,255,0.12);border:1px solid rgba(196,168,255,0.35);border-radius:999px;padding:6px 18px;font-size:12px;color:var(--violet);font-family:'JetBrains Mono',monospace;letter-spacing:0.12em;">⚡ FREE → PRO UPGRADE</span>
+    </div>
+    <!-- メインコピー -->
+    <h2 style="font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,48px);font-weight:800;text-align:center;line-height:1.1;margin-bottom:16px;color:#f0f2fa;">このガイドで<span style="color:var(--violet);">「なるほど」</span>と思ったなら<br>有料版は<span style="color:var(--gold);">その10倍</span>の情報量がある。</h2>
+    <p style="text-align:center;font-size:16px;color:#b8c0de;max-width:640px;margin:0 auto 40px;line-height:1.8;">ツール30選・戦略3パターン・簡単な説明だけのこのページに対して、<br>有料版は<strong style="color:#f0f2fa;">ツール50選・戦略4パターン・実践レベルのワークフロー詳細付き。</strong><br>「何をどの順番でやるか」まで全部書いてある。</p>
+
+    <!-- 比較カード -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:40px;">
+      <!-- 無料版 -->
+      <div style="background:rgba(255,255,255,0.04);border:1px solid #353d58;border-radius:16px;padding:24px;">
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#a8b2d0;margin-bottom:18px;letter-spacing:0.1em;">FREE　このページ</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="font-size:14px;color:#a8b2d0;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:#4a5270;flex-shrink:0;margin-top:1px;">✗</span><span>ツール30選（概要のみ）</span></li>
+          <li style="font-size:14px;color:#a8b2d0;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:#4a5270;flex-shrink:0;margin-top:1px;">✗</span><span>戦略3パターン（方向性のみ）</span></li>
+          <li style="font-size:14px;color:#a8b2d0;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:#4a5270;flex-shrink:0;margin-top:1px;">✗</span><span>ビジネス例の概要のみ</span></li>
+          <li style="font-size:14px;color:#a8b2d0;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:#4a5270;flex-shrink:0;margin-top:1px;">✗</span><span>「何から始めるか」は自分で考える</span></li>
+          <li style="font-size:14px;color:#a8b2d0;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:#4a5270;flex-shrink:0;margin-top:1px;">✗</span><span>ワークフロー詳細なし</span></li>
+        </ul>
+      </div>
+      <!-- 有料版 -->
+      <div style="background:rgba(196,168,255,0.07);border:1px solid rgba(196,168,255,0.4);border-radius:16px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;background:var(--violet);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-bottom-left-radius:10px;letter-spacing:0.1em;">PRO</div>
+        <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--violet);margin-bottom:18px;letter-spacing:0.1em;">PRO　有料版</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="font-size:14px;color:#e8ecfa;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:var(--green);flex-shrink:0;margin-top:1px;">✓</span><span>ツール<strong style="color:var(--gold);">50選</strong>（詳細解説付き）</span></li>
+          <li style="font-size:14px;color:#e8ecfa;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:var(--green);flex-shrink:0;margin-top:1px;">✓</span><span>戦略<strong style="color:var(--gold);">4パターン</strong>（実践レベル）</span></li>
+          <li style="font-size:14px;color:#e8ecfa;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:var(--green);flex-shrink:0;margin-top:1px;">✓</span><span>やりたい事を選ぶと<strong style="color:var(--gold);">詳細ワークフロー</strong>が出る</span></li>
+          <li style="font-size:14px;color:#e8ecfa;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:var(--green);flex-shrink:0;margin-top:1px;">✓</span><span>ステップ別の手順・使うツール・費用まで全部記載</span></li>
+          <li style="font-size:14px;color:#e8ecfa;display:flex;align-items:flex-start;gap:10px;line-height:1.5;"><span style="color:var(--green);flex-shrink:0;margin-top:1px;">✓</span><span>サブスク計算機も進化版</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 価値訴求 -->
+    <div style="background:rgba(255,213,79,0.07);border:1px solid rgba(255,213,79,0.3);border-radius:14px;padding:20px 24px;margin-bottom:32px;text-align:center;">
+      <p style="font-size:14px;color:#e8ecfa;line-height:1.9;margin:0;">このサイト1本に、<strong style="color:var(--gold);">AIツール解説・副業戦略・ワークフロー設計・費用計算</strong>の4冊分の情報が入っている。<br>同じ情報をnoteやBrainで個別に買い揃えると<strong style="color:var(--gold);">1万円以上</strong>かかる内容を、有料版1本にまとめた。</p>
+    </div>
+
+    <!-- CTAボタン -->
+    <div style="text-align:center;">
+      <a href="content-biz-tools-pro.html" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--violet),var(--sky));border:none;border-radius:14px;padding:16px 40px;font-size:16px;font-weight:800;color:#fff;text-decoration:none;font-family:'Zen Kaku Gothic New',sans-serif;box-shadow:0 6px 28px rgba(196,168,255,0.4);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 36px rgba(196,168,255,0.55)'" onmouseout="this.style.transform='';this.style.boxShadow='0 6px 28px rgba(196,168,255,0.4)'">
+        🚀 有料版（PRO）を見る →
+      </a>
+      <p style="margin-top:14px;font-size:12px;color:#a8b2d0;">※ 有料版はコンテンツビジネス研究所（@deratan07）のnote・Brainにて販売予定</p>
+    </div>
+  </div>
+</div>
+
+<div class="data-section">
+  <div class="data-inner">
+    <div class="data-title">ツール<span>30選</span>　サブスク料金データ</div>
+    <div class="data-sub">月払い料金（税別・ドル建ては1ドル＝150円換算）。年払いで10〜20%割引されるものが多い。ツール名をクリックで公式サイトへ。</div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab(0)">すべて</button>
+      <button class="tab-btn" onclick="switchTab(1)">🎨 画像生成AI</button>
+      <button class="tab-btn" onclick="switchTab(2)">🤖 文章生成AI</button>
+      <button class="tab-btn" onclick="switchTab(3)">🎬 動画・音声AI</button>
+      <button class="tab-btn" onclick="switchTab(4)">📝 販売プラットフォーム</button>
+      <button class="tab-btn" onclick="switchTab(5)">⚙️ 自動化・ワークフロー</button>
+      <button class="tab-btn" onclick="switchTab(6)">📊 SEO・マーケ</button>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-pane active" id="tab0">
+        <table>
+          <thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>カテゴリ</th><th>月額（目安）</th><th>年額（目安）</th><th>備考</th></tr></thead>
+          <tbody id="all-table"></tbody>
+        </table>
+      </div>
+      <div class="table-pane" id="tab1"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat1-table"></tbody></table></div>
+      <div class="table-pane" id="tab2"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat2-table"></tbody></table></div>
+      <div class="table-pane" id="tab3"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat3-table"></tbody></table></div>
+      <div class="table-pane" id="tab4"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat4-table"></tbody></table></div>
+      <div class="table-pane" id="tab5"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat5-table"></tbody></table></div>
+      <div class="table-pane" id="tab6"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat6-table"></tbody></table></div>
+    </div>
+
+    <div class="footnote">
+      ※ 料金は2025〜2026年3月時点の目安です。為替・プラン改定により変動します。<br>
+      ※ ドル建てツールは1USD＝150円で円換算しています。<br>
+      ※ 「無料」表記のツールも有料プランや販売手数料が発生する場合があります。
+    </div>
+
+    <!-- 選択ツール合計パネル -->
+    <div class="calc-panel" id="calcPanel">
+      <div class="calc-panel-header">
+        <div class="calc-panel-title">💰 選択ツールのコスト試算</div>
+        <span id="selectedCount" style="font-size:13px;color:#a8b2d0;"></span>
+        <button class="calc-clear-btn" onclick="clearAll()">すべてクリア</button>
+      </div>
+
+      <!-- 選択リスト（個別月/年切り替え付き） -->
+      <div id="calcListWrap" style="padding:16px 24px; border-bottom:1px solid var(--border); min-height:64px;">
+        <div class="calc-empty-msg" id="calcEmpty">↑ 上の一覧からツールにチェックを入れてください（複数OK）</div>
+        <div id="calcItemList" style="display:none; display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
+      <!-- 計算ボタン -->
+      <div style="padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <button class="calc-run-btn" id="calcRunBtn" onclick="runCalc()">▶ コスト計算する</button>
+        <span style="font-size:12px; color:#a8b2d0;">各ツールの「月払い／年払い」を選択してから計算してください</span>
+      </div>
+
+      <!-- 結果エリア -->
+      <div id="calcResult" style="display:none;">
+        <div class="calc-totals">
+          <div class="calc-total-box highlight">
+            <div class="calc-total-label">月額合計（有料ツール）</div>
+            <div class="calc-total-jpy" id="total-jpy">¥0</div>
+            <div class="calc-total-usd" id="total-usd"></div>
+          </div>
+          <div class="calc-total-box">
+            <div class="calc-total-label">年間総額（有料ツール）</div>
+            <div class="calc-total-jpy" id="total-annual-jpy" style="color:var(--sky)">¥0</div>
+            <div class="calc-total-usd" id="total-annual-usd"></div>
+          </div>
+          <div class="calc-total-box">
+            <div class="calc-total-label">無料ツール</div>
+            <div class="calc-total-jpy" style="color:var(--green);font-size:22px;" id="free-count">0 個</div>
+            <div class="calc-total-free" id="free-names"></div>
+          </div>
+        </div>
+        <!-- 内訳 -->
+        <div style="padding:0 24px 24px;">
+          <div style="font-size:11px; font-family:'JetBrains Mono',monospace; letter-spacing:0.1em; color:#a8b2d0; margin-bottom:10px; text-transform:uppercase;">内訳</div>
+          <div id="calcBreakdown" style="display:flex; flex-direction:column; gap:6px;"></div>
+        </div>
+      </div>
+    </div>
+
+<!-- ツール説明モーダル -->
+<div id="toolModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); align-items:center; justify-content:center;" onclick="closeModal(event)">
+  <div style="background:var(--surface); border:1px solid var(--border2); border-radius:20px; max-width:480px; width:90%; padding:28px; position:relative; animation:fadeUp 0.2s ease;">
+    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:4px 10px;color:#a8b2d0;font-size:13px;cursor:pointer;">✕ 閉じる</button>
+    <div id="modalCat" style="font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;color:#a8b2d0;margin-bottom:10px;text-transform:uppercase;"></div>
+    <div id="modalName" style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;"></div>
+    <div id="modalPrice" style="font-size:13px;color:var(--gold);margin-bottom:16px;font-family:'JetBrains Mono',monospace;"></div>
+    <div id="modalDesc" style="font-size:14px;color:#c8cfea;line-height:1.8;margin-bottom:20px;"></div>
+    <a id="modalUrl" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:rgba(196,168,255,0.12);border:1px solid rgba(196,168,255,0.35);border-radius:10px;padding:8px 18px;font-size:13px;color:var(--violet);text-decoration:none;transition:all 0.2s;">🔗 公式サイトを開く →</a>
+  </div>
+</div>
+  </div>
+</div>
+
+<script>
+// ───────────────────────────────
+// ツールデータ
+// ───────────────────────────────
+const TOOLS = [
+  // 画像
+  { n:'Midjourney', url:'https://www.midjourney.com/', cat:1, catName:'🎨 画像生成AI', mo:'$10〜（¥1,500〜）', yr:'$96〜（¥14,400〜）', note:'Basic商用不可。Standard以上で商用OK', free:false, moUSD:10 },
+  { n:'NovelAI', url:'https://novelai.net/', cat:1, catName:'🎨 画像生成AI', mo:'$10〜（¥1,500〜）', yr:'$120〜（¥18,000〜）', note:'Tablet$10・Scroll$15・Opus$25', free:false, moUSD:10 },
+  { n:'Stable Diffusion', url:'https://stability.ai/', cat:1, catName:'🎨 画像生成AI', mo:'無料（ローカル）', yr:'無料', note:'ローカル環境構築で完全無料', free:true, moUSD:0 },
+  { n:'Adobe Firefly', url:'https://firefly.adobe.com/', cat:1, catName:'🎨 画像生成AI', mo:'Creative Cloudに含む', yr:'$600〜', note:'単体プランなし', free:false, moUSD:55 },
+  { n:'Canva Pro', url:'https://www.canva.com/ja_jp/', cat:1, catName:'🎨 画像生成AI', mo:'$15（¥2,250）', yr:'$120（¥18,000）', note:'デザイン全般＋AIクレジット付き', free:false, moUSD:15 },
+  // 文章
+  { n:'ChatGPT Plus', url:'https://chat.openai.com/', cat:2, catName:'🤖 文章生成AI', mo:'$20（¥3,000）', yr:'$240（¥36,000）', note:'年払い割引なし', free:false, moUSD:20 },
+  { n:'Claude Pro', url:'https://claude.ai/', cat:2, catName:'🤖 文章生成AI', mo:'$20（¥3,000）', yr:'$204（¥30,600）', note:'年払い$17/月（$200/年）', free:false, moUSD:20 },
+  { n:'Gemini AI Pro', url:'https://gemini.google.com/', cat:2, catName:'🤖 文章生成AI', mo:'$19.99（¥3,000）', yr:'$240（¥36,000）', note:'Google Drive 2TB付き', free:false, moUSD:20 },
+  { n:'Perplexity Pro', url:'https://www.perplexity.ai/', cat:2, catName:'🤖 文章生成AI', mo:'$20（¥3,000）', yr:'$200（¥30,000）', note:'年払い$16.67/月', free:false, moUSD:20 },
+  { n:'Copilot', url:'https://copilot.microsoft.com/', cat:2, catName:'🤖 文章生成AI', mo:'Microsoft 365に含む', yr:'$840〜', note:'365プランとセットが割安', free:false, moUSD:20 },
+  // 動画・音声
+  { n:'Runway', url:'https://runwayml.com/', cat:3, catName:'🎬 動画・音声AI', mo:'$15（¥2,250）', yr:'$144（¥21,600）', note:'Standard。Pro$35・Unlimited$95も', free:false, moUSD:15 },
+  { n:'Kling', url:'https://klingai.com/', cat:3, catName:'🎬 動画・音声AI', mo:'$10〜（¥1,500〜）', yr:'$120〜', note:'無料枠あり', free:false, moUSD:10 },
+  { n:'ElevenLabs', url:'https://elevenlabs.io/', cat:3, catName:'🎬 動画・音声AI', mo:'$5（¥750）', yr:'$60（¥9,000）', note:'Starter。Creator$11・Pro$99', free:false, moUSD:5 },
+  { n:'VOICEVOX', url:'https://voicevox.hiroshiba.jp/', cat:3, catName:'🎬 動画・音声AI', mo:'完全無料', yr:'完全無料', note:'ローカル動作・商用利用OK', free:true, moUSD:0 },
+  { n:'Suno Pro', url:'https://suno.com/', cat:3, catName:'🎬 動画・音声AI', mo:'$10（¥1,500）', yr:'$96（¥14,400）', note:'年払い$8/月。商用利用はProから', free:false, moUSD:10 },
+  // 販売
+  { n:'note', url:'https://note.com/', cat:4, catName:'📝 販売プラットフォーム', mo:'無料〜', yr:'無料〜', note:'有料記事・定期購読設定可', free:true, moUSD:0 },
+  { n:'Brain', url:'https://brain-market.com/', cat:4, catName:'📝 販売プラットフォーム', mo:'無料（手数料10%〜）', yr:'無料', note:'販売成立時のみ手数料', free:true, moUSD:0 },
+  { n:'Gumroad', url:'https://gumroad.com/', cat:4, catName:'📝 販売プラットフォーム', mo:'無料（手数料10%）', yr:'無料', note:'売上の10%が手数料', free:true, moUSD:0 },
+  { n:'Zenn', url:'https://zenn.dev/', cat:4, catName:'📝 販売プラットフォーム', mo:'無料', yr:'無料', note:'販売手数料3%（技術系に強い）', free:true, moUSD:0 },
+  { n:'Substack', url:'https://substack.com/', cat:4, catName:'📝 販売プラットフォーム', mo:'無料（手数料10%）', yr:'無料', note:'有料読者からの10%のみ', free:true, moUSD:0 },
+  // 自動化
+  { n:'n8n Starter', url:'https://n8n.io/', cat:5, catName:'⚙️ 自動化・ワークフロー', mo:'$20（¥3,000）', yr:'$240（¥36,000）', note:'セルフホスト（ローカル）は無料', free:false, moUSD:20 },
+  { n:'Make Core', url:'https://www.make.com/', cat:5, catName:'⚙️ 自動化・ワークフロー', mo:'$9（¥1,350）', yr:'$108（¥16,200）', note:'無料枠あり', free:false, moUSD:9 },
+  { n:'Zapier Starter', url:'https://zapier.com/', cat:5, catName:'⚙️ 自動化・ワークフロー', mo:'$19.99（¥3,000）', yr:'$240（¥36,000）', note:'無料枠100タスク/月', free:false, moUSD:20 },
+  { n:'Notion Plus', url:'https://www.notion.so/', cat:5, catName:'⚙️ 自動化・ワークフロー', mo:'$10（¥1,500）', yr:'$96（¥14,400）', note:'個人は年払い$8/月', free:false, moUSD:10 },
+  { n:'Airtable Plus', url:'https://airtable.com/', cat:5, catName:'⚙️ 自動化・ワークフロー', mo:'$10（¥1,500）', yr:'$120（¥18,000）', note:'無料枠あり', free:false, moUSD:10 },
+  // SEO
+  { n:'Ubersuggest', url:'https://neilpatel.com/ubersuggest/', cat:6, catName:'📊 SEO・マーケティング', mo:'$12（¥1,800）', yr:'$120（¥18,000）', note:'年払い$7/月相当', free:false, moUSD:12 },
+  { n:'Google Analytics', url:'https://analytics.google.com/', cat:6, catName:'📊 SEO・マーケティング', mo:'完全無料', yr:'完全無料', note:'GA4', free:true, moUSD:0 },
+  { n:'Canva（無料版）', url:'https://www.canva.com/ja_jp/', cat:6, catName:'📊 SEO・マーケティング', mo:'無料', yr:'無料', note:'Pro版は画像生成AI欄を参照', free:true, moUSD:0 },
+  { n:'Buffer Essentials', url:'https://buffer.com/', cat:6, catName:'📊 SEO・マーケティング', mo:'$15（¥2,250）', yr:'$144（¥21,600）', note:'SNS8チャンネルまで管理可', free:false, moUSD:15 },
+  { n:'XPro（X Premium+）', url:'https://twitter.com/', cat:6, catName:'📊 SEO・マーケティング', mo:'$22（¥3,300）', yr:'$264（¥39,600）', note:'X Premium+に含む', free:false, moUSD:22 },
+];
+
+// 価格クラス判定
+function priceClass(t) {
+  if (t.free || t.moUSD === 0) return 'price-free';
+  if (t.moUSD <= 10) return 'price-low';
+  if (t.moUSD <= 20) return 'price-mid';
+  return 'price-high';
+}
+
+// テーブル行生成（all）
+function buildAllTable() {
+  const tbody = document.getElementById('all-table');
+  let html = '';
+  TOOLS.forEach((t, i) => {
+    html += `<tr id="row-all-${i}">
+      <td class="td-check"><input type="checkbox" class="tool-checkbox" id="chk-all-${i}" onchange="toggleTool(${i}, this.checked)"></td>
+      <td class="td-num">${String(i+1).padStart(2,'0')}</td>
+      <td class="td-name"><a href="${t.url}" target="_blank">${t.n}</a></td>
+      <td class="td-cat"><span>${t.catName}</span></td>
+      <td class="td-price ${priceClass(t)}">${t.mo}</td>
+      <td class="td-price ${priceClass(t)}">${t.yr}</td>
+      <td class="td-note">${t.note}</td>
+    </tr>`;
+  });
+  const total = TOOLS.reduce((s, t) => s + t.moUSD, 0);
+  html += `<tr class="total-row">
+    <td></td>
+    <td colspan="3" style="font-weight:700; color:var(--violet)">合計（全有料プラン）</td>
+    <td class="td-price" style="color:var(--violet)">約$${total}（¥${(total*150).toLocaleString()}）/月</td>
+    <td class="td-price" style="color:var(--violet)">約$${total*12}（¥${(total*150*12).toLocaleString()}）/年</td>
+    <td class="td-note">すべて有料プランの場合</td>
+  </tr>`;
+  tbody.innerHTML = html;
+}
+
+function buildCatTable(catId) {
+  const filtered = TOOLS.filter(t => t.cat === catId);
+  const tbody = document.getElementById(`cat${catId}-table`);
+  let html = '';
+  filtered.forEach((t) => {
+    const i = TOOLS.indexOf(t);
+    html += `<tr id="row-cat${catId}-${i}">
+      <td class="td-check"><input type="checkbox" class="tool-checkbox" id="chk-cat${catId}-${i}" onchange="toggleTool(${i}, this.checked)"></td>
+      <td class="td-num">${String(filtered.indexOf(t)+1).padStart(2,'0')}</td>
+      <td class="td-name"><a href="${t.url}" target="_blank">${t.n}</a></td>
+      <td class="td-price ${priceClass(t)}">${t.mo}</td>
+      <td class="td-price ${priceClass(t)}">${t.yr}</td>
+      <td class="td-note">${t.note}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+// ───────────────────────────────
+// ジャンルデータ
+// ───────────────────────────────
+const GENRES = [
+  // 0: テキスト発信
+  {
+    color: 'var(--gold)',
+    patterns: [
+      {
+        rank:'01', color:'var(--gold)', title:'ゼロコスト 書くだけスタート',
+        sub:'月0円から始める完全無料構成',
+        cost_mo:'¥0', cost_yr:'¥0',
+        tools:[
+          { icon:'📝', name:'note', url:'https://note.com/' },
+          { icon:'🤖', name:'Claude（無料）', url:'https://claude.ai/' },
+          { icon:'🎨', name:'Canva（無料）', url:'https://www.canva.com/ja_jp/' },
+          { icon:'📊', name:'Google Analytics', url:'https://analytics.google.com/' },
+        ],
+        purpose:'AIで記事を下書き→noteに投稿→Canvaでヘッダー画像作成。完全無料で始められる最小構成。収益はnoteの有料記事とメンバーシップで。'
+      },
+      {
+        rank:'02', color:'var(--gold)', title:'note × AI × SNS 集客セット',
+        sub:'月5,000円以下で本格的に稼ぐ',
+        cost_mo:'¥4,500', cost_yr:'¥54,000',
+        tools:[
+          { icon:'🤖', name:'ChatGPT Plus', url:'https://chat.openai.com/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+          { icon:'🐦', name:'XPro', url:'https://twitter.com/' },
+          { icon:'🎨', name:'Canva Pro', url:'https://www.canva.com/ja_jp/' },
+        ],
+        purpose:'ChatGPTで記事大量生成→noteで有料販売→XProで毎日投稿して集客。CanvaでSNSバナーも量産。月商3〜5万を狙う構成。'
+      },
+      {
+        rank:'03', color:'var(--gold)', title:'フル自動化 メディア運営',
+        sub:'n8nでコンテンツ生成を自動化',
+        cost_mo:'¥9,000', cost_yr:'¥108,000',
+        tools:[
+          { icon:'🤖', name:'Claude Pro', url:'https://claude.ai/' },
+          { icon:'⚙️', name:'n8n', url:'https://n8n.io/' },
+          { icon:'📋', name:'Notion', url:'https://www.notion.so/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+          { icon:'🔍', name:'Ubersuggest', url:'https://neilpatel.com/ubersuggest/' },
+        ],
+        purpose:'n8nでSEOキーワード取得→Claude自動執筆→Notionで管理→note公開まで全自動。UbersuggestでSEO分析し検索流入も獲得する上級構成。'
+      },
+    ],
+    examples: [
+      {
+        num:'01', color:'var(--gold)',
+        title:'AI副業解説マガジン',
+        desc:'「毎週月曜にAI副業の最新ツールや稼ぎ方を解説する」定期購読マガジン。AIで記事を高速生成し、週1本のペースで出し続ける。月額500〜1,000円 × 読者数で毎月安定収益。',
+        strategy:'最初の10記事を無料で出して信頼構築→11記事目からメンバーシップに誘導。Xで毎日「記事のエッセンス1行」を投稿して読者を集め続けるのがカギ。',
+        flow:[
+          { icon:'🤖', label:'ChatGPT / Claude', desc:'記事下書き生成（30分→5分）' },
+          { icon:'✏️', label:'人間が編集', desc:'自分の体験談を1段落追加' },
+          { icon:'📝', label:'note公開', desc:'無料プレビュー+有料全文' },
+          { icon:'🐦', label:'X投稿', desc:'要点を毎日ツイートで集客' },
+        ],
+        income:'月5〜15万円（読者100〜300人規模）'
+      },
+      {
+        num:'02', color:'var(--gold)',
+        title:'特定ジャンル特化 有料レポート販売',
+        desc:'「AI副業で月10万円の手順書」「ChatGPTプロンプト集200選」などの単品有料レポートをnote・Brainで販売。1本2,000〜5,000円で設定し、Xで告知して販売数を伸ばす。',
+        strategy:'1本のレポートをXで告知するたびに売れ続ける「デジタル商品の資産化」が本命。作るほどに総売上が増える仕組み。最初の1本でフィードバックを得て改善するサイクルが重要。',
+        flow:[
+          { icon:'🔍', label:'Perplexity', desc:'ニーズ・競合リサーチ' },
+          { icon:'🤖', label:'Claude Pro', desc:'レポート本文生成' },
+          { icon:'🎨', name:'Canva', desc:'表紙・図解デザイン' },
+          { icon:'💰', label:'note / Brain', desc:'2,980〜4,980円で販売' },
+        ],
+        income:'1本で月1〜5万円（積み上げで複利的に伸びる）'
+      },
+      {
+        num:'03', color:'var(--gold)',
+        title:'SEO記事×アフィリエイト自動生成ブログ',
+        desc:'Ubersuggestで月間検索数の多いキーワードを探し→Claudeで記事生成→noteやWordPressに投稿。ツール紹介記事でAmazonアソシエイトや各社アフィリエイトを組み込んで自動収益化。',
+        strategy:'「AIツール名＋使い方」「AIツール名＋価格」などのキーワードを狙うと購買意欲の高いユーザーが集まる。1記事当たりの作業時間をAIで15分以下に短縮し量産が勝ちパターン。',
+        flow:[
+          { icon:'🔍', label:'Ubersuggest', desc:'キーワード選定' },
+          { icon:'⚙️', label:'n8n', desc:'自動リサーチ＆記事生成' },
+          { icon:'📝', label:'note/ブログ', desc:'SEO記事公開' },
+          { icon:'💰', label:'アフィリエイト', desc:'ツール紹介で自動収益' },
+        ],
+        income:'月2〜10万円（記事数×検索順位で伸びる）'
+      },
+    ]
+  },
+
+  // 1: イラスト・画像
+  {
+    color: 'var(--teal)',
+    patterns: [
+      {
+        rank:'01', color:'var(--teal)', title:'NovelAI ローカル特化セット',
+        sub:'AI画像生成コスト最小化構成',
+        cost_mo:'¥3,750', cost_yr:'¥45,000',
+        tools:[
+          { icon:'🎨', name:'NovelAI Opus', url:'https://novelai.net/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+          { icon:'🎨', name:'Canva（無料）', url:'https://www.canva.com/ja_jp/' },
+          { icon:'🐦', name:'X（無料）', url:'https://twitter.com/' },
+        ],
+        purpose:'NovelAI Opusでアニメ調イラスト生成→noteで販売・連載。Xにサンプルを無料投稿してフォロワーを集め、有料コンテンツへ誘導する王道構成。'
+      },
+      {
+        rank:'02', color:'var(--teal)', title:'Midjourney × Canva デザイン販売',
+        sub:'高品質デザイン商品販売セット',
+        cost_mo:'¥4,500', cost_yr:'¥54,000',
+        tools:[
+          { icon:'🖼️', name:'Midjourney Standard', url:'https://www.midjourney.com/' },
+          { icon:'🎨', name:'Canva Pro', url:'https://www.canva.com/ja_jp/' },
+          { icon:'💰', name:'Gumroad', url:'https://gumroad.com/' },
+          { icon:'📊', name:'Google Analytics', url:'https://analytics.google.com/' },
+        ],
+        purpose:'Midjourneyで高品質ビジュアル生成→Canvaでデザイン化→GumroadでPDF・テンプレ販売。英語圏にも展開できるのが強み。'
+      },
+      {
+        rank:'03', color:'var(--teal)', title:'AI画像×自動化 量産セット',
+        sub:'ComfyUI＋自動化で大量生成',
+        cost_mo:'¥6,000', cost_yr:'¥72,000',
+        tools:[
+          { icon:'🎨', name:'NovelAI Opus', url:'https://novelai.net/' },
+          { icon:'🆓', name:'Stable Diffusion（無料）', url:'https://stability.ai/' },
+          { icon:'⚙️', name:'n8n（ローカル無料）', url:'https://n8n.io/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+          { icon:'🤖', name:'Claude Pro', url:'https://claude.ai/' },
+        ],
+        purpose:'ComfyUI＋Stable DiffusionをローカルでタダRun→n8nで自動バッチ生成→プロンプト集・スタイルガイドをnoteで販売。ローカル環境で画像生成費ゼロ化が強み。'
+      },
+    ],
+    examples: [
+      {
+        num:'01', color:'var(--teal)',
+        title:'AIキャラクター連載 × 有料マガジン',
+        desc:'オリジナルAIキャラクターをNovelAIで生成し、X・noteで世界観ごと連載。キャラのファンを作って有料マガジン（月額500〜1,000円）やグッズに展開するモデル。二次創作文化の強いジャンルで特に有効。',
+        strategy:'「このキャラが好きだから課金したい」という感情購買を狙う。毎日Xにサンプルを投稿してキャラの認知を広げ→noteマガジンで「独占コンテンツ」を出す流れが定石。',
+        flow:[
+          { icon:'🎨', label:'NovelAI', desc:'キャラ・シーン生成' },
+          { icon:'✍️', label:'短編ストーリー', desc:'AIで添削・補完' },
+          { icon:'🐦', label:'X毎日投稿', desc:'無料でファン獲得' },
+          { icon:'📝', label:'noteマガジン', desc:'月額課金で安定収益' },
+        ],
+        income:'月3〜10万円（ファン100〜500人規模）'
+      },
+      {
+        num:'02', color:'var(--teal)',
+        title:'プロンプト集・スタイルガイド販売',
+        desc:'「NovelAI美少女キャラ完全プロンプト集300選」「Midjourney商用イラスト量産テクニック集」などの情報商品をnote・Brainで販売。需要が爆発的に高く、1,980〜9,800円で設定できる。',
+        strategy:'Xで「フォロー＆RTで一部プレゼント」キャンペーンを定期的に打ち、メリットを体感させてから有料版へ誘導。プロンプトの希少性と再現性の高さが値段を左右する。',
+        flow:[
+          { icon:'🎨', label:'AI画像生成', desc:'プロンプト検証・スクショ' },
+          { icon:'📋', label:'Notion整理', desc:'プロンプトデータベース化' },
+          { icon:'🎨', label:'Canva', desc:'見栄えのいいPDFに仕上げ' },
+          { icon:'💰', label:'note / Brain', desc:'1,980〜9,800円で販売' },
+        ],
+        income:'月5〜20万円（拡散が起きると爆発的に伸びる）'
+      },
+      {
+        num:'03', color:'var(--teal)',
+        title:'AI画像×Canva テンプレート販売',
+        desc:'MidjourneyやStable Diffusionで生成した画像をCanvaで組み合わせ、SNSバナー・Xヘッダー・YouTube サムネイルのテンプレ集を販売。繰り返し使えるテンプレは購入者の満足度が高くリピートされやすい。',
+        strategy:'Gumroadで英語圏にも展開するとPINTERESTやEtsyの流入で不労所得化できる。まずnoteで日本語版を出し→評価が取れたら英語版でGumroadに展開するステップが安全。',
+        flow:[
+          { icon:'🖼️', label:'Midjourney', desc:'背景・素材画像生成' },
+          { icon:'🎨', label:'Canva Pro', desc:'テンプレ化・セット制作' },
+          { icon:'💰', label:'Gumroad', desc:'ドル建てで世界販売' },
+          { icon:'📊', label:'GA4分析', desc:'流入元を把握して改善' },
+        ],
+        income:'月2〜8万円（英語展開で2〜3倍に）'
+      },
+    ]
+  },
+
+  // 2: 動画・音声
+  {
+    color: 'var(--rose)',
+    patterns: [
+      {
+        rank:'01', color:'var(--rose)', title:'音声コンテンツ 最小構成',
+        sub:'無料ツールだけで音声副業スタート',
+        cost_mo:'¥0', cost_yr:'¥0',
+        tools:[
+          { icon:'🎙️', name:'VOICEVOX（無料）', url:'https://voicevox.hiroshiba.jp/' },
+          { icon:'🤖', name:'Claude（無料）', url:'https://claude.ai/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+          { icon:'🆓', name:'Audacity（無料）', url:'https://www.audacityteam.org/' },
+        ],
+        purpose:'Claudeで台本生成→VOICEVOXで音声化→noteで音声コンテンツとして販売。完全ゼロ円スタートできるポッドキャスト・音声解説コンテンツ構成。'
+      },
+      {
+        rank:'02', color:'var(--rose)', title:'AI音楽 × MV制作セット',
+        sub:'音楽コンテンツで差別化',
+        cost_mo:'¥4,500', cost_yr:'¥54,000',
+        tools:[
+          { icon:'🎵', name:'Suno Pro', url:'https://suno.com/' },
+          { icon:'🎨', name:'NovelAI', url:'https://novelai.net/' },
+          { icon:'🤖', name:'Claude Pro', url:'https://claude.ai/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+        ],
+        purpose:'Sunoでオリジナル楽曲生成→NovelAIでMV用ビジュアル制作→YouTubeとnoteで公開。AI音楽×イラストのMVは希少で差別化しやすい。'
+      },
+      {
+        rank:'03', color:'var(--rose)', title:'動画×AI 全自動ショート制作',
+        sub:'Runwayで映像も全部AI化',
+        cost_mo:'¥7,500', cost_yr:'¥90,000',
+        tools:[
+          { icon:'🎬', name:'Runway Standard', url:'https://runwayml.com/' },
+          { icon:'🎵', name:'ElevenLabs', url:'https://elevenlabs.io/' },
+          { icon:'🤖', name:'ChatGPT Plus', url:'https://chat.openai.com/' },
+          { icon:'🎨', name:'Canva Pro', url:'https://www.canva.com/ja_jp/' },
+          { icon:'⚙️', name:'n8n（ローカル）', url:'https://n8n.io/' },
+        ],
+        purpose:'ChatGPTで台本→ElevenLabsでナレーション→Runwayで動画生成→Canvaで字幕加工。Shorts・Reels・TikTokに自動投稿するショート量産ラインを構築。'
+      },
+    ],
+    examples: [
+      {
+        num:'01', color:'var(--rose)',
+        title:'AI音楽×感情日記 サブスクコンテンツ',
+        desc:'毎週「今週のテーマ感情」に合わせてSunoでAI楽曲を生成し、その曲が生まれるまでのプロセスをnoteマガジンで公開。音楽＋日記＋制作ログの三位一体コンテンツで月額制サブスクを展開。',
+        strategy:'「音楽」と「感情・共感」を組み合わせた新ジャンルで競合がほぼゼロ。Xに15秒の試聴クリップを毎週投稿して反応を集め、読者参加型にすると熱狂ファンが生まれやすい。',
+        flow:[
+          { icon:'💭', label:'テーマ決定', desc:'今週の感情・テーマを設定' },
+          { icon:'🎵', label:'Suno Pro', desc:'AI楽曲生成（複数パターン）' },
+          { icon:'🎨', label:'NovelAI', desc:'曲のビジュアルイメージ生成' },
+          { icon:'📝', label:'noteマガジン', desc:'楽曲＋制作ログを月額公開' },
+        ],
+        income:'月2〜8万円（独自ジャンルで熱狂読者が生まれやすい）'
+      },
+      {
+        num:'02', color:'var(--rose)',
+        title:'AI解説ショート動画 × アフィリエイト',
+        desc:'「AIツール30秒で分かるシリーズ」をRunway＋ElevenLabsで量産し、YouTube ShortsやTikTokに毎日投稿。動画説明欄にアフィリエイトリンクを貼り、ツールが売れるたびに収益が入る。',
+        strategy:'1本3〜5分で作れるショート動画を週10本以上投稿するのが成功パターン。最初の3か月は収益ゼロでも投稿し続け、チャンネル登録1000人を超えるとアドセンスも同時に動き出す。',
+        flow:[
+          { icon:'🤖', label:'ChatGPT', desc:'30秒台本を量産' },
+          { icon:'🎤', label:'ElevenLabs', desc:'AIナレーション生成' },
+          { icon:'🎬', label:'Runway', desc:'映像・アニメーション生成' },
+          { icon:'📺', label:'YouTube Shorts', desc:'毎日投稿＋アフィリンク' },
+        ],
+        income:'月3〜15万円（投稿数×再生数×アフィ単価）'
+      },
+      {
+        num:'03', color:'var(--rose)',
+        title:'ポッドキャスト × ノウハウnote 二刀流',
+        desc:'VOICEVOXで音声番組を毎週配信しSpotify・stand.fmに投稿→同じ内容をテキスト化してnoteで有料販売する「コンテンツ二次利用」モデル。1つのネタから2つの収益源が生まれる。',
+        strategy:'音声は無料でファンを作り→有料のテキスト版・まとめPDFに誘導する漏斗設計が鉄則。音声の聞き心地が良いほど有料版への転換率が上がるため、VOICEVOX のキャラ選びが意外と重要。',
+        flow:[
+          { icon:'🤖', label:'Claude', desc:'台本・記事構成を生成' },
+          { icon:'🎙️', label:'VOICEVOX', desc:'音声化（完全無料）' },
+          { icon:'🎧', label:'stand.fm / Spotify', desc:'無料配信でファン獲得' },
+          { icon:'📝', label:'note有料版', desc:'テキストまとめ版を販売' },
+        ],
+        income:'月1〜5万円（地道だが複利的に伸びる）'
+      },
+    ]
+  },
+
+  // 3: AI自動化
+  {
+    color: 'var(--violet)',
+    patterns: [
+      {
+        rank:'01', color:'var(--violet)', title:'n8n × Claude 自動化入門セット',
+        sub:'まず自動化を体感する最小構成',
+        cost_mo:'¥3,000', cost_yr:'¥36,000',
+        tools:[
+          { icon:'⚙️', name:'n8n（ローカル無料）', url:'https://n8n.io/' },
+          { icon:'🤖', name:'Claude Pro', url:'https://claude.ai/' },
+          { icon:'📋', name:'Notion（無料）', url:'https://www.notion.so/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+        ],
+        purpose:'n8nローカルで自動化を構築→その過程と成果をnoteで記事化して販売。「自動化した経緯＋ワークフロー解説」がそのままコンテンツになる。n8nはローカルで無料。'
+      },
+      {
+        rank:'02', color:'var(--violet)', title:'自動化 × コンサル販売セット',
+        sub:'ワークフローを商品として売る',
+        cost_mo:'¥6,000', cost_yr:'¥72,000',
+        tools:[
+          { icon:'⚙️', name:'n8n Starter', url:'https://n8n.io/' },
+          { icon:'🤖', name:'Claude Pro', url:'https://claude.ai/' },
+          { icon:'📋', name:'Notion Plus', url:'https://www.notion.so/' },
+          { icon:'💰', name:'Brain', url:'https://brain-market.com/' },
+        ],
+        purpose:'n8n＋ClaudeのAI自動化ワークフローをテンプレ化→Brainで高単価販売（5,000〜30,000円）。さらにコンサル・セットアップ代行に展開すれば時間単価を一気に上げられる。'
+      },
+      {
+        rank:'03', color:'var(--violet)', title:'フル自動収益化マシン構築',
+        sub:'コンテンツ生成〜販売まで全自動',
+        cost_mo:'¥9,000', cost_yr:'¥108,000',
+        tools:[
+          { icon:'⚙️', name:'n8n Starter', url:'https://n8n.io/' },
+          { icon:'🤖', name:'Claude Pro', url:'https://claude.ai/' },
+          { icon:'📋', name:'Notion Plus', url:'https://www.notion.so/' },
+          { icon:'🎨', name:'Canva Pro', url:'https://www.canva.com/ja_jp/' },
+          { icon:'📤', name:'Buffer', url:'https://buffer.com/' },
+          { icon:'📝', name:'note', url:'https://note.com/' },
+        ],
+        purpose:'n8nでSNS投稿・記事生成・Buffer配信を全自動化。自分は「ネタ・方向性を設定するだけ」の状態にする究極の自動化構成。完成すれば寝てる間にコンテンツが更新され続ける。'
+      },
+    ],
+    examples: [
+      {
+        num:'01', color:'var(--violet)',
+        title:'n8n自動化テンプレート販売',
+        desc:'「X自動投稿n8nワークフロー」「Claude×Notion AI日報生成」などのn8nテンプレをJSON形式でnote・Brainで販売。需要爆増中のジャンルで、3,000〜15,000円での販売事例が増えている。',
+        strategy:'GitHubにワークフローを公開してXで宣伝→問い合わせが来たらnoteで詳細版を有料販売する流れが効果的。動画デモをXに投稿すると一気に拡散しやすい。',
+        flow:[
+          { icon:'⚙️', label:'n8n構築', desc:'自分で使うワークフローを作る' },
+          { icon:'📹', label:'デモ動画', desc:'動作をXで短尺公開' },
+          { icon:'📝', label:'note/Brain', desc:'JSON＋解説PDFで販売' },
+          { icon:'💬', label:'サポート対応', desc:'質問対応でリピーター化' },
+        ],
+        income:'月5〜30万円（テンプレ数が増えるほど複利で伸びる）'
+      },
+      {
+        num:'02', color:'var(--violet)',
+        title:'AI自動化コンサル・代行ビジネス',
+        desc:'個人事業主・中小企業向けに「n8n＋Claudeで業務自動化します」というコンサル・代行サービス。SNS投稿自動化・メール返信AI・報告書自動生成など月5〜15万円の顧問契約を狙う。',
+        strategy:'最初にX・noteで「自動化の実績」を発信し続けて信頼を作るのが前提。BrainやSNSからの問い合わせ→無料相談→月額契約の流れを設計する。1社取れれば口コミが生まれやすい。',
+        flow:[
+          { icon:'📣', label:'X・note発信', desc:'自動化実績を毎週投稿' },
+          { icon:'💬', label:'無料相談', desc:'DM・フォーム経由で受付' },
+          { icon:'⚙️', label:'n8n構築代行', desc:'クライアントの業務を自動化' },
+          { icon:'📋', label:'月額顧問契約', desc:'月5〜15万円で継続収益' },
+        ],
+        income:'月10〜50万円（顧問3〜5社で安定収益になる）'
+      },
+      {
+        num:'03', color:'var(--violet)',
+        title:'AI自動化 解説コンテンツ（note/YouTube）',
+        desc:'「n8nの始め方」「Claude APIを使った自動化入門」などの解説記事・動画を量産して集客し、有料note・Brainの講座・テンプレ販売につなげるメディア型モデル。長期的に検索から集客できる。',
+        strategy:'Googleで上位表示されやすい「ツール名＋使い方・エラー解決」キーワードの記事を地道に積み上げる。月20〜30記事を半年続けると検索流入で月1万PV以上が現実的に狙える。',
+        flow:[
+          { icon:'🔍', label:'キーワード選定', desc:'Ubersuggestで検索需要を確認' },
+          { icon:'🤖', label:'Claude', desc:'解説記事・チュートリアル生成' },
+          { icon:'📝', label:'note公開', desc:'無料記事でSEO集客' },
+          { icon:'💰', label:'有料コンテンツ誘導', desc:'講座・テンプレで収益化' },
+        ],
+        income:'月3〜20万円（記事が資産として積み上がっていく）'
+      },
+    ]
+  },
+
+  // 4: デジタル商品
+  {
+    color: 'var(--sky)',
+    patterns: [
+      {
+        rank:'01', color:'var(--sky)', title:'テンプレ販売 ゼロコスト構成',
+        sub:'無料ツールだけでデジタル商品デビュー',
+        cost_mo:'¥0', cost_yr:'¥0',
+        tools:[
+          { icon:'🎨', name:'Canva（無料）', url:'https://www.canva.com/ja_jp/' },
+          { icon:'🤖', name:'Claude（無料）', url:'https://claude.ai/' },
+          { icon:'💰', name:'note', url:'https://note.com/' },
+          { icon:'🐦', name:'X（無料）', url:'https://twitter.com/' },
+        ],
+        purpose:'Canvaで自作テンプレート・アイコン・バナーを制作→noteでPDF販売。AIで商品説明文も生成。完全無料でデジタル商品販売の仕組みを体験できる最小構成。'
+      },
+      {
+        rank:'02', color:'var(--sky)', title:'教材・ガイド 中級セット',
+        sub:'情報商品で高単価を狙う',
+        cost_mo:'¥4,500', cost_yr:'¥54,000',
+        tools:[
+          { icon:'🤖', name:'Claude Pro', url:'https://claude.ai/' },
+          { icon:'🎨', name:'Canva Pro', url:'https://www.canva.com/ja_jp/' },
+          { icon:'💰', name:'Brain', url:'https://brain-market.com/' },
+          { icon:'📊', name:'Google Analytics', url:'https://analytics.google.com/' },
+        ],
+        purpose:'Claudeで教材・マニュアル下書き→Canvaで見栄えよく仕上げ→Brainで3,000〜9,800円販売。GAで流入分析し改善。手数料もBrainの方がnoteより低い。'
+      },
+      {
+        rank:'03', color:'var(--sky)', title:'グローバル展開 デジタル商品セット',
+        sub:'英語圏でも売れる商品を量産',
+        cost_mo:'¥6,750', cost_yr:'¥81,000',
+        tools:[
+          { icon:'🤖', name:'ChatGPT Plus', url:'https://chat.openai.com/' },
+          { icon:'🎨', name:'Canva Pro', url:'https://www.canva.com/ja_jp/' },
+          { icon:'💰', name:'Gumroad', url:'https://gumroad.com/' },
+          { icon:'🔍', name:'Perplexity Pro', url:'https://www.perplexity.ai/' },
+          { icon:'📊', name:'Ubersuggest', url:'https://neilpatel.com/ubersuggest/' },
+        ],
+        purpose:'ChatGPTで英語版テンプレ・教材を制作→Gumroadでドル建て販売。日本語版の3〜5倍の市場規模にアクセスできる。Perplexityで英語圏のニーズリサーチを行い勝てる商品を狙う。'
+      },
+    ],
+    examples: [
+      {
+        num:'01', color:'var(--sky)',
+        title:'Notion AIテンプレート販売',
+        desc:'「副業管理ダッシュボード」「コンテンツカレンダー」「読書まとめDB」などのNotionテンプレをCanvaで見やすく説明→note・Gumroadで1,500〜4,980円販売。需要が高く作るほど積み上がる。',
+        strategy:'Notionの公式ギャラリーやXで「Notionテンプレ」で検索するとバズりやすい投稿パターンがわかる。まず1テンプレを無料配布してファンを集め→2本目から有料にする流れが鉄板。',
+        flow:[
+          { icon:'📋', label:'Notion設計', desc:'自分が使うDBをテンプレ化' },
+          { icon:'🤖', label:'Claude', desc:'商品説明・LP文を生成' },
+          { icon:'🎨', label:'Canva', desc:'説明画像・カバー制作' },
+          { icon:'💰', label:'note / Gumroad', desc:'1,500〜4,980円で販売' },
+        ],
+        income:'月2〜10万円（テンプレ数が増えると複利的に）'
+      },
+      {
+        num:'02', color:'var(--sky)',
+        title:'AIプロンプト集 × 使い方ガイド バンドル販売',
+        desc:'ChatGPT・Claude・Midjourneyなど各AIの「即使えるプロンプト集」をジャンル別に制作し、使い方ガイドPDFとセットでバンドル販売。単品より高単価にでき、3,980〜9,800円設定が一般的。',
+        strategy:'プロンプト集は「再現性」が命。スクショで実際の出力を見せる→「自分でも同じ結果が出せる」と感じさせることが購買トリガー。Xでプロンプトの一部を無料公開し反応を見てから商品化が効率的。',
+        flow:[
+          { icon:'🤖', label:'AI各種', desc:'プロンプト検証・出力確認' },
+          { icon:'📸', label:'スクショ収集', desc:'再現性の証拠を撮りためる' },
+          { icon:'🎨', label:'Canva Pro', desc:'見栄えのいいPDF作成' },
+          { icon:'💰', label:'Brain', desc:'3,980〜9,800円でバンドル販売' },
+        ],
+        income:'月5〜25万円（拡散で爆発的に売れることも）'
+      },
+      {
+        num:'03', color:'var(--sky)',
+        title:'SNS用デザインテンプレ 英語圏Gumroad展開',
+        desc:'XヘッダーやInstagram投稿テンプレをCanvaで制作→英語版に翻訳→Gumroadで$9〜$29で販売。Pinterest・Etsyからの流入を狙えば広告費ゼロでの集客も現実的。ドル建てなので円安が追い風。',
+        strategy:'Gumroadに出したらPinterestに商品プレビューを毎日投稿する。PinterestはGoogleと同じく検索で発見されるプラットフォームなので、投稿が積み上がるほど自動集客が増える。',
+        flow:[
+          { icon:'🎨', label:'Canva Pro', desc:'テンプレ50〜100枚制作' },
+          { icon:'🤖', label:'ChatGPT', desc:'英語説明文・タグを生成' },
+          { icon:'💰', label:'Gumroad', desc:'$9〜$29でドル建て販売' },
+          { icon:'📌', label:'Pinterest', desc:'毎日投稿で無料集客' },
+        ],
+        income:'月3〜15万円（円安が続くほど有利）'
+      },
+    ]
+  },
+];
+
+// ───────────────────────────────
+// レンダリング
+// ───────────────────────────────
+let currentGenre = -1;
+
+function selectGenre(idx) {
+  // ボタン状態
+  for (let i=0; i<5; i++) {
+    document.getElementById('g'+i).classList.remove('active');
+  }
+  document.getElementById('g'+idx).classList.add('active');
+  currentGenre = idx;
+  renderGenre(idx);
+}
+
+function renderGenre(idx) {
+  const g = GENRES[idx];
+  const wrap = document.getElementById('genre-content');
+  const col = g.color;
+
+  // パターン
+  let patternHTML = `<div class="patterns-wrap show">`;
+  patternHTML += `
+    <div class="pattern-divider">
+      <div class="pattern-divider-line"></div>
+      <div class="pattern-divider-label">推奨ツール構成 3パターン</div>
+      <div class="pattern-divider-line" style="background:linear-gradient(90deg,transparent,var(--border))"></div>
+    </div>
+    <div class="pattern-cards">`;
+
+  g.patterns.forEach(p => {
+    patternHTML += `
+      <div class="pattern-card" style="--pc:${p.color}">
+        <div class="pattern-card-header">
+          <div class="pattern-rank" style="color:${p.color}">${p.rank}</div>
+          <div>
+            <div class="pattern-card-title">${p.title}</div>
+            <div class="pattern-card-sub">${p.sub}</div>
+          </div>
+          <div class="pattern-cost-badge">
+            <div class="cost-mo" style="color:${p.color}">${p.cost_mo}</div>
+            <div class="cost-label">/月</div>
+          </div>
+        </div>
+        <div class="pattern-body">
+          <div class="tool-list">`;
+    p.tools.forEach(t => {
+      patternHTML += `<a href="${t.url}" target="_blank" class="tool-tag" style="--pc:${p.color}">
+        <span class="tool-icon">${t.icon}</span>${t.name}</a>`;
+    });
+    patternHTML += `</div>
+          <div class="pattern-purpose">${p.purpose}</div>
+        </div>
+      </div>`;
+  });
+  patternHTML += `</div>`;
+
+  // 例
+  patternHTML += `
+    <div class="pattern-divider">
+      <div class="pattern-divider-line"></div>
+      <div class="pattern-divider-label">今熱いコンテンツビジネス例 × 3</div>
+      <div class="pattern-divider-line" style="background:linear-gradient(90deg,transparent,var(--border))"></div>
+    </div>
+    <div class="example-cards">`;
+
+  g.examples.forEach(ex => {
+    patternHTML += `
+      <div class="example-card" style="--ec:${ex.color}">
+        <div class="example-card-inner">
+          <div class="example-content">
+            <div class="example-num">EXAMPLE ${ex.num}</div>
+            <div class="example-title" style="color:${ex.color}">${ex.title}</div>
+            <div class="example-desc">${ex.desc}</div>
+            <div class="strategy-box">${ex.strategy}</div>
+          </div>
+          <div class="diagram-box">
+            <div class="diagram-title">ビジネスフロー図解</div>`;
+    ex.flow.forEach((step, i) => {
+      patternHTML += `
+              <div class="flow-step">
+                <div class="flow-step-box">
+                  <strong style="color:${ex.color}">${step.icon} ${step.label}</strong>
+                  ${step.desc}
+                </div>
+                ${i < ex.flow.length - 1 ? '<div class="flow-arrow">↓</div>' : ''}
+              </div>`;
+    });
+    patternHTML += `
+            <div class="flow-income">
+              <div class="flow-income-label">💰 想定収益</div>
+              <div class="flow-income-amount">${ex.income}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  });
+
+  patternHTML += `</div></div>`;
+  wrap.innerHTML = patternHTML;
+  wrap.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// タブ切り替え
+const tabBtns = document.querySelectorAll('.tab-btn');
+function switchTab(idx) {
+  tabBtns.forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.table-pane').forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+// テーブル構築
+buildAllTable();
+for(let c=1;c<=6;c++) buildCatTable(c);
+
+// テーブル行生成（all）
+function buildAllTable() {
+  const tbody = document.getElementById('all-table');
+  let html = '';
+  TOOLS.forEach((t, i) => {
+    html += `<tr id="row-all-${i}">
+      <td class="td-check"><input type="checkbox" class="tool-checkbox" data-idx="${i}" onchange="toggleTool(${i}, this.checked)"></td>
+      <td class="td-num">${String(i+1).padStart(2,'0')}</td>
+      <td class="td-name"><button class="tool-name-btn" onclick="openModal(${i})">${t.n}</button></td>
+      <td class="td-cat"><span>${t.catName}</span></td>
+      <td class="td-price ${priceClass(t)}">${t.mo}</td>
+      <td class="td-price ${priceClass(t)}">${t.yr}</td>
+      <td class="td-note">${t.note}</td>
+    </tr>`;
+  });
+  const total = TOOLS.reduce((s, t) => s + t.moUSD, 0);
+  html += `<tr class="total-row">
+    <td></td>
+    <td colspan="3" style="font-weight:700; color:var(--violet)">合計（全有料プラン）</td>
+    <td class="td-price" style="color:var(--violet)">約$${total}（¥${(total*150).toLocaleString()}）/月</td>
+    <td class="td-price" style="color:var(--violet)">約$${total*12}（¥${(total*150*12).toLocaleString()}）/年</td>
+    <td class="td-note">すべて有料プランの場合</td>
+  </tr>`;
+  tbody.innerHTML = html;
+}
+
+function buildCatTable(catId) {
+  const filtered = TOOLS.filter(t => t.cat === catId);
+  const tbody = document.getElementById(`cat${catId}-table`);
+  let html = '';
+  filtered.forEach((t, localIdx) => {
+    const i = TOOLS.indexOf(t);
+    html += `<tr id="row-cat${catId}-${i}">
+      <td class="td-check"><input type="checkbox" class="tool-checkbox" data-idx="${i}" onchange="toggleTool(${i}, this.checked)"></td>
+      <td class="td-num">${String(localIdx+1).padStart(2,'0')}</td>
+      <td class="td-name"><button class="tool-name-btn" onclick="openModal(${i})">${t.n}</button></td>
+      <td class="td-price ${priceClass(t)}">${t.mo}</td>
+      <td class="td-price ${priceClass(t)}">${t.yr}</td>
+      <td class="td-note">${t.note}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+// ───────────────────────────────
+// ツール説明データ
+// ───────────────────────────────
+const TOOL_DESC = [
+  'AIが生成したアート・イラストのプロ品質プラットフォーム。テキストプロンプトで高品質な画像を生成でき、デザイン・イラスト販売に広く使われている。商用利用はStandard以上のプランから。',
+  'アニメ・マンガ調の画像生成に特化したAIサービス。日本のクリエイターに人気が高く、ライトノベルキャラやゲームキャラのビジュアル制作に強い。img2imgでの一貫したキャラ生成も得意。',
+  'オープンソースの画像生成AIモデル。自分のPCにインストールして使う「ローカル環境」で動かせば無料。ComfyUIやAutomatic1111などのUIと組み合わせて使うのが一般的。',
+  'Adobeが提供する生成AI。Photoshop・Illustratorと統合されており、商用利用に安全なAI画像・ベクター・テキストエフェクトを生成できる。Adobe Creative Cloudに含まれる。',
+  'デザイン作業をブラウザ上で完結できるオールインワンツール。SNS投稿、プレゼン、サムネイル、バナーなど幅広く対応。Proプランで背景削除・AIイラスト生成・ブランドキットが使える。',
+  'OpenAIが提供する最大手の対話型AI。文章生成・アイデア出し・コード作成・翻訳など何でもこなせる。GPT-4oやDALL-E画像生成、データ分析機能がPlusプランで使える。',
+  'Anthropicが開発した高性能AI。長文の読み込み・執筆・論理的な分析が得意で、コンテンツビジネスの記事作成やプロンプト開発に特に強い。',
+  'Googleが提供するAIアシスタント。Google検索・GmailやDriveとの連携が強みで、最新情報へのアクセスやGoogleサービスとの自動化に便利。2TBのGoogleドライブ容量が付いてくる。',
+  'AI検索エンジンとチャットAIを組み合わせたサービス。回答に引用元URLが表示されるのが特徴で、最新情報のリサーチ・競合調査・ニーズ発掘に向いている。',
+  'MicrosoftのAIアシスタント。Microsoft 365（Word、Excel、Outlook等）に統合されており、OfficeソフトとAIを組み合わせて使いたい人向け。',
+  'AIで動画・画像・音声を生成・編集できるクリエイティブプラットフォーム。テキストや画像から動画を生成する「Gen-4」が特に有名で、YouTubeやSNS動画制作に使われている。',
+  '中国発の高品質AI動画生成ツール。テキストや画像から滑らかな動画を生成でき、無料枠でも試せる。Runwayの競合として日本でも急速に普及中。',
+  'AIによる音声合成・声のクローニングサービス。自然なナレーションやキャラクターボイスを生成でき、YouTube動画・Podcast・音声コンテンツ制作に活用される。多言語対応。',
+  '完全無料で使えるオープンソースの音声合成ソフト。四国めたんやずんだもんなど個性的なキャラクターボイスが揃い、商用利用も無料。ローカルPCで動作する。',
+  'AIが楽曲・歌詞・ボーカルまで自動生成するサービス。テキストでジャンルやムードを指定するだけでオリジナル曲が完成する。商用利用はProプラン以上から可能。',
+  '日本最大のクリエイター向けコンテンツ販売プラットフォーム。有料記事・定期購読マガジン・デジタル商品の販売ができ、個人クリエイターが最初に使うべき定番サービス。',
+  '情報商品・デジタルコンテンツ専門の販売プラットフォーム。Brain経由の集客・アフィリエイト機能が強く、高単価な教材・ノウハウ販売に向いている。手数料10%〜。',
+  'デジタル商品（PDF、テンプレ、音楽、ソフトなど）を手軽に販売できる海外発のサービス。英語圏への展開も可能で、ドル建て販売で円安の恩恵を受けやすい。',
+  'エンジニア・技術者向けのコンテンツ共有プラットフォーム。技術系・プログラミング系の記事販売に強く、手数料3%と低コストなのが魅力。',
+  'ニュースレター・メルマガの有料配信に特化した欧米発のサービス。メール登録者への有料コンテンツ配信で収益化でき、英語圏の読者獲得に有利。',
+  'ノーコードで複雑なワークフロー自動化を構築できるツール。AI・API・各種サービスを繋いで業務自動化やコンテンツ生成パイプラインを作れる。セルフホスト（ローカル環境）なら完全無料。',
+  'ノーコード自動化ツール。ZapierよりUI が直感的で低価格。Gmail・Slack・Google Sheets・各種AIとの連携が得意。無料枠でも基本的な自動化は試せる。',
+  '最大手のノーコード自動化サービス。連携できるアプリ数が最多で5,000以上。設定が簡単で初心者でも使いやすい。ビジネス向けの高度な自動化に強い。',
+  'ドキュメント・データベース・タスク管理を一つにまとめた万能ツール。コンテンツ管理・進捗管理・ナレッジベースとして使われ、AI機能でメモや文書の自動生成も可能。',
+  'スプレッドシートとデータベースを組み合わせたノーコードツール。チームでのデータ管理・コンテンツ在庫管理・進行管理に向いている。API連携も充実。',
+  'SEOキーワードリサーチ・競合分析・サイト監査ができるオールインワンSEOツール。ブログやnoteで検索流入を狙うためのキーワード選定に便利。',
+  'Googleが提供する無料のアクセス解析ツール（GA4）。ウェブサイトやブログへの流入元・ユーザー行動・コンバージョンをすべて無料で計測できる。必須ツール。',
+  'Canvaの無料版。基本的なSNS投稿・バナー・プレゼン資料のデザインが無料で作れる。有料のPro版ほどの機能はないが、初心者が始めるには十分な機能が揃っている。',
+  'X・Instagram・Facebook・LinkedInなど複数のSNSを一元管理できる投稿スケジューリングツール。投稿を事前に予約でき、SNS運用の時間を大幅に短縮できる。',
+  'X（旧Twitter）の高機能版。複数アカウント管理・高度な検索・デッキ形式での情報整理ができる。X Premiumに含まれており、X上で収益化したい人向け。',
+];
+
+// ───────────────────────────────
+// 選択管理
+// ───────────────────────────────
+// selectedTools: Map<idx, 'mo'|'yr'|'free'>
+const selectedTools = new Map();
+
+const YR_USD = [
+  96, 120, 0, 600, 120,
+  240, 200, 240, 200, 240,
+  144, 120, 60, 0, 96,
+  0, 0, 0, 0, 0,
+  240, 108, 240, 96, 120,
+  120, 0, 0, 144, 264,
+];
+
+function toggleTool(idx, checked) {
+  if (checked) {
+    const t = TOOLS[idx];
+    selectedTools.set(idx, (t.free || t.moUSD === 0) ? 'free' : 'mo');
+  } else {
+    selectedTools.delete(idx);
+  }
+  syncAllCheckboxes(idx, checked);
+  renderCalcList();
+  // 結果は非表示に戻す
+  document.getElementById('calcResult').style.display = 'none';
+}
+
+function syncAllCheckboxes(idx, checked) {
+  document.querySelectorAll(`.tool-checkbox[data-idx="${idx}"]`).forEach(el => {
+    el.checked = checked;
+    const row = el.closest('tr');
+    if (row) row.classList.toggle('selected', checked);
+  });
+}
+
+function setItemBilling(idx, mode) {
+  if (!selectedTools.has(idx)) return;
+  selectedTools.set(idx, mode);
+  renderCalcList();
+  document.getElementById('calcResult').style.display = 'none';
+}
+
+function removeItem(idx) {
+  selectedTools.delete(idx);
+  syncAllCheckboxes(idx, false);
+  renderCalcList();
+  document.getElementById('calcResult').style.display = 'none';
+}
+
+function clearAll() {
+  selectedTools.clear();
+  document.querySelectorAll('.tool-checkbox').forEach(el => {
+    el.checked = false;
+    const row = el.closest('tr');
+    if (row) row.classList.remove('selected');
+  });
+  renderCalcList();
+  document.getElementById('calcResult').style.display = 'none';
+}
+
+function renderCalcList() {
+  const listEl = document.getElementById('calcItemList');
+  const emptyEl = document.getElementById('calcEmpty');
+  const countEl = document.getElementById('selectedCount');
+
+  if (selectedTools.size === 0) {
+    listEl.style.display = 'none';
+    emptyEl.style.display = 'block';
+    countEl.textContent = '';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  listEl.style.display = 'flex';
+  countEl.textContent = `${selectedTools.size}ツール選択中`;
+
+  let html = '';
+  selectedTools.forEach((billing, idx) => {
+    const t = TOOLS[idx];
+    const isFree = t.free || t.moUSD === 0;
+    if (isFree) {
+      html += `<div class="calc-item-row">
+        <div><div class="calc-item-name">${t.n}</div><div class="calc-item-cat">${t.catName}</div></div>
+        <span class="bill-toggle free-tag">無料</span>
+        <button class="calc-item-remove" onclick="removeItem(${idx})">✕</button>
+      </div>`;
+    } else {
+      html += `<div class="calc-item-row">
+        <div><div class="calc-item-name">${t.n}</div><div class="calc-item-cat">${t.catName}</div></div>
+        <div class="calc-item-billing">
+          <button class="bill-toggle ${billing==='mo'?'active-mo':''}" onclick="setItemBilling(${idx},'mo')">月払い<br><span style="font-size:10px;font-weight:400;">${t.mo.split('（')[0]}</span></button>
+          <button class="bill-toggle ${billing==='yr'?'active-yr':''}" onclick="setItemBilling(${idx},'yr')">年払い<br><span style="font-size:10px;font-weight:400;">${t.yr.split('（')[0]}</span></button>
+        </div>
+        <button class="calc-item-remove" onclick="removeItem(${idx})">✕</button>
+      </div>`;
+    }
+  });
+  listEl.innerHTML = html;
+}
+
+function runCalc() {
+  if (selectedTools.size === 0) return;
+
+  let moTotal = 0;
+  let yrTotal = 0;
+  const freeItems = [];
+  const paidItems = [];
+
+  selectedTools.forEach((billing, idx) => {
+    const t = TOOLS[idx];
+    const isFree = t.free || t.moUSD === 0;
+    if (isFree) {
+      freeItems.push(t);
+    } else {
+      const moUSD = t.moUSD;
+      const yrUSD = YR_USD[idx] || moUSD * 12;
+      if (billing === 'mo') {
+        moTotal += moUSD;
+        yrTotal += moUSD * 12;
+      } else {
+        yrTotal += yrUSD;
+        moTotal += Math.round(yrUSD / 12);
+      }
+      paidItems.push({ t, billing, moUSD, yrUSD });
+    }
+  });
+
+  // 表示更新
+  document.getElementById('total-jpy').textContent = `¥${(moTotal*150).toLocaleString()}`;
+  document.getElementById('total-usd').textContent = `$${moTotal} / month`;
+  document.getElementById('total-annual-jpy').textContent = `¥${(yrTotal*150).toLocaleString()}`;
+  document.getElementById('total-annual-usd').textContent = `$${yrTotal} / year`;
+  document.getElementById('free-count').textContent = `${freeItems.length} 個`;
+  document.getElementById('free-names').textContent = freeItems.map(t=>t.n).join('・');
+
+  // 内訳
+  let bdHtml = '';
+  paidItems.forEach(({t, billing, moUSD, yrUSD}) => {
+    const dispPrice = billing === 'mo'
+      ? `¥${(moUSD*150).toLocaleString()}/月`
+      : `¥${(yrUSD*150).toLocaleString()}/年`;
+    bdHtml += `<div class="breakdown-row">
+      <span class="breakdown-name">${t.n}</span>
+      <span class="breakdown-billing ${billing}">${billing==='mo'?'月払い':'年払い'}</span>
+      <span class="breakdown-price">${dispPrice}</span>
+    </div>`;
+  });
+  freeItems.forEach(t => {
+    bdHtml += `<div class="breakdown-row">
+      <span class="breakdown-name">${t.n}</span>
+      <span class="breakdown-billing free">無料</span>
+      <span class="breakdown-price" style="color:var(--green)">¥0</span>
+    </div>`;
+  });
+  document.getElementById('calcBreakdown').innerHTML = bdHtml;
+
+  const result = document.getElementById('calcResult');
+  result.style.display = 'block';
+  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ───────────────────────────────
+// ツール説明モーダル
+// ───────────────────────────────
+function openModal(idx) {
+  const t = TOOLS[idx];
+  document.getElementById('modalCat').textContent = t.catName;
+  document.getElementById('modalName').textContent = t.n;
+  document.getElementById('modalPrice').textContent = `月額 ${t.mo}　／　年額 ${t.yr}`;
+  document.getElementById('modalDesc').textContent = TOOL_DESC[idx];
+  document.getElementById('modalUrl').href = t.url;
+  const modal = document.getElementById('toolModal');
+  modal.style.display = 'flex';
+}
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('toolModal') || e.target.tagName === 'BUTTON') {
+    document.getElementById('toolModal').style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
