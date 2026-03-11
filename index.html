@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI副業ツール50選 戦略×ワークフロー完全ガイド PRO版</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>
+// ═══════════════════════════════════════════
+//  ▼ パスキー設定　← ここだけ書き換えればOK
+const PASSKEY = 'deratan2025';
+const PASSKEY_DAYS = 30;
+// ═══════════════════════════════════════════
+const STORAGE_KEY = 'pro_auth_ts';
+function checkAuth(){
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(!saved) return false;
+    const diff = (Date.now() - parseInt(saved)) / (1000*60*60*24);
+    return diff < PASSKEY_DAYS;
+  }catch(e){return false;}
+}
+function doAuth(input){
+  if(input.trim() === PASSKEY){
+    try{localStorage.setItem(STORAGE_KEY, Date.now().toString());}catch(e){}
+    document.getElementById('lock-screen').style.display='none';
+    document.getElementById('pro-body').style.display='block';
+    document.getElementById('lock-err').style.display='none';
+  } else {
+    const err = document.getElementById('lock-err');
+    err.style.display='block';
+    err.textContent='パスキーが違います。noteの有料記事を確認してください。';
+    const inp = document.getElementById('lock-input');
+    inp.value='';
+    inp.focus();
+    inp.style.borderColor='#ff8096';
+    setTimeout(()=>{ inp.style.borderColor=''; },1500);
+  }
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  if(checkAuth()){
+    document.getElementById('lock-screen').style.display='none';
+    document.getElementById('pro-body').style.display='block';
+  }
+  const inp = document.getElementById('lock-input');
+  if(inp) inp.addEventListener('keydown',e=>{ if(e.key==='Enter') doAuth(e.target.value); });
+});
+</script>
+<style>
+:root {
+  --bg:#0f0f18; --surface:#181825; --surface2:#20202f;
+  --border:#2c2c42; --border2:#3a3a55;
+  --text:#f0f2fa; --muted:#8a94b8;
+  --gold:#ffd54f; --teal:#40e0cc; --rose:#ff8096;
+  --violet:#c4a8ff; --sky:#60cdff; --green:#6ee89a; --orange:#ffab60;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 40% at 15% 10%,rgba(196,168,255,0.07) 0%,transparent 60%),
+  radial-gradient(ellipse 50% 50% at 85% 85%,rgba(96,205,255,0.05) 0%,transparent 60%),
+  linear-gradient(rgba(255,255,255,0.01) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,0.01) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,40px 40px,40px 40px;}
+.pro-ribbon{position:fixed;top:0;left:0;right:0;z-index:200;background:linear-gradient(90deg,var(--violet),var(--sky));padding:8px 0;text-align:center;font-size:12px;font-weight:700;color:#fff;letter-spacing:0.12em;}
+.back-bar{position:relative;z-index:1;background:rgba(196,168,255,0.07);border-bottom:1px solid rgba(196,168,255,0.2);padding:12px 24px;display:flex;align-items:center;gap:12px;margin-top:36px;}
+.back-bar a{color:var(--violet);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;}
+.back-bar a:hover{text-decoration:underline;}
+.hero{position:relative;z-index:1;padding:70px 40px 56px;text-align:center;border-bottom:1px solid var(--border);}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.25em;color:var(--violet);text-transform:uppercase;margin-bottom:20px;display:inline-flex;align-items:center;gap:10px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:30px;height:1px;background:var(--violet);opacity:0.5;}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,58px);font-weight:800;line-height:1.08;letter-spacing:-0.02em;margin-bottom:18px;}
+.hero h1 .g{color:var(--gold);} .hero h1 .v{color:var(--violet);}
+.hero-sub{font-size:15px;color:#b8c0de;max-width:580px;margin:0 auto 28px;line-height:1.8;}
+.pro-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(196,168,255,0.12);border:1px solid rgba(196,168,255,0.4);padding:8px 22px;border-radius:999px;font-size:13px;color:var(--violet);font-weight:700;}
+.section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:56px 24px;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:#a8b2d0;text-transform:uppercase;margin-bottom:8px;}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(20px,3.5vw,34px);font-weight:800;margin-bottom:32px;line-height:1.2;}
+.section-title .hl{color:var(--gold);} .section-title .hlv{color:var(--violet);}
+.genre-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:52px;}
+.genre-btn{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 14px;cursor:pointer;transition:all 0.25s;text-align:center;position:relative;overflow:hidden;}
+.genre-btn::before{content:'';position:absolute;inset:0;background:var(--gc,var(--gold));opacity:0;transition:opacity 0.25s;border-radius:16px;}
+.genre-btn:hover::before{opacity:0.06;} .genre-btn.active::before{opacity:0.13;}
+.genre-btn.active{border-color:var(--gc,var(--gold));box-shadow:0 0 0 1px var(--gc,var(--gold));}
+.genre-icon{font-size:28px;margin-bottom:9px;display:block;}
+.genre-name{font-size:14px;font-weight:700;color:var(--text);position:relative;}
+.genre-desc{font-size:11px;color:#a8b2d0;margin-top:4px;position:relative;line-height:1.5;}
+.patterns-wrap{display:none;} .patterns-wrap.show{display:block;animation:fadeUp 0.4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.divider{display:flex;align-items:center;gap:14px;margin:16px 0 32px;}
+.divider-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+.divider-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;}
+.pattern-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-bottom:48px;}
+.pattern-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;}
+.pattern-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.5);}
+.pattern-card-header{padding:18px 22px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.pattern-rank{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;line-height:1;min-width:30px;}
+.pattern-card-title{font-size:14px;font-weight:700;line-height:1.3;}
+.pattern-card-sub{font-size:11px;color:#a8b2d0;margin-top:2px;}
+.pattern-cost{margin-left:auto;background:rgba(255,255,255,0.07);border:1px solid var(--border2);border-radius:10px;padding:5px 11px;text-align:center;flex-shrink:0;}
+.pattern-cost .mo{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;}
+.pattern-cost .lb{font-size:10px;color:#a8b2d0;}
+.pattern-body{padding:18px 22px;}
+.tool-list{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+.tool-tag{display:inline-flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:4px 9px;font-size:11px;color:var(--text);text-decoration:none;transition:all 0.2s;}
+.tool-tag:hover{border-color:var(--violet);color:var(--violet);}
+.pattern-purpose{font-size:13px;color:#c8cfea;line-height:1.7;}
+.wf-area{margin-bottom:52px;}
+.wf-title{font-family:'Syne',sans-serif;font-size:clamp(17px,2.8vw,24px);font-weight:800;margin-bottom:18px;}
+.wf-title .hl{color:var(--teal);}
+.wf-goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px;margin-bottom:24px;}
+.wf-goal-btn{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 16px;cursor:pointer;transition:all 0.22s;text-align:left;position:relative;overflow:hidden;}
+.wf-goal-btn::before{content:'';position:absolute;inset:0;background:var(--wc,var(--teal));opacity:0;transition:opacity 0.22s;}
+.wf-goal-btn:hover::before{opacity:0.06;} .wf-goal-btn.active{border-color:var(--wc,var(--teal));box-shadow:0 0 0 1px var(--wc,var(--teal));}
+.wf-goal-btn.active::before{opacity:0.1;}
+.wg-icon{font-size:20px;margin-bottom:7px;display:block;position:relative;}
+.wg-name{font-size:13px;font-weight:700;color:var(--text);position:relative;}
+.wg-sub{font-size:11px;color:#a8b2d0;margin-top:3px;position:relative;line-height:1.4;}
+.wf-detail{display:none;animation:fadeUp 0.35s ease;} .wf-detail.show{display:block;}
+.wf-detail-header{background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:20px 26px;margin-bottom:22px;}
+.wf-detail-title{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;margin-bottom:6px;}
+.wf-detail-sub{font-size:13px;color:#b8c0de;line-height:1.7;}
+.wf-steps{display:flex;flex-direction:column;gap:0;}
+.wf-step{display:grid;grid-template-columns:48px 1fr;gap:0;}
+.wf-step-left{display:flex;flex-direction:column;align-items:center;}
+.wf-step-num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;}
+.wf-step-line{flex:1;width:2px;background:var(--border);min-height:20px;}
+.wf-step-body{padding:0 0 26px 14px;}
+.wf-step-phase{font-size:10px;font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;color:#a8b2d0;text-transform:uppercase;margin-bottom:5px;}
+.wf-step-title{font-size:15px;font-weight:700;margin-bottom:7px;}
+.wf-step-desc{font-size:13px;color:#c8cfea;line-height:1.8;margin-bottom:11px;}
+.wf-step-tools{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;}
+.wf-tool-chip{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:11px;color:var(--text);}
+.wf-step-tip{background:rgba(255,213,79,0.08);border:1px solid rgba(255,213,79,0.25);border-radius:10px;padding:9px 13px;font-size:12px;color:#e8ecfa;line-height:1.7;}
+.wf-step-tip::before{content:'💡 ';}
+.wf-income{background:rgba(110,232,154,0.08);border:1px solid rgba(110,232,154,0.28);border-radius:11px;padding:12px 18px;display:flex;align-items:center;gap:10px;margin-top:6px;}
+.wf-income-label{font-size:13px;color:var(--green);font-weight:700;}
+.wf-income-val{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--green);margin-left:auto;}
+.ex-cards{display:grid;gap:24px;}
+.ex-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden;}
+.ex-inner{display:grid;grid-template-columns:1fr 300px;}
+@media(max-width:780px){.ex-inner{grid-template-columns:1fr;}}
+.ex-content{padding:26px 28px;}
+.ex-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:#a8b2d0;margin-bottom:9px;}
+.ex-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;line-height:1.2;margin-bottom:9px;}
+.ex-desc{font-size:13px;color:#c8cfea;line-height:1.8;margin-bottom:16px;}
+.strategy-box{background:rgba(255,213,79,0.08);border:1px solid rgba(255,213,79,0.28);border-radius:11px;padding:13px 16px;font-size:13px;line-height:1.75;color:#e8ecfa;margin-bottom:12px;}
+.strategy-box::before{content:'💡 戦略ポイント　';font-weight:700;color:var(--gold);}
+.diagram-box{background:var(--surface2);border-left:1px solid var(--border);padding:22px 18px;display:flex;flex-direction:column;justify-content:center;gap:9px;}
+.diagram-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#a8b2d0;margin-bottom:5px;text-transform:uppercase;}
+.flow-step{display:flex;align-items:center;gap:9px;}
+.flow-step-box{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:7px 11px;font-size:12px;flex:1;line-height:1.4;color:#d8ddf5;}
+.flow-step-box strong{display:block;font-size:11px;margin-bottom:2px;}
+.flow-arrow{color:#a8b2d0;font-size:15px;flex-shrink:0;}
+.flow-income{margin-top:9px;background:rgba(110,232,154,0.08);border:1px solid rgba(110,232,154,0.28);border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:7px;}
+.flow-income-label{font-size:12px;color:var(--green);font-weight:700;}
+.flow-income-amount{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green);margin-left:auto;}
+.data-section{position:relative;z-index:1;background:var(--surface);border-top:1px solid var(--border);padding:56px 24px;}
+.data-inner{max-width:1100px;margin:0 auto;}
+.data-title{font-family:'Syne',sans-serif;font-size:clamp(18px,3vw,30px);font-weight:800;margin-bottom:8px;}
+.data-title .hl{color:var(--violet);}
+.data-sub{font-size:13px;color:#b8c0de;margin-bottom:28px;}
+.tab-nav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px;}
+.tab-btn{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:6px 14px;font-size:12px;font-family:'Zen Kaku Gothic New',sans-serif;color:#a8b2d0;cursor:pointer;transition:all 0.2s;}
+.tab-btn.active{background:rgba(196,168,255,0.15);border-color:var(--violet);color:var(--violet);}
+.tab-btn:hover:not(.active){border-color:var(--border2);color:var(--text);}
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--surface2);}
+th{padding:11px 14px;text-align:left;font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;color:#b8c0de;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.06);vertical-align:middle;color:var(--text);}
+tr:hover td{background:rgba(255,255,255,0.04);}
+.td-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8b2d0;}
+.tool-name-btn{background:none;border:none;color:var(--text);font-weight:700;cursor:pointer;font-family:inherit;font-size:13px;text-align:left;padding:0;transition:color 0.15s;text-decoration:underline dotted rgba(255,255,255,0.2);}
+.tool-name-btn:hover{color:var(--violet);}
+.td-price{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+.price-free{color:var(--green);} .price-low{color:var(--teal);} .price-mid{color:var(--gold);} .price-high{color:var(--rose);}
+.td-note{font-size:12px;color:#a8b2d0;}
+.td-cat span{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;color:#a8b2d0;}
+.total-row td{background:rgba(196,168,255,0.1);color:var(--violet);font-weight:700;border-top:1px solid rgba(196,168,255,0.35);}
+.td-check{width:38px;text-align:center;}
+.tool-checkbox{width:17px;height:17px;cursor:pointer;accent-color:var(--violet);}
+tr.selected td{background:rgba(196,168,255,0.06)!important;}
+.table-pane{display:none;} .table-pane.active{display:block;animation:fadeUp 0.3s ease;}
+.footnote{margin-top:24px;font-size:12px;color:#a8b2d0;line-height:1.8;border-top:1px solid var(--border);padding-top:18px;}
+.calc-panel{margin-top:28px;background:var(--surface2);border:1px solid var(--border2);border-radius:18px;overflow:hidden;}
+.calc-panel-header{padding:16px 22px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--border);background:rgba(196,168,255,0.07);}
+.calc-panel-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--violet);flex:1;}
+.calc-clear-btn{background:rgba(255,255,255,0.06);border:1px solid var(--border2);border-radius:8px;padding:5px 13px;font-size:12px;color:#a8b2d0;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;transition:all 0.2s;}
+.calc-clear-btn:hover{border-color:var(--rose);color:var(--rose);}
+.calc-empty-msg{font-size:13px;color:#a8b2d0;padding:8px 0;}
+.calc-item-row{display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:9px 13px;animation:chipIn 0.2s ease;}
+@keyframes chipIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.calc-item-name{font-size:13px;font-weight:700;color:var(--text);flex:1;}
+.calc-item-cat{font-size:11px;color:#a8b2d0;margin-top:2px;}
+.calc-item-billing{display:flex;gap:4px;}
+.bill-toggle{background:var(--surface2);border:1px solid var(--border2);border-radius:7px;padding:4px 9px;font-size:11px;color:#a8b2d0;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;font-weight:700;transition:all 0.18s;white-space:nowrap;}
+.bill-toggle.active-mo{background:rgba(255,213,79,0.15);border-color:var(--gold);color:var(--gold);}
+.bill-toggle.active-yr{background:rgba(96,205,255,0.15);border-color:var(--sky);color:var(--sky);}
+.bill-toggle.free-tag{background:rgba(110,232,154,0.12);border-color:rgba(110,232,154,0.4);color:var(--green);cursor:default;}
+.calc-item-remove{background:none;border:none;color:#a8b2d0;font-size:15px;cursor:pointer;padding:0 4px;transition:color 0.15s;line-height:1;}
+.calc-item-remove:hover{color:var(--rose);}
+.calc-run-btn{background:linear-gradient(135deg,var(--violet),var(--sky));border:none;border-radius:11px;padding:11px 26px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;transition:all 0.2s;box-shadow:0 4px 16px rgba(196,168,255,0.3);}
+.calc-run-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(196,168,255,0.45);}
+.calc-totals{padding:18px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;border-bottom:1px solid var(--border);}
+.calc-total-box{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px 18px;text-align:center;}
+.calc-total-box.highlight{background:rgba(255,213,79,0.07);border-color:rgba(255,213,79,0.4);}
+.calc-total-label{font-size:11px;color:#a8b2d0;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;margin-bottom:7px;text-transform:uppercase;}
+.calc-total-jpy{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--gold);line-height:1;margin-bottom:4px;}
+.calc-total-usd{font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8b2d0;}
+.calc-total-free{font-size:12px;color:var(--green);margin-top:4px;}
+.breakdown-row{display:flex;align-items:center;gap:7px;padding:6px 11px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:12px;}
+.breakdown-name{flex:1;color:var(--text);font-weight:700;}
+.breakdown-billing{font-size:11px;padding:2px 7px;border-radius:5px;font-weight:700;}
+.breakdown-billing.mo{background:rgba(255,213,79,0.12);color:var(--gold);}
+.breakdown-billing.yr{background:rgba(96,205,255,0.12);color:var(--sky);}
+.breakdown-billing.free{background:rgba(110,232,154,0.12);color:var(--green);}
+.breakdown-price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);min-width:76px;text-align:right;}
+.new-badge{display:inline-block;background:rgba(255,171,96,0.2);border:1px solid rgba(255,171,96,0.5);color:var(--orange);font-size:10px;font-weight:700;padding:1px 7px;border-radius:5px;margin-left:6px;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<!-- ロック画面 -->
+<div id="lock-screen" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;z-index:10;">
+  <div style="max-width:560px;width:100%;text-align:center;">
+    <!-- 上部バッジ -->
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,168,255,0.12);border:1px solid rgba(196,168,255,0.4);border-radius:999px;padding:7px 20px;font-size:12px;color:#c4a8ff;font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;margin-bottom:32px;">🔐 PRO VERSION — LOCKED</div>
+    <!-- タイトル -->
+    <h1 style="font-family:'Syne',sans-serif;font-size:clamp(28px,6vw,52px);font-weight:800;line-height:1.08;margin-bottom:16px;">このページは<br><span style="color:#c4a8ff;">PRO版</span>です</h1>
+    <p style="font-size:15px;color:#b8c0de;line-height:1.8;margin-bottom:36px;">アクセスするにはnoteの有料記事に記載された<br>パスキーを入力してください。</p>
+
+    <!-- なんで作ったか -->
+    <div style="background:#181825;border:1px solid #2c2c42;border-radius:18px;padding:24px;margin-bottom:20px;text-align:left;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:#a8b2d0;margin-bottom:14px;text-transform:uppercase;">WHY I MADE THIS</div>
+      <p style="font-size:15px;font-weight:700;color:#f0f2fa;line-height:1.8;margin-bottom:10px;">なんで作ったか、正直に言う。</p>
+      <p style="font-size:13px;color:#b8c0de;line-height:1.9;">ツールの名前は知ってる。でも<strong style="color:#f0f2fa;">無料なの？有料なの？自分のジャンルに使えるの？</strong>——それを調べる時間が実際もったいなかった。</p>
+      <div style="margin-top:14px;padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:13px;color:#c8cfea;line-height:1.9;">
+        ツール名を押したら公式サイトに飛ぶ。料金はここで全部わかる。自分のジャンルに合った構成もすぐ出てくる。<strong style="color:#ffd54f;">自分が欲しかったから、本気で作った。</strong>
+      </div>
+    </div>
+
+    <!-- PRO版の価値訴求 -->
+    <div style="background:#181825;border:1px solid #2c2c42;border-radius:18px;padding:24px;margin-bottom:32px;text-align:left;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:#a8b2d0;margin-bottom:16px;text-transform:uppercase;">PRO版でできること</div>
+      <div style="display:grid;gap:11px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#6ee89a;font-size:14px;flex-shrink:0;margin-top:1px;">✓</span><span style="font-size:13px;color:#e8ecfa;line-height:1.6;"><strong style="color:#ffd54f;">ツール50選</strong>（無料版は30選）— 追加20選はPROだけ</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#6ee89a;font-size:14px;flex-shrink:0;margin-top:1px;">✓</span><span style="font-size:13px;color:#e8ecfa;line-height:1.6;"><strong style="color:#ffd54f;">戦略4パターン</strong>（無料版は3パターン）— 全ジャンル対応</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#6ee89a;font-size:14px;flex-shrink:0;margin-top:1px;">✓</span><span style="font-size:13px;color:#e8ecfa;line-height:1.6;"><strong style="color:#ffd54f;">詳細ワークフロー</strong> — やりたい事を選ぶとフェーズ別の手順が出てくる</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#6ee89a;font-size:14px;flex-shrink:0;margin-top:1px;">✓</span><span style="font-size:13px;color:#e8ecfa;line-height:1.6;"><strong style="color:#ffd54f;">AI投入用プロンプト</strong> — ワークフローをそのままAIに投げられる</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#6ee89a;font-size:14px;flex-shrink:0;margin-top:1px;">✓</span><span style="font-size:13px;color:#e8ecfa;line-height:1.6;"><strong style="color:#ffd54f;">SNS・YouTube収益化条件</strong> — 各プラットフォームの条件を一覧で確認</span></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;"><span style="color:#6ee89a;font-size:14px;flex-shrink:0;margin-top:1px;">✓</span><span style="font-size:13px;color:#e8ecfa;line-height:1.6;"><strong style="color:#ffd54f;">サブスク費用計算機</strong> — 月払い・年払いをツールごとに個別計算</span></div>
+      </div>
+      <!-- 価格感の訴求 -->
+      <div style="margin-top:18px;padding:14px 16px;background:rgba(255,213,79,0.07);border:1px solid rgba(255,213,79,0.28);border-radius:11px;font-size:13px;color:#e8ecfa;line-height:1.8;">同じ情報をnoteやBrainで個別に買い揃えると<strong style="color:#ffd54f;">1万円以上</strong>かかる内容を1本にまとめた。</div>
+    </div>
+
+    <!-- パスキー入力エリア -->
+    <div style="background:#181825;border:1px solid #3a3a55;border-radius:16px;padding:22px;">
+      <div style="font-size:13px;color:#a8b2d0;margin-bottom:12px;">パスキーを入力してアクセス</div>
+      <div style="display:flex;gap:8px;">
+        <input id="lock-input" type="password" placeholder="パスキーを入力..." style="flex:1;background:#0f0f18;border:1px solid #3a3a55;border-radius:10px;padding:12px 16px;font-size:14px;color:#f0f2fa;font-family:'Zen Kaku Gothic New',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='#c4a8ff'" onblur="this.style.borderColor='#3a3a55'">
+        <button onclick="doAuth(document.getElementById('lock-input').value)" style="background:linear-gradient(135deg,#c4a8ff,#60cdff);border:none;border-radius:10px;padding:12px 22px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;white-space:nowrap;">解除 →</button>
+      </div>
+      <div id="lock-err" style="display:none;margin-top:10px;font-size:12px;color:#ff8096;text-align:left;"></div>
+      <div style="margin-top:14px;font-size:12px;color:#a8b2d0;line-height:1.7;">パスキーはコンテンツビジネス研究所（<a href="https://note.com/" target="_blank" style="color:#c4a8ff;">@deratan07のnote</a>）の有料記事に記載されています。</div>
+    </div>
+  </div>
+</div>
+<!-- PRO本体（認証後に表示） -->
+<div id="pro-body" style="display:none;">
+
+<div class="pro-ribbon">⚡ PRO版　— AI副業ツール50選 × 実践ワークフロー完全ガイド —　コンテンツビジネス研究所 @deratan07</div>
+
+<div class="back-bar">
+  <a href="content-biz-tools.html">← 無料版に戻る</a>
+  <span style="font-size:12px;color:#a8b2d0;margin-left:auto;">PRO版 | コンテンツビジネス研究所 @deratan07</span>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Content Business Pro Guide 2025-2026</div>
+  <h1>ツール<span class="g">50選</span>×戦略<span class="v">4パターン</span><br>実践ワークフロー完全ガイド</h1>
+  <p class="hero-sub">「何をどの順番でやるか」まで全部書いた。<br>ジャンルを選んで目標を選ぶだけで、今日から動けるレベルのワークフローが出てくる。</p>
+  <div class="pro-badge">🔐 PRO版 — 無料版の3倍以上の情報量</div>
+</div>
+
+<div class="section">
+  <div class="section-label">Step 01</div>
+  <div class="section-title">やりたい<span class="hl">ジャンル</span>を選んでください</div>
+  <div class="genre-grid">
+    <button class="genre-btn" style="--gc:var(--gold)" onclick="selectGenre(0)" id="g0"><span class="genre-icon">✍️</span><div class="genre-name">テキスト発信</div><div class="genre-desc">note・ブログ・メルマガ</div></button>
+    <button class="genre-btn" style="--gc:var(--teal)" onclick="selectGenre(1)" id="g1"><span class="genre-icon">🎨</span><div class="genre-name">イラスト・画像</div><div class="genre-desc">AIアート・デザイン販売</div></button>
+    <button class="genre-btn" style="--gc:var(--rose)" onclick="selectGenre(2)" id="g2"><span class="genre-icon">🎬</span><div class="genre-name">動画・音声</div><div class="genre-desc">YouTube・Podcast・MV</div></button>
+    <button class="genre-btn" style="--gc:var(--violet)" onclick="selectGenre(3)" id="g3"><span class="genre-icon">⚙️</span><div class="genre-name">AI自動化</div><div class="genre-desc">ツール販売・コンサル</div></button>
+    <button class="genre-btn" style="--gc:var(--sky)" onclick="selectGenre(4)" id="g4"><span class="genre-icon">📦</span><div class="genre-name">デジタル商品</div><div class="genre-desc">テンプレ・教材・ガイド</div></button>
+  </div>
+  <div id="genre-content"></div>
+</div>
+
+<!-- ツール50選テーブル -->
+<div class="data-section">
+  <div class="data-inner">
+    <div class="data-title">ツール<span class="hl">50選</span> サブスク料金 &amp; 計算機</div>
+    <div class="data-sub">無料版の30選に20ツール追加。月払い・年払いをツールごとに個別選択して「計算する」ボタンで合計算出。ツール名クリックで詳細説明。</div>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab(0)">すべて</button>
+      <button class="tab-btn" onclick="switchTab(1)">🎨 画像生成AI</button>
+      <button class="tab-btn" onclick="switchTab(2)">🤖 文章生成AI</button>
+      <button class="tab-btn" onclick="switchTab(3)">🎬 動画・音声AI</button>
+      <button class="tab-btn" onclick="switchTab(4)">📝 販売プラットフォーム</button>
+      <button class="tab-btn" onclick="switchTab(5)">⚙️ 自動化</button>
+      <button class="tab-btn" onclick="switchTab(6)">📊 SEO・マーケ</button>
+      <button class="tab-btn" onclick="switchTab(7)">🆕 追加20選</button>
+      <button class="tab-btn" onclick="switchTab(8)" style="background:rgba(255,171,96,0.1);border-color:rgba(255,171,96,0.4);color:var(--orange);">📱 SNS・YouTube連携</button>
+    </div>
+    <div class="table-wrap">
+      <div class="table-pane active" id="tab0"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>カテゴリ</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="all-table"></tbody></table></div>
+      <div class="table-pane" id="tab1"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat1-table"></tbody></table></div>
+      <div class="table-pane" id="tab2"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat2-table"></tbody></table></div>
+      <div class="table-pane" id="tab3"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat3-table"></tbody></table></div>
+      <div class="table-pane" id="tab4"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat4-table"></tbody></table></div>
+      <div class="table-pane" id="tab5"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat5-table"></tbody></table></div>
+      <div class="table-pane" id="tab6"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat6-table"></tbody></table></div>
+      <div class="table-pane" id="tab7"><table><thead><tr><th>✓</th><th>#</th><th>ツール名</th><th>カテゴリ</th><th>月額</th><th>年額</th><th>備考</th></tr></thead><tbody id="cat7-table"></tbody></table></div>
+      <div class="table-pane" id="tab8">
+        <!-- SNS収益化条件カード -->
+        <div style="margin-bottom:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;" id="sns-monetize-cards"></div>
+        <table><thead><tr><th>✓</th><th>#</th><th>プラットフォーム / ツール</th><th>月額コスト</th><th>年額</th><th>収益化の仕組み</th></tr></thead><tbody id="cat8-table"></tbody></table>
+      </div>
+    </div>
+    <div class="footnote">※ 料金は2025〜2026年3月時点の目安。1USD＝150円換算。プラン変更により変動あり。</div>
+    <div class="calc-panel" id="calcPanel">
+      <div class="calc-panel-header">
+        <div class="calc-panel-title">💰 選択ツールのコスト試算</div>
+        <span id="selectedCount" style="font-size:13px;color:#a8b2d0;"></span>
+        <button class="calc-clear-btn" onclick="clearAll()">すべてクリア</button>
+      </div>
+      <div id="calcListWrap" style="padding:14px 22px;border-bottom:1px solid var(--border);min-height:60px;">
+        <div class="calc-empty-msg" id="calcEmpty">↑ 上の一覧からツールにチェックを入れてください（複数OK）</div>
+        <div id="calcItemList" style="display:none;flex-direction:column;gap:7px;"></div>
+      </div>
+      <div style="padding:14px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px;flex-wrap:wrap;">
+        <button class="calc-run-btn" onclick="runCalc()">▶ コスト計算する</button>
+        <span style="font-size:12px;color:#a8b2d0;">各ツールの月払い／年払いを選んでから計算</span>
+      </div>
+      <div id="calcResult" style="display:none;">
+        <div class="calc-totals">
+          <div class="calc-total-box highlight"><div class="calc-total-label">月額合計（有料ツール）</div><div class="calc-total-jpy" id="total-jpy">¥0</div><div class="calc-total-usd" id="total-usd"></div></div>
+          <div class="calc-total-box"><div class="calc-total-label">年間総額（有料ツール）</div><div class="calc-total-jpy" id="total-annual-jpy" style="color:var(--sky)">¥0</div><div class="calc-total-usd" id="total-annual-usd"></div></div>
+          <div class="calc-total-box"><div class="calc-total-label">無料ツール</div><div class="calc-total-jpy" style="color:var(--green);font-size:20px;" id="free-count">0 個</div><div class="calc-total-free" id="free-names"></div></div>
+        </div>
+        <div style="padding:0 22px 22px;">
+          <div style="font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;color:#a8b2d0;margin-bottom:9px;text-transform:uppercase;">内訳</div>
+          <div id="calcBreakdown" style="display:flex;flex-direction:column;gap:5px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- モーダル -->
+<div id="toolModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);align-items:center;justify-content:center;" onclick="closeModal(event)">
+  <div style="background:var(--surface);border:1px solid var(--border2);border-radius:18px;max-width:460px;width:90%;padding:26px;position:relative;animation:fadeUp 0.2s ease;">
+    <button onclick="closeModal()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:4px 10px;color:#a8b2d0;font-size:13px;cursor:pointer;">✕</button>
+    <div id="modalCat" style="font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:0.15em;color:#a8b2d0;margin-bottom:9px;text-transform:uppercase;"></div>
+    <div id="modalName" style="font-family:'Syne',sans-serif;font-size:21px;font-weight:800;color:var(--text);margin-bottom:5px;"></div>
+    <div id="modalPrice" style="font-size:13px;color:var(--gold);margin-bottom:14px;font-family:'JetBrains Mono',monospace;"></div>
+    <div id="modalDesc" style="font-size:14px;color:#c8cfea;line-height:1.8;margin-bottom:18px;"></div>
+    <a id="modalUrl" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:rgba(196,168,255,0.12);border:1px solid rgba(196,168,255,0.35);border-radius:10px;padding:8px 16px;font-size:13px;color:var(--violet);text-decoration:none;">🔗 公式サイトを開く →</a>
+  </div>
+</div>
+
+<script>
+// ─── ツールデータ50選 ───
+const TOOLS=[
+  {n:'Midjourney',url:'https://www.midjourney.com/',cat:1,catName:'🎨 画像生成AI',mo:'$10〜(¥1,500〜)',yr:'$96〜(¥14,400〜)',note:'Standard以上で商用OK',free:false,moUSD:10},
+  {n:'NovelAI',url:'https://novelai.net/',cat:1,catName:'🎨 画像生成AI',mo:'$10〜(¥1,500〜)',yr:'$120〜(¥18,000〜)',note:'Opus$25が最高品質',free:false,moUSD:10},
+  {n:'Stable Diffusion',url:'https://stability.ai/',cat:1,catName:'🎨 画像生成AI',mo:'無料（ローカル）',yr:'無料',note:'ローカル完全無料',free:true,moUSD:0},
+  {n:'Adobe Firefly',url:'https://firefly.adobe.com/',cat:1,catName:'🎨 画像生成AI',mo:'CC含む$55〜',yr:'$600〜',note:'商用安全なAI画像',free:false,moUSD:55},
+  {n:'Canva Pro',url:'https://www.canva.com/ja_jp/',cat:1,catName:'🎨 画像生成AI',mo:'$15(¥2,250)',yr:'$120(¥18,000)',note:'AI含むオールインワン',free:false,moUSD:15},
+  {n:'ChatGPT Plus',url:'https://chat.openai.com/',cat:2,catName:'🤖 文章生成AI',mo:'$20(¥3,000)',yr:'$240(¥36,000)',note:'GPT-4o・DALL-E含む',free:false,moUSD:20},
+  {n:'Claude Pro',url:'https://claude.ai/',cat:2,catName:'🤖 文章生成AI',mo:'$20(¥3,000)',yr:'$204(¥30,600)',note:'年払い$17/月',free:false,moUSD:20},
+  {n:'Gemini AI Pro',url:'https://gemini.google.com/',cat:2,catName:'🤖 文章生成AI',mo:'$19.99(¥3,000)',yr:'$240(¥36,000)',note:'Drive 2TB付き',free:false,moUSD:20},
+  {n:'Perplexity Pro',url:'https://www.perplexity.ai/',cat:2,catName:'🤖 文章生成AI',mo:'$20(¥3,000)',yr:'$200(¥30,000)',note:'年払い$16.67/月',free:false,moUSD:20},
+  {n:'Copilot Pro',url:'https://copilot.microsoft.com/',cat:2,catName:'🤖 文章生成AI',mo:'$20(¥3,000)',yr:'$240(¥36,000)',note:'Microsoft 365連携',free:false,moUSD:20},
+  {n:'Runway',url:'https://runwayml.com/',cat:3,catName:'🎬 動画・音声AI',mo:'$15(¥2,250)',yr:'$144(¥21,600)',note:'Standard。Pro$35も',free:false,moUSD:15},
+  {n:'Kling',url:'https://klingai.com/',cat:3,catName:'🎬 動画・音声AI',mo:'$10〜(¥1,500〜)',yr:'$120〜',note:'無料枠あり',free:false,moUSD:10},
+  {n:'ElevenLabs',url:'https://elevenlabs.io/',cat:3,catName:'🎬 動画・音声AI',mo:'$5(¥750)',yr:'$60(¥9,000)',note:'Starter。Creator$11も',free:false,moUSD:5},
+  {n:'VOICEVOX',url:'https://voicevox.hiroshiba.jp/',cat:3,catName:'🎬 動画・音声AI',mo:'完全無料',yr:'完全無料',note:'ローカル・商用OK',free:true,moUSD:0},
+  {n:'Suno Pro',url:'https://suno.com/',cat:3,catName:'🎬 動画・音声AI',mo:'$10(¥1,500)',yr:'$96(¥14,400)',note:'年払い$8/月',free:false,moUSD:10},
+  {n:'note',url:'https://note.com/',cat:4,catName:'📝 販売プラットフォーム',mo:'無料〜',yr:'無料〜',note:'有料記事・定期購読',free:true,moUSD:0},
+  {n:'Brain',url:'https://brain-market.com/',cat:4,catName:'📝 販売プラットフォーム',mo:'無料（手数料10%〜）',yr:'無料',note:'高単価情報商品向き',free:true,moUSD:0},
+  {n:'Gumroad',url:'https://gumroad.com/',cat:4,catName:'📝 販売プラットフォーム',mo:'無料（手数料10%）',yr:'無料',note:'英語圏展開可',free:true,moUSD:0},
+  {n:'Zenn',url:'https://zenn.dev/',cat:4,catName:'📝 販売プラットフォーム',mo:'無料',yr:'無料',note:'手数料3%・技術系強い',free:true,moUSD:0},
+  {n:'Substack',url:'https://substack.com/',cat:4,catName:'📝 販売プラットフォーム',mo:'無料（手数料10%）',yr:'無料',note:'メルマガ有料化に強い',free:true,moUSD:0},
+  {n:'n8n Starter',url:'https://n8n.io/',cat:5,catName:'⚙️ 自動化',mo:'$20(¥3,000)',yr:'$240(¥36,000)',note:'ローカルは完全無料',free:false,moUSD:20},
+  {n:'Make Core',url:'https://www.make.com/',cat:5,catName:'⚙️ 自動化',mo:'$9(¥1,350)',yr:'$108(¥16,200)',note:'無料枠あり',free:false,moUSD:9},
+  {n:'Zapier Starter',url:'https://zapier.com/',cat:5,catName:'⚙️ 自動化',mo:'$19.99(¥3,000)',yr:'$240(¥36,000)',note:'無料100タスク/月',free:false,moUSD:20},
+  {n:'Notion Plus',url:'https://www.notion.so/',cat:5,catName:'⚙️ 自動化',mo:'$10(¥1,500)',yr:'$96(¥14,400)',note:'年払い$8/月',free:false,moUSD:10},
+  {n:'Airtable Plus',url:'https://airtable.com/',cat:5,catName:'⚙️ 自動化',mo:'$10(¥1,500)',yr:'$120(¥18,000)',note:'無料枠あり',free:false,moUSD:10},
+  {n:'Ubersuggest',url:'https://neilpatel.com/ubersuggest/',cat:6,catName:'📊 SEO・マーケ',mo:'$12(¥1,800)',yr:'$120(¥18,000)',note:'年払い$7/月',free:false,moUSD:12},
+  {n:'Google Analytics',url:'https://analytics.google.com/',cat:6,catName:'📊 SEO・マーケ',mo:'完全無料',yr:'完全無料',note:'GA4',free:true,moUSD:0},
+  {n:'Canva（無料版）',url:'https://www.canva.com/ja_jp/',cat:6,catName:'📊 SEO・マーケ',mo:'無料',yr:'無料',note:'基本デザイン無料',free:true,moUSD:0},
+  {n:'Buffer Essentials',url:'https://buffer.com/',cat:6,catName:'📊 SEO・マーケ',mo:'$15(¥2,250)',yr:'$144(¥21,600)',note:'SNS8チャンネル管理',free:false,moUSD:15},
+  {n:'XPro（X Premium+）',url:'https://twitter.com/',cat:6,catName:'📊 SEO・マーケ',mo:'$22(¥3,300)',yr:'$264(¥39,600)',note:'X Premium+に含む',free:false,moUSD:22},
+  // 追加20選
+  {n:'Descript',url:'https://www.descript.com/',cat:7,catName:'🆕 追加20選',mo:'$12(¥1,800)',yr:'$96(¥14,400)',note:'動画・音声編集AI。文字起こし+カット編集',free:false,moUSD:12},
+  {n:'Loom',url:'https://www.loom.com/',cat:7,catName:'🆕 追加20選',mo:'$12.50(¥1,875)',yr:'$96(¥14,400)',note:'画面録画+即共有。コンサル動画に最適',free:false,moUSD:13},
+  {n:'Typeform',url:'https://www.typeform.com/',cat:7,catName:'🆕 追加20選',mo:'$25(¥3,750)',yr:'$240(¥36,000)',note:'美しい診断フォーム作成',free:false,moUSD:25},
+  {n:'ConvertKit',url:'https://convertkit.com/',cat:7,catName:'🆕 追加20選',mo:'$15〜(¥2,250〜)',yr:'$149〜(¥22,350〜)',note:'クリエイター向けメールマーケ',free:false,moUSD:15},
+  {n:'Beehiiv',url:'https://www.beehiiv.com/',cat:7,catName:'🆕 追加20選',mo:'$39〜(¥5,850〜)',yr:'$396〜',note:'ニュースレター特化',free:false,moUSD:39},
+  {n:'Taplink',url:'https://taplink.at/',cat:7,catName:'🆕 追加20選',mo:'$3〜(¥450〜)',yr:'$30〜',note:'SNSプロフのリンク集',free:false,moUSD:3},
+  {n:'Framer',url:'https://www.framer.com/',cat:7,catName:'🆕 追加20選',mo:'$15(¥2,250)',yr:'$144(¥21,600)',note:'ノーコード高品質LP',free:false,moUSD:15},
+  {n:'Gamma',url:'https://gamma.app/',cat:7,catName:'🆕 追加20選',mo:'$10(¥1,500)',yr:'$96(¥14,400)',note:'AIでスライド・資料自動生成',free:false,moUSD:10},
+  {n:'Notion AI',url:'https://www.notion.so/',cat:7,catName:'🆕 追加20選',mo:'$10(¥1,500)',yr:'$96(¥14,400)',note:'Notion内のAI機能',free:false,moUSD:10},
+  {n:'Ahrefs',url:'https://ahrefs.com/',cat:7,catName:'🆕 追加20選',mo:'$99(¥14,850)',yr:'$990(¥148,500)',note:'最強クラスのSEO分析',free:false,moUSD:99},
+  {n:'Semrush',url:'https://www.semrush.com/',cat:7,catName:'🆕 追加20選',mo:'$99.95(¥14,993)',yr:'$999〜',note:'SEO・競合・広告の総合分析',free:false,moUSD:100},
+  {n:'Pika',url:'https://pika.art/',cat:7,catName:'🆕 追加20選',mo:'$8(¥1,200)',yr:'$70(¥10,500)',note:'テキスト・画像から動画生成',free:false,moUSD:8},
+  {n:'Heygen',url:'https://www.heygen.com/',cat:7,catName:'🆕 追加20選',mo:'$29(¥4,350)',yr:'$264(¥39,600)',note:'AIアバター解説動画自動生成',free:false,moUSD:29},
+  {n:'Luma AI',url:'https://lumalabs.ai/',cat:7,catName:'🆕 追加20選',mo:'$29.99(¥4,499)',yr:'$299(¥44,850)',note:'3D・動画生成AI',free:false,moUSD:30},
+  {n:'Writesonic',url:'https://writesonic.com/',cat:7,catName:'🆕 追加20選',mo:'$16(¥2,400)',yr:'$144(¥21,600)',note:'SEO記事・LP自動生成特化',free:false,moUSD:16},
+  {n:'Jasper',url:'https://www.jasper.ai/',cat:7,catName:'🆕 追加20選',mo:'$39(¥5,850)',yr:'$396(¥59,400)',note:'マーケ特化AIライティング',free:false,moUSD:39},
+  {n:'Hootsuite',url:'https://www.hootsuite.com/',cat:7,catName:'🆕 追加20選',mo:'$99(¥14,850)',yr:'$948(¥142,200)',note:'企業向けSNS管理の定番',free:false,moUSD:99},
+  {n:'Flodesk',url:'https://flodesk.com/',cat:7,catName:'🆕 追加20選',mo:'$38(¥5,700)',yr:'$348(¥52,200)',note:'美しいメールデザイン専門',free:false,moUSD:38},
+  {n:'TidyCal',url:'https://tidycal.com/',cat:7,catName:'🆕 追加20選',mo:'$19(買切)',yr:'$19(買切)',note:'予約管理。コンサル受付に',free:false,moUSD:2},
+  {n:'Gumlet',url:'https://www.gumlet.com/',cat:7,catName:'🆕 追加20選',mo:'$14(¥2,100)',yr:'$132(¥19,800)',note:'動画ホスティング+有料配信',free:false,moUSD:14},
+  // SNS・YouTube連携(cat8)
+  {n:'YouTube（無料）',url:'https://www.youtube.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'無料',yr:'無料',note:'アドセンス収益化あり。収益化条件はボタンから確認',free:true,moUSD:0},
+  {n:'YouTube Premium Creator',url:'https://www.youtube.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'参考：視聴者側$13.99',yr:'参考：$139.99',note:'メンバーシップ・スパチャ・ショッピング機能あり',free:true,moUSD:0},
+  {n:'X（無料）',url:'https://twitter.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'無料',yr:'無料',note:'クリエイター収益化プログラムあり',free:true,moUSD:0},
+  {n:'X Premium（旧Twitter Blue）',url:'https://twitter.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'$8(¥1,200)',yr:'$84(¥12,600)',note:'収益化参加・長文投稿・優先表示',free:false,moUSD:8},
+  {n:'X Premium+',url:'https://twitter.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'$22(¥3,300)',yr:'$264(¥39,600)',note:'最上位プラン。広告非表示＋全機能',free:false,moUSD:22},
+  {n:'TikTok（無料）',url:'https://www.tiktok.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'無料',yr:'無料',note:'TikTok Creator Fundで収益化可能',free:true,moUSD:0},
+  {n:'Instagram（無料）',url:'https://www.instagram.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'無料',yr:'無料',note:'リール・ライブ・サブスク収益化あり',free:true,moUSD:0},
+  {n:'stand.fm（無料）',url:'https://stand.fm/',cat:8,catName:'📱 SNS・YouTube連携',mo:'無料',yr:'無料',note:'音声配信。投げ銭・月額サポーター機能あり',free:true,moUSD:0},
+  {n:'Spotify for Podcasters',url:'https://podcasters.spotify.com/',cat:8,catName:'📱 SNS・YouTube連携',mo:'無料',yr:'無料',note:'Spotify公式Podcast配信。広告収益化あり',free:true,moUSD:0},
+  {n:'Twitch（無料）',url:'https://www.twitch.tv/',cat:8,catName:'📱 SNS・YouTube連携',mo:'無料',yr:'無料',note:'ゲーム・雑談配信。サブスク・ビッツ収益化',free:true,moUSD:0},
+];
+
+const TOOL_DESC=[
+  'AIが生成するアート・イラストのプロ品質プラットフォーム。テキストプロンプトで高品質な画像を生成でき、デザイン・イラスト販売に広く使われる。商用利用はStandard以上のプランから。',
+  'アニメ・マンガ調の画像生成に特化したAIサービス。日本のクリエイターに人気が高く、ライトノベルキャラやゲームキャラのビジュアル制作に強い。img2imgでの一貫したキャラ生成も得意。',
+  'オープンソースの画像生成AIモデル。自分のPCにインストールして使えば完全無料。ComfyUIやAutomatic1111などのUIと組み合わせて使うのが一般的。ローカル環境での大量生成が可能。',
+  'Adobeが提供する生成AI。Photoshop・Illustratorと統合されており、商用利用に安全なAI画像を生成できる。Adobe Creative Cloudに含まれており、既存ユーザーはすぐ使える。',
+  'デザイン作業をブラウザ上で完結できるオールインワンツール。SNS投稿・プレゼン・サムネイルなど幅広く対応。Proプランで背景削除・AIイラスト生成・ブランドキットが使える。',
+  'OpenAIが提供する最大手の対話型AI。文章生成・アイデア出し・コード作成など何でもこなせる。GPT-4oやDALL-E画像生成、データ分析機能がPlusプランで使える。',
+  'Anthropicが開発した高性能AI。長文の読み込み・執筆・論理的な分析が得意で、コンテンツビジネスの記事作成やプロンプト開発に特に強い。',
+  'Googleが提供するAIアシスタント。Google検索・GmailやDriveとの連携が強みで、最新情報へのアクセスや自動化に便利。2TBのGoogleドライブ容量が付いてくる。',
+  'AI検索エンジンとチャットAIを組み合わせたサービス。回答に引用元URLが表示されるのが特徴で、最新情報のリサーチ・競合調査に向いている。',
+  'MicrosoftのAIアシスタント。Microsoft 365（Word・Excel・Outlook等）に統合されており、OfficeソフトとAIを組み合わせて使いたい人向け。',
+  'AIで動画・画像・音声を生成・編集できるクリエイティブプラットフォーム。テキストや画像から動画を生成する機能が特に有名で、YouTube・SNS動画制作に使われている。',
+  '中国発の高品質AI動画生成ツール。テキストや画像から滑らかな動画を生成でき、無料枠でも試せる。Runwayの競合として日本でも急速に普及中。',
+  'AIによる音声合成・声のクローニングサービス。自然なナレーションやキャラクターボイスを生成でき、YouTube動画・Podcast・音声コンテンツ制作に活用される。',
+  '完全無料で使えるオープンソースの音声合成ソフト。四国めたんやずんだもんなどのキャラクターボイスが揃い、商用利用も無料。ローカルPCで動作する。',
+  'AIが楽曲・歌詞・ボーカルまで自動生成するサービス。テキストでジャンルやムードを指定するだけでオリジナル曲が完成する。商用利用はProプラン以上から可能。',
+  '日本最大のクリエイター向けコンテンツ販売プラットフォーム。有料記事・定期購読マガジン・デジタル商品の販売ができ、個人クリエイターが最初に使うべき定番。',
+  '情報商品・デジタルコンテンツ専門の販売プラットフォーム。Brain経由の集客・アフィリエイト機能が強く、高単価な教材・ノウハウ販売に向いている。手数料10%〜。',
+  'デジタル商品を手軽に販売できる海外発サービス。英語圏への展開も可能で、ドル建て販売で円安の恩恵を受けやすい。',
+  'エンジニア・技術者向けのコンテンツ共有プラットフォーム。技術系の記事販売に強く、手数料3%と低コストなのが魅力。',
+  'ニュースレター・メルマガの有料配信に特化した欧米発サービス。英語圏の読者獲得に有利で、メルマガ登録者への有料コンテンツ配信で収益化できる。',
+  'ノーコードで複雑なワークフロー自動化を構築できるツール。AI・API・各種サービスを繋いで業務自動化やコンテンツ生成パイプラインを作れる。セルフホストなら完全無料。',
+  'ノーコード自動化ツール。ZapierよりUIが直感的で低価格。Gmail・Slack・Google Sheetsとの連携が得意。無料枠でも基本的な自動化は試せる。',
+  '最大手のノーコード自動化サービス。連携できるアプリ数が最多で5,000以上。設定が簡単で初心者でも使いやすい。',
+  'ドキュメント・データベース・タスク管理を一つにまとめた万能ツール。コンテンツ管理・進捗管理・ナレッジベースとして使われ、AI機能で文書の自動生成も可能。',
+  'スプレッドシートとデータベースを組み合わせたノーコードツール。チームでのデータ管理・コンテンツ在庫管理に向いている。',
+  'SEOキーワードリサーチ・競合分析ができるオールインワンSEOツール。ブログやnoteで検索流入を狙うためのキーワード選定に便利。',
+  'Googleが提供する無料のアクセス解析ツール（GA4）。ウェブサイトへの流入元・ユーザー行動をすべて無料で計測できる必須ツール。',
+  'Canvaの無料版。基本的なSNS投稿・バナー・プレゼン資料のデザインが無料で作れる。初心者が始めるには十分な機能が揃っている。',
+  'X・Instagram・Facebookなど複数のSNSを一元管理できる投稿スケジューリングツール。SNS運用の時間を大幅に短縮できる。',
+  'X（旧Twitter）の高機能版。複数アカウント管理・高度な検索ができる。X Premiumに含まれており、X上で収益化したい人向け。',
+  '動画・音声編集にAIを活用するツール。文字起こし→テキスト編集→動画カットという革新的なワークフローが特徴。YouTube・Podcast編集の時間を大幅短縮できる。',
+  '画面録画＋即共有に特化したツール。コンサルの事前説明・チュートリアル動画・進捗共有に最適。URLを送るだけで動画が見られる。',
+  '美しいアンケート・診断フォームを作れるツール。ユーザーが一問ずつ答える形式で回答率が高い。コンテンツビジネス診断サイトにも活用できる。',
+  'クリエイター向けメールマーケティングツール。無料プランでも1,000人まで登録者管理ができる。ランディングページ作成機能も付いており、メール登録導線を作りやすい。',
+  'ニュースレター特化の配信プラットフォーム。Substackの競合で収益化・分析機能が充実。英語圏のクリエイターに人気急上昇中。',
+  'SNSのプロフィールに貼るリンクまとめページを作れるツール。note・Brain・YouTube・Xなど複数のリンクを1ページに集約できる。月3ドルと格安。',
+  'コードなしで作れる高品質なウェブサイト・LPビルダー。AIが自動でデザインを生成する機能があり、ポートフォリオやLP制作に最適。',
+  'AIでプレゼンスライド・資料を自動生成するツール。テキストを入力するだけで見栄えのいいスライドが完成する。提案資料・教材作成を大幅に時短。',
+  'Notion内のAI機能単体プラン。文章の要約・生成・翻訳・タスクの自動整理ができる。すでにNotionを使っているなら$10でAI機能をフル活用できる。',
+  '最強クラスのSEO分析ツール。競合サイトのキーワード・被リンク・ランキングを徹底解析できる。本格的にSEOで稼ぎたい人向け。投資対効果は高い。',
+  'SEO・競合・SNS広告の総合分析ツール。Ahrefsと並ぶ最高峰のSEOツール。コンテンツマーケティングの全体戦略を設計するのに使う。',
+  'テキスト・画像から動画を生成するAIツール。Runwayより廉価で気軽に使えるのが特徴。ショート動画・SNS動画の量産に向いている。',
+  'AIアバターを使った解説動画を自動生成するツール。自分の顔を出さずに動画コンテンツを量産できる。YouTubeやオンライン講座制作に活用される。',
+  '3D・動画生成AIの新星。高品質な動画・アニメーション・3Dシーンを生成できる。クリエイティブ用途やMV制作に使われ始めている。',
+  'SEO記事・LP・広告文の自動生成に特化したAIライティングツール。マーケティングコピーに最適化されたプロンプトが内蔵されている。',
+  'マーケティング・コピーライティング特化のAIツール。ブランドの声やトーンを学習させて一貫した文章を量産できる。企業マーケ向け。',
+  '企業向けSNS管理の定番ツール。AI投稿提案・スケジューリング・分析が一体化。個人より企業・チーム運用向けの価格帯。',
+  '美しいメールデザインが得意なメルマガ配信ツール。購読者数が増えても料金が一定なので大規模リスト向けにコスパが高い。',
+  'カレンダー予約・スケジュール管理ツール。コンサル・個別相談の予約受付を自動化できる。ライフタイムプランがお得。',
+  '動画ホスティング＋配信プラットフォーム。有料動画コンテンツの販売・アクセス制限・分析ができる。オンライン講座・動画教材販売に使われる。',
+  // SNS・YouTube連携(cat8)
+  '世界最大の動画プラットフォーム。完全無料でチャンネルを作れる。収益化にはYouTubeパートナープログラム（YPP）への参加が必要。条件は登録者1,000人以上＋過去12ヶ月の総再生時間4,000時間以上（または過去90日のショート動画視聴回数1,000万回以上）。収益化後はアドセンス広告・メンバーシップ・スーパーサンクス・ショッピング機能が使える。',
+  'YouTubeのメンバーシップ・スパチャ・ショッピング機能などクリエイター向けの追加収益化機能。視聴者側がYouTube Premiumに加入するとクリエイターへの分配が増加する仕組みがある。チャンネルメンバーシップは登録者500人以上から利用可能。',
+  '日本最大のSNS（旧Twitter）。完全無料でアカウントを作れる。Xのクリエイター収益化プログラム（広告収益分配）は「X Premiumに加入済み」＋「過去3ヶ月のインプレッション500万以上」＋「フォロワー500人以上」が条件。',
+  'XのPremiumプラン（月$8）。長文投稿・優先表示・編集機能に加え、収益化プログラムへの参加資格が得られる。コンテンツビジネスで収益化を目指すなら最低限このプランが必要。',
+  'XのPremium+プラン（月$22）。広告非表示・すべての機能フルアクセス・最大のリーチ拡大。本格的にXでブランドを構築したい人向けの最上位プラン。',
+  '短尺動画特化のSNS。完全無料。収益化はTikTok Creativity Program（旧Creator Fund）経由で、条件は18歳以上＋フォロワー1万人以上＋過去30日の動画再生10万回以上。日本でのTikTok収益化は欧米より単価が低め。アフィリエイトやnote誘導の集客ツールとして使う方が現実的。',
+  '写真・動画・リールの総合SNS。完全無料。収益化はリールボーナス（招待制）・ライブバッジ・サブスクリプション機能がある。日本ではAmazonアフィリエイトリンクを貼れるため、フォロワーを集めてアフィリエイト収益を狙うのが現実的な戦略。',
+  '日本発の音声配信SNS。完全無料で配信でき、リスナーからの「投げ銭（レター）」で収益化できる。月額サポーター機能もあり、熱狂リスナーからの安定収益に繋がる。YouTube・noteと組み合わせて「Podcast→テキスト有料化」の二刀流が人気。',
+  'Spotifyが提供するPodcast配信プラットフォーム。完全無料で世界中に配信できる。Spotify Audience Network経由で広告収益化が可能（招待制）。日本語Podcastは競合が少なく、ニッチなジャンルで上位表示しやすい。',
+  'ゲーム・雑談・技術配信に特化したライブ配信プラットフォーム。完全無料。収益化は「Affiliateプログラム」→「Partner」の2段階。Affiliate条件は30日間で合計500分以上配信＋7日間ユニーク配信日3日以上＋同時視聴者平均3人以上＋フォロワー50人以上。収益化後はサブスク・ビッツ（仮想通貨チップ）・広告で稼げる。',
+];
+
+const YR_USD=[96,120,0,600,120,240,204,240,200,240,144,120,60,0,96,0,0,0,0,0,240,108,240,96,120,120,0,0,144,264,96,96,240,149,396,30,144,96,96,990,999,70,264,299,144,396,948,348,19,132];
+
+// ─── ジャンルデータ ───
+const GENRES=[
+{color:'var(--gold)',
+ patterns:[
+  {rank:'01',color:'var(--gold)',title:'ゼロコスト 書くだけスタート',sub:'月0円から始める完全無料構成',cost_mo:'¥0',tools:[{icon:'📝',name:'note',url:'https://note.com/'},{icon:'🤖',name:'Claude（無料）',url:'https://claude.ai/'},{icon:'🎨',name:'Canva（無料）',url:'https://www.canva.com/ja_jp/'},{icon:'📊',name:'Google Analytics',url:'https://analytics.google.com/'}],purpose:'AIで記事を下書き→noteに投稿→Canvaでヘッダー画像作成。完全無料で始められる最小構成。収益はnoteの有料記事とメンバーシップで。',features:[
+    {icon:'✍️',title:'Claude（無料版）で記事下書きを5分で作る',desc:'Claude無料版でも1記事800〜1,500字の下書きは十分生成できる。「〇〇について初心者向けに1,200字で解説して」と入れるだけ。無料版は回数制限があるので1日3〜5本のペースで運用する。'},
+    {icon:'🎨',title:'Canvaで毎回使い回せるヘッダー画像テンプレを作る',desc:'Canvaの無料テンプレートからnoteヘッダーサイズ（1280×670px）を選び、1枚だけデザインしてテンプレ化。毎回テキストだけ変えれば5分以下で完成。統一感が出てプロっぽく見える。'},
+    {icon:'📊',title:'Google Analytics（GA4）でどの記事が読まれているかを把握する',desc:'noteにGA4のトラッキングIDを設定すると、どの記事が読まれているか・読者がどこから来ているかがわかる。月1回データを見て「反応が良い記事と似たテーマ」で次の記事を書く。これだけで質が上がる。'},
+    {icon:'💰',title:'有料記事300〜500円で1本ずつ販売して感触をつかむ',desc:'無料記事5本で信頼を作ってから6本目を300〜500円の有料記事として公開。「無料5本読んで価値があったから買ってみよう」という流れが自然に生まれる。初月は10本買ってもらえれば十分。まず売れる体験をすることが最優先。'},
+  ]},
+  {rank:'02',color:'var(--gold)',title:'note × AI × SNS 集客セット',sub:'月5,000円以下で本格化',cost_mo:'¥4,500',tools:[{icon:'🤖',name:'ChatGPT Plus',url:'https://chat.openai.com/'},{icon:'📝',name:'note',url:'https://note.com/'},{icon:'🐦',name:'XPro',url:'https://twitter.com/'},{icon:'🎨',name:'Canva Pro',url:'https://www.canva.com/ja_jp/'}],purpose:'ChatGPTで記事大量生成→noteで有料販売→XProで集客。CanvaでSNSバナーも量産。月商3〜5万を狙う構成。',features:[
+    {icon:'🤖',title:'ChatGPT Plusで1日5本の記事下書きを量産する',desc:'ChatGPT PlusはGPT-4oが無制限で使える。「〇〇について1,500字・見出し3つ・初心者向け」のテンプレプロンプトを作れば1本5分以下で下書き完成。1日5本×20日＝月100本のコンテンツストックが作れる。量産が収益の加速装置になる。'},
+    {icon:'🎨',title:'Canva Proで「量産バナーテンプレ」を10種類作る',desc:'Canva ProはAI背景生成・ブランドキット・素材使い放題が使える。記事テーマ別（入門・応用・事例・まとめ）にバナーテンプレを10種類作っておけば、新記事のバナーを2分で量産できる。見た目の統一感がnoteプロフの信頼度を上げる。'},
+    {icon:'🐦',title:'XProで「1行エッセンス投稿」を毎朝7時に自動予約する',desc:'XProには投稿予約機能がある。前日夜に1週間分の投稿を一気に作って予約すれば、毎朝7時に自動でXが更新される。「記事の一番刺さる1行」をXに投稿→「全文はnoteプロフから」と誘導するのがXでのnote集客の鉄則。'},
+    {icon:'📈',title:'週1スレッド投稿で週間フォロワー獲得数を3倍にする',desc:'Xで最もフォロワーが増えるのは「まとめスレッド」。週1回「〇〇について5つのポイント（スレッド）」を投稿すると、通常投稿の3〜5倍のインプレッションが出る。スレッドの末尾に「詳細はnoteで→プロフのリンクから」と入れるのを忘れずに。'},
+  ]},
+  {rank:'03',color:'var(--gold)',title:'SEO×AI メディア構築',sub:'検索流入で自動集客',cost_mo:'¥7,500',tools:[{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'},{icon:'🔍',name:'Ahrefs',url:'https://ahrefs.com/'},{icon:'✍️',name:'Writesonic',url:'https://writesonic.com/'},{icon:'📝',name:'note',url:'https://note.com/'}],purpose:'Ahrefsで検索ニーズを把握→Writesonicで記事量産→SEO流入からnote有料購読に転換。',features:[
+    {icon:'🔍',title:'Ahrefsで「競合が少なくて検索数が適度」なキーワードを30個見つける',desc:'Ahrefsのキーワードエクスプローラーで月間検索数500〜5,000・難易度（KD）20以下のキーワードを探す。「AIツール名＋使い方」「AI副業＋初心者」系のロングテールが狙い目。これを30個リストアップしてNotionに管理するのが最初のアクション。'},
+    {icon:'✍️',title:'Writesonicで「SEO最適化済み」の記事本文を10分で生成する',desc:'WritesonicはSEOに特化した構成で記事を生成できる。キーワード・ターゲット読者・文字数を入れると、見出し・本文・メタディスクリプションまでまとめて出力される。Claude Proで仕上げ編集すればクオリティがさらに上がる。1記事30分以下が目標。'},
+    {icon:'📊',title:'GA4×Ahrefsで「上位表示しそうな記事」を特定してリライトに集中する',desc:'3ヶ月後にGA4で1〜5位のキーワードを特定→Ahrefsでその記事の被リンク・共起語を分析→上位化に向けて加筆・図解追加・内部リンク強化。新記事を量産するより既存記事のリライトの方が検索順位が上がりやすい。月2〜3本のリライトを習慣にする。'},
+    {icon:'💰',title:'検索流入からnote有料購読への転換ラインを設計する',desc:'SEO記事の末尾に「この記事の詳細版・実践ガイドはnoteマガジンで」というCTAを入れる。検索から来たユーザーは課題解決意欲が高いため購買転換率が高い。アフィリエイトリンク（各AIツールの紹介）も記事内に設置して二重収益化を図る。'},
+  ]},
+  {rank:'04',color:'var(--gold)',title:'フル自動化 メディア運営',sub:'n8nでコンテンツ生成を全自動化',cost_mo:'¥9,000',tools:[{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'},{icon:'⚙️',name:'n8n（ローカル無料）',url:'https://n8n.io/'},{icon:'📋',name:'Notion',url:'https://www.notion.so/'},{icon:'📊',name:'Gamma',url:'https://gamma.app/'}],purpose:'n8nでキーワード取得→Claude自動執筆→Notionで管理→全自動公開。Gammaで資料も自動生成する究極構成。',features:[
+    {icon:'⚙️',title:'n8n×Claude APIで「キーワード入力→記事生成→Notion保存」を全自動化',desc:'n8nのWebhookにキーワードを送ると→Perplexity APIで最新情報収集→Claude APIで記事本文生成→Notionに自動保存される。1本の記事生成が3分以下になり、1日10本のコンテンツ自動生成が現実的になる。n8nをローカル（WSL2+Docker）で動かせばコスト追加ゼロ。'},
+    {icon:'📋',title:'Notionで「コンテンツ在庫データベース」を構築して管理を一元化',desc:'n8nが生成した記事は全てNotionのデータベースに保存。ステータス（下書き/確認中/公開済み）・キーワード・公開予定日・反応数を一元管理。週1回Notionを見て「確認中」の記事を人間がチェック→公開ボタンを押すだけの運用になる。'},
+    {icon:'🤖',title:'Gamma AIで「記事の内容をそのままスライド資料化」して商品価値を上げる',desc:'Gammaはテキストを貼り付けるだけでプロ品質のスライドを自動生成する。記事内容をGammaに投げると5分でPDFスライドが完成。「記事＋スライド資料セット」としてnote有料販売すると単品記事より30〜50%高い価格設定ができる。'},
+    {icon:'🔄',title:'Buffer APIでX自動投稿を組み込んで集客も自動化する',desc:'n8nワークフローにBuffer APIを追加することで、記事生成→Notion保存→X予約投稿が一気通貫で自動化される。「Claude APIで記事のエッセンス1行を生成→翌朝7時にX投稿」まで自動化すれば、自分が寝ている間もコンテンツが発信され続ける状態になる。'},
+  ]},
+ ],
+ goals:[
+  {icon:'💰',name:'月3〜5万円を最速で稼ぐ',sub:'有料記事・マガジン販売',color:'var(--gold)'},
+  {icon:'📈',name:'SEOで毎月集客する仕組みを作る',sub:'検索からnote・アフィリエイト',color:'var(--teal)'},
+  {icon:'🤖',name:'AI×自動化でコンテンツを量産',sub:'n8n＋Claude自動生成ライン',color:'var(--violet)'},
+  {icon:'🌍',name:'メルマガで読者を資産化する',sub:'ConvertKit・Beehiivで展開',color:'var(--sky)'},
+ ],
+ workflows:[
+  {title:'有料マガジンで月3〜5万円を最速で稼ぐワークフロー',sub:'初月から収益が出る最小構成。記事1本の制作を30分以内に短縮するのがカギ。',steps:[
+    {phase:'PHASE 1　準備（Day 1〜3）',title:'テーマ・ターゲットを1行で絞り込む',desc:'「誰に何を届けるか」を1行で言えるまで絞る。例：「AI副業を始めたい30代会社員に、月5万稼ぐまでの手順を教える」。Perplexityで競合noteを5本調べ、差別化ポイントを見つける。',tools:['Perplexity','Claude'],tip:'ターゲットが広いほど売れない。「AI副業を始めたい30代会社員」まで絞るのが正解。'},
+    {phase:'PHASE 2　コンテンツ設計（Day 3〜5）',title:'10記事の構成をAIで一気に設計',desc:'Claude Proに「〇〇なターゲット向けに、月3万稼ぐまでの10記事のマガジン構成を作って」と投げる。目次・各記事の概要・有料無料比率を一気に設計。',tools:['Claude Pro','Notion'],tip:'最初の3記事は無料公開。4記事目から有料にすると転換率が上がる。'},
+    {phase:'PHASE 3　記事制作（Day 5〜14）',title:'AIで下書き→自分の体験を1段落足す',desc:'Claude Proで1記事あたり800〜1500字の下書きを5分で生成。そこに「自分の体験談」を1段落（200字程度）追加するだけで完成。1日1〜2記事のペースで10本を2週間で揃える。',tools:['Claude Pro','Canva'],tip:'完璧を求めない。80点の記事を10本出す方が、100点の記事1本より100倍効果がある。'},
+    {phase:'PHASE 4　集客（Day 10〜）',title:'Xで毎日「1行エッセンス」を投稿',desc:'各記事の一番刺さるポイントを1行にして毎日Xに投稿。週1で「まとめスレッド」を投稿すると一気にフォロワーが増える。noteのURL必ずプロフに貼る。',tools:['XPro','Canva Pro'],tip:'XではURLを貼ると表示が下がる。「URLはプロフから」と書いてプロフに誘導するのが鉄則。'},
+    {phase:'PHASE 5　収益化（Day 14〜）',title:'マガジン月額500〜980円で設定・告知',desc:'10記事が揃ったらnoteマガジンを月額500〜980円で設定。Xで「マガジン開始告知」のスレッドを投稿。初月の読者獲得目標は50人。50人×980円＝49,000円が現実的な初月目標。',tools:['note','XPro'],tip:'価格は後から上げられない（既存読者は継続される）。最初は少し高めに設定するのがベター。'},
+  ],income:'月3〜5万円（読者50〜100人規模）'},
+  {title:'SEOで毎月自動集客する仕組みを作るワークフロー',sub:'記事が資産として積み上がり、放置でも集客が続く仕組みを3ヶ月で構築。',steps:[
+    {phase:'PHASE 1　キーワード設計（Week 1）',title:'月間1,000〜10,000検索のキーワードを30個選ぶ',desc:'Ubersuggestで「AIツール名＋使い方」「AI副業＋始め方」系のキーワードを調査。競合が少なく検索数が適度なロングテールキーワードを30個リストアップする。',tools:['Ubersuggest','Notion'],tip:'「AI 副業」より「ChatGPT 副業 始め方 会社員」のような長いキーワードの方が上位表示しやすく、購買意欲も高い。'},
+    {phase:'PHASE 2　記事量産（Week 2〜12）',title:'週3〜5本のペースで構成→執筆を量産',desc:'Claudeで記事構成を作成→Writesonicで本文を生成→自分の体験・具体例を追記→noteに公開。1記事30分を目標に。3ヶ月で36〜60記事を積み上げる。',tools:['Claude Pro','Writesonic'],tip:'タイトルに数字を入れるとクリック率が上がる。「5ステップ」「3つのコツ」など。'},
+    {phase:'PHASE 3　アフィリエイト設置（Week 2〜）',title:'ツール紹介記事にアフィリリンクを埋め込む',desc:'Amazonアソシエイト・各AIツールのアフィリエイトプログラムに登録し、ツール解説記事にリンクを設置。実体験を加えると転換率が3〜5倍上がる。',tools:['Google Analytics'],tip:'最初の1〜2ヶ月は収益ゼロでも積み上げを続けることが最重要。'},
+    {phase:'PHASE 4　改善（Month 3〜）',title:'GA4でアクセスデータを見て上位記事をリライト',desc:'3ヶ月後にGA4で流入が多い記事TOP5を特定→さらに詳しく加筆・図解追加・内部リンク強化。上位表示しているキーワードに似た関連記事を追加して検索流入を増やす。',tools:['Google Analytics','Claude Pro'],tip:'リライトは新規記事より効果が出やすい。すでに評価されている記事に肉付けする方が順位が上がりやすい。'},
+  ],income:'月2〜10万円（記事数と検索順位に比例して伸び続ける）'},
+  {title:'AI×n8nでコンテンツを全自動生成するワークフロー',sub:'自分は「テーマを決めるだけ」でコンテンツが自動生成される仕組みを作る。',steps:[
+    {phase:'PHASE 1　環境構築（Week 1）',title:'n8nをローカルにセットアップ',desc:'WSL2＋Docker DesktopでローカルにDockerをインストール→n8nのDockerコンテナを起動。localhost:5678でアクセス確認。Claude・OpenAIのAPIキーを取得して環境変数に設定。',tools:['n8n','Docker'],tip:'n8nはローカルなら完全無料。GALLERIA XA7C-R70Sのスペックなら快適に動く。'},
+    {phase:'PHASE 2　記事生成ワークフロー（Week 1〜2）',title:'「キーワード入力→記事生成→Notion保存」を自動化',desc:'n8nでワークフローを作成：①Webhookでキーワード受信→②Perplexity APIで最新情報リサーチ→③Claude APIで記事本文生成→④Notionに自動保存。記事1本が3分で完成。',tools:['n8n','Claude Pro','Notion'],tip:'Notion保存まで自動化しておくと、後から人間が確認・修正するだけでいい状態になる。'},
+    {phase:'PHASE 3　SNS自動投稿（Week 2〜3）',title:'Xへの告知ツイートを自動化',desc:'記事がNotionに保存されたらトリガー発火→Claude APIで「記事のエッセンス1行」を生成→Buffer APIで翌朝7時に自動投稿。毎日のX更新が完全自動になる。',tools:['n8n','Buffer'],tip:'自動投稿は「下書き保存まで」にして、投稿前に人間がチェックする運用にすると安全。'},
+    {phase:'PHASE 4　収益化ライン完成（Week 3〜4）',title:'無料記事の末尾に有料誘導CTAを自動差し込み',desc:'無料記事の末尾に「有料マガジン誘導CTA」を自動で差し込むテンプレートを作成。週1本の「有料記事」を手動で作り、残りは自動生成で賄う。',tools:['n8n','Claude Pro','note'],tip:'自動化は「量を担保すること」が目的。クオリティの高い記事は手動で月2〜4本作れば十分。'},
+  ],income:'月5〜15万円（自動化完成後は追加作業ほぼゼロで収益継続）'},
+  {title:'ConvertKit×Beehiivでメルマガ読者を資産化するワークフロー',sub:'SNSのフォロワーと違い「メルマガ登録者」は自分の資産。1,000人リストで月5万は現実的。',steps:[
+    {phase:'PHASE 1　設計（Week 1）',title:'週1回・15分で読める特化メルマガを設計',desc:'テーマを1つに絞る（例：「AI副業の最新情報週次まとめ」）。ConvertKitで登録フォームを作成→Taplinkに設置→Xプロフとnoteプロフにリンクを貼る。',tools:['ConvertKit','Taplink'],tip:'メルマガのテーマは「毎週書き続けられるか」が最重要。好きなジャンルを選ぶ。'},
+    {phase:'PHASE 2　読者獲得（Week 1〜12）',title:'「登録特典PDF」でXから読者を集める',desc:'Claude＋Canvaで「無料PDF（5〜10ページ）」を作成。Xで「フォロー＆DMで無料プレゼント」を週1回告知。ConvertKitの自動返信でPDFを届ける仕組みを設定。',tools:['Claude Pro','Canva','ConvertKit'],tip:'無料PDFは「30分で作れるレベル」で十分。「今すぐ役に立つ」内容にする。'},
+    {phase:'PHASE 3　有料転換（3ヶ月目〜）',title:'読者1,000人でnote有料マガジン・Brain講座に誘導',desc:'メルマガ登録者に「読者限定先行販売」としてBrain・noteの有料コンテンツを案内。メルマガ読者の購買転換率はSNSフォロワーの5〜10倍高いため、1,000人で50〜100人購入が期待できる。',tools:['Brain','note','ConvertKit'],tip:'英語圏に展開するならBeehiivに移行。月$39だが海外読者を取り込めれば収益が一気に拡大する。'},
+  ],income:'月3〜10万円（リスト1,000人×転換率5%×単価6,000円で30万のポテンシャル）'},
+ ],
+ examples:[
+  {num:'01',color:'var(--gold)',title:'AI副業解説マガジン',desc:'毎週月曜にAI副業の最新ツールや稼ぎ方を解説する定期購読マガジン。AIで記事を高速生成し、週1本のペースで出し続ける。月額500〜1,000円×読者数で毎月安定収益。',strategy:'最初の10記事を無料で出して信頼構築→11記事目からメンバーシップに誘導。Xで毎日「記事のエッセンス1行」を投稿して読者を集め続けるのがカギ。',flow:[{icon:'🤖',label:'ChatGPT/Claude',desc:'記事下書き生成'},{icon:'✏️',label:'人間が編集',desc:'体験談を1段落追加'},{icon:'📝',label:'note公開',desc:'無料プレビュー+有料全文'},{icon:'🐦',label:'X毎日投稿',desc:'要点ツイートで集客'}],income:'月5〜15万円（読者100〜300人規模）'},
+  {num:'02',color:'var(--gold)',title:'特化ジャンル 有料レポート販売',desc:'「AI副業で月10万円の手順書」「ChatGPTプロンプト集200選」などの単品有料レポートをnote・Brainで販売。1本2,000〜5,000円で設定し、Xで告知して販売数を伸ばす。',strategy:'1本のレポートをXで告知するたびに売れ続ける「デジタル商品の資産化」が本命。作るほどに総売上が増える仕組み。',flow:[{icon:'🔍',label:'Perplexity',desc:'ニーズ・競合リサーチ'},{icon:'🤖',label:'Claude Pro',desc:'レポート本文生成'},{icon:'🎨',label:'Canva',desc:'表紙・図解デザイン'},{icon:'💰',label:'note/Brain',desc:'2,980〜4,980円で販売'}],income:'1本で月1〜5万円（積み上げで複利的に伸びる）'},
+  {num:'03',color:'var(--gold)',title:'SEO記事×アフィリエイト量産',desc:'Ahrefsで検索数の多いキーワードを探し→Claudeで記事生成→noteに投稿。ツール紹介記事でアフィリエイトを組み込んで自動収益化。',strategy:'「AIツール名＋使い方」「AIツール名＋価格」などのキーワードを狙うと購買意欲の高いユーザーが集まる。1記事15分以下に短縮し量産が勝ちパターン。',flow:[{icon:'🔍',label:'Ahrefs',desc:'キーワード選定'},{icon:'⚙️',label:'n8n',desc:'自動リサーチ＆記事生成'},{icon:'📝',label:'note/ブログ',desc:'SEO記事公開'},{icon:'💰',label:'アフィリエイト',desc:'ツール紹介で自動収益'}],income:'月2〜10万円（記事数×検索順位で伸びる）'},
+  {num:'04',color:'var(--gold)',title:'メルマガ×Brain 高単価情報商品ライン',desc:'ConvertKitでメルマガ読者を集め→1,000人突破時点でBrainで3万円〜の高単価講座を販売。メルマガ読者はSNSフォロワーより購買転換率が5〜10倍高い。',strategy:'SNSで無料価値を出し続ける→メルマガに誘導→信頼を深める→高単価商品を案内。この3段階を設計してから発信を始めるのが成功パターン。',flow:[{icon:'🎁',label:'無料PDF配布',desc:'X告知でメルマガ読者獲得'},{icon:'📧',label:'ConvertKit',desc:'週1回の有益メルマガ配信'},{icon:'💎',label:'Brain高単価講座',desc:'読者限定先行販売'},{icon:'🔄',label:'収益再投資',desc:'Beehiivで英語展開へ'}],income:'月10〜30万円（読者1,000人×転換率5%が目標）'},
+ ]
+},
+{color:'var(--teal)',patterns:[
+  {rank:'01',color:'var(--teal)',title:'NovelAI ローカル特化セット',sub:'コスト最小化構成',cost_mo:'¥3,750',tools:[{icon:'🎨',name:'NovelAI Opus',url:'https://novelai.net/'},{icon:'📝',name:'note',url:'https://note.com/'},{icon:'🎨',name:'Canva（無料）',url:'https://www.canva.com/ja_jp/'}],purpose:'NovelAI Opusでアニメ調イラスト生成→noteで販売・連載。Xにサンプルを無料投稿してフォロワーを集め、有料コンテンツへ誘導する王道構成。',features:[
+    {icon:'🎨',title:'NovelAI OpusでアニメキャラのコンシステントなイラストをImg2Imgで量産する',desc:'NovelAI Opusはアニメ・マンガ調の画像生成に最も特化したサービス。img2img（参考画像→新画像）を使うと同じキャラを異なるシーン・表情・衣装で一貫して生成できる。キャラ設定を固めてimg2imgのStrength 0.55〜0.65に設定すると、外見を維持しながらバリエーションを量産できる。'},
+    {icon:'📝',title:'noteでキャラ連載＋設定資料集を有料販売する',desc:'毎週Xにサンプルイラストを無料投稿→noteで「高解像度版＋設定資料集＋制作ビハインド」を有料マガジン（月額500〜980円）として販売。キャラへの愛着が生まれると「もっと知りたい」という課金動機が自然に生まれる。月50人の熱狂ファンで月2.5〜5万円になる。'},
+    {icon:'💡',title:'プロンプトをNotionで管理して再現性を高める',desc:'いい画像が生成されたときのプロンプト・モデル・設定値をNotionに記録していく。「キャラA・笑顔・夕焼け背景・Strength 0.6」のような形で管理すると、後から似た画像を再生成できる。この記録自体が「プロンプト集」という販売商品になる。'},
+    {icon:'🛒',title:'Canvaでプロンプト集PDFを作ってnoteで1,980〜4,980円で単品販売',desc:'Notionに溜まったプロンプト記録をCanvaでPDFにデザインして単品販売する。生成結果のスクショ付きで「このプロンプトを入れたらこうなった」という形式にすると価値が伝わりやすい。人気キャラ系・背景系・構図系など特化テーマにするほど売れやすい。'},
+  ]},
+  {rank:'02',color:'var(--teal)',title:'Midjourney × Canva デザイン販売',sub:'高品質デザイン商品販売',cost_mo:'¥4,500',tools:[{icon:'🖼️',name:'Midjourney',url:'https://www.midjourney.com/'},{icon:'🎨',name:'Canva Pro',url:'https://www.canva.com/ja_jp/'},{icon:'💰',name:'Gumroad',url:'https://gumroad.com/'}],purpose:'Midjourneyで高品質ビジュアル生成→Canvaでデザイン化→GumroadでPDF・テンプレ販売。英語圏にも展開できるのが強み。',features:[
+    {icon:'🖼️',title:'MidjourneyのV6でSNSバナー・アイキャッチ素材を量産する',desc:'Midjourney V6はリアル系・イラスト系どちらも高品質。「--ar 16:9 --style raw」でYouTubeサムネイル素材、「--ar 4:5」でInstagram投稿素材を量産できる。1セッションで20〜30枚の素材を生成し、Canvaのアセットとして管理する。'},
+    {icon:'🎨',title:'Canva Proの「テンプレート共有リンク」でデジタル商品を販売する',desc:'Canva Proにはテンプレートをリンク形式で販売できる機能がある。購入者がリンクをクリックすると自分のCanvaにコピーされる。「SNS投稿テンプレ50枚セット」「YouTubeサムネイルテンプレ30枚」などをGumroadで$9〜$29で販売するのが英語圏での鉄板パターン。'},
+    {icon:'💰',title:'Gumroadで英語圏に展開してドル建て収益を作る',desc:'Gumroadは英語圏のクリエイターが最も使う販売プラットフォーム。日本語版と英語版を同じ商品で作り、英語版は$9〜$29に設定。Pinterestにプレビュー画像を毎日投稿すると3〜6ヶ月後から自動集客が始まる。日本語市場の3〜5倍の市場にアクセスできる。'},
+    {icon:'📌',title:'Pinterest×Gumroadで「寝ている間に売れる」仕組みを作る',desc:'Pinterestは投稿が蓄積するほど検索からの流入が増える。縦型画像（1000×1500px）に「Before/After」や「テンプレ使用例」を見せる形式が最も保存されやすい。毎日5〜10枚投稿を3ヶ月続けると、月100〜500件の自動クリックが発生するようになる。'},
+  ]},
+  {rank:'03',color:'var(--teal)',title:'AI画像×Framer LP 高単価販売',sub:'高品質LPで高単価販売',cost_mo:'¥6,000',tools:[{icon:'🎨',name:'Midjourney',url:'https://www.midjourney.com/'},{icon:'🌐',name:'Framer',url:'https://www.framer.com/'},{icon:'💰',name:'Gumroad',url:'https://gumroad.com/'}],purpose:'FramerでAI画像を使った高品質LPを作成→Gumroadで高単価販売。LPのクオリティが購買転換率を大きく左右する。',features:[
+    {icon:'🌐',title:'FramerのAI機能でセールスLPを30分で作る',desc:'FramerはAIにテキストを入力するだけでLP全体のデザインを生成してくれる。「AI画像テンプレ販売のLP、ダークテーマ、プロフェッショナル」と入力→生成されたベースをカスタマイズ。MidjourneyのビジュアルをそのままFramerに貼り込めるので完成度が高い。通常のLP制作より5倍速い。'},
+    {icon:'🖼️',title:'MidjourneyのビジュアルをLPのヒービジュアルに使って第一印象を最大化',desc:'LP上部のファーストビューにMidjourneyの最高傑作を使う。「このクオリティの画像が手に入る」という期待感を視覚的に伝えることで購買転換率が3〜5倍変わる。Framerはアニメーション効果も簡単につけられるため、スクロール時のフェードイン演出で高品質感を演出できる。'},
+    {icon:'💡',title:'LP制作代行サービスとして受注して月5〜20万円の収益源にする',desc:'Framerで作った自分のLPを「ポートフォリオ」として使い、XやnoteでLP制作代行を告知する。AI画像×Framerの組み合わせは競合が少なく、1件3〜20万円で受注できる。自分の商品販売と代行受注の二刀流で月収が一気に増える。'},
+    {icon:'🔗',title:'GumroadとFramerを連携して購入→DL完全自動化する',desc:'Framer LPの「購入ボタン」をGumroadに直接リンクすることで、購入→ダウンロードリンク送付→商品受け取りまでが完全自動になる。自分が何もしなくてもLP→Gumroadの流れで販売が完結する。LP集客にはXとPinterestを使い、更新なしで売れ続ける状態を作る。'},
+  ]},
+  {rank:'04',color:'var(--teal)',title:'AI画像×n8n 自動量産プロライン',sub:'ComfyUI＋n8nで大量生成',cost_mo:'¥3,750',tools:[{icon:'🎨',name:'NovelAI',url:'https://novelai.net/'},{icon:'🆓',name:'Stable Diffusion（無料）',url:'https://stability.ai/'},{icon:'⚙️',name:'n8n（ローカル無料）',url:'https://n8n.io/'},{icon:'📝',name:'note',url:'https://note.com/'}],purpose:'ComfyUI＋SD×n8nで自動バッチ生成→プロンプト集・スタイルガイドをnoteで販売。ローカルで画像生成費ゼロ化。',features:[
+    {icon:'⚙️',title:'ComfyUI＋SDをn8nで自動化してバッチ生成ラインを構築する',desc:'ComfyUIにはAPIモードがあり、n8nのHTTPリクエストノードから叩けるようになっている。「プロンプトリストCSV→n8nが1行ずつComfyUI APIに送信→画像生成→ファイル保存」のパイプラインを構築すると、就寝中に100枚の画像が自動生成される。GPU代ゼロで量産できるのが最大の強み。'},
+    {icon:'🎨',title:'SDのモデルとLoRAを使い分けてジャンルを広げる',desc:'Stable DiffusionはCivitAIで無料のモデル・LoRAを1,000種類以上ダウンロードできる。アニメ系（AnythingV5）・リアル系（RealisticVision）・PixelArt系など複数スタイルを使い分けることで、1つのセットアップで多ジャンルの画像を量産できる。各スタイルのプロンプト集を別々に販売する戦略が有効。'},
+    {icon:'🤖',title:'Claude APIで「最も品質が高い1枚」を自動選別する',desc:'n8nで生成した10枚の画像をClaude APIのビジョン機能に送り「最もアニメ的に品質が高い1枚を選んで」と依頼する。自動で選ばれた画像をBuffer APIでXに自動投稿する仕組みを組む。毎日のX更新が完全自動になり、フォロワー獲得も止まらない状態になる。'},
+    {icon:'📚',title:'自動生成したプロンプト×画像のセットをnoteで「スタイルガイド」として販売',desc:'バッチ生成で溜まったプロンプト×生成画像のセットをそのまま「スタイルガイド」として販売する。「このモデル＋このLoRA＋このプロンプトでこの画像が出る」という実証データが商品価値になる。月1回「最新版スタイルガイド」を更新し続けることで定期購読マガジンに発展させられる。'},
+  ]},
+],goals:[
+  {icon:'🎭',name:'オリジナルキャラで熱狂ファンを作る',sub:'キャラ連載×noteマガジン',color:'var(--teal)'},
+  {icon:'📚',name:'プロンプト集・スタイルガイドを販売',sub:'情報商品として高単価化',color:'var(--gold)'},
+  {icon:'🌐',name:'テンプレを英語圏Gumroadで販売',sub:'ドル建てで円安恩恵',color:'var(--sky)'},
+  {icon:'⚡',name:'AI画像を自動量産して収益化',sub:'n8n＋ComfyUI自動パイプライン',color:'var(--violet)'},
+],workflows:[
+  {title:'オリジナルキャラ連載×noteマガジンで熱狂ファンを作るワークフロー',sub:'「このキャラが好きだから課金したい」という感情購買を設計する。',steps:[
+    {phase:'PHASE 1',title:'キャラ設定を固める',desc:'名前・外見・性格・世界観を決める。NovelAIで複数パターンを生成し、「このキャラを毎日描き続けられるか」で選ぶ。外見だけでなく「口癖」「好きな食べ物」まで決めておく。',tools:['NovelAI'],tip:'設定が細かいほどキャラのファンが生まれやすい。設定資料集自体がnoteコンテンツになる。'},
+    {phase:'PHASE 2',title:'Xで毎日サンプルを投稿',desc:'NovelAIで1日2〜5枚を生成→最も良いものをXに投稿。「今日のリナ」のような固定フォーマットで投稿すると、フォロワーが毎日チェックするようになる。',tools:['NovelAI','Canva'],tip:'最初の3ヶ月はフォロワーが増えなくても続ける。100人でも熱狂ファンがいれば月5万は稼げる。'},
+    {phase:'PHASE 3',title:'noteマガジンで独占コンテンツを販売',desc:'Xでは見せない「設定資料集」「制作ビハインド」「高解像度版」をnoteマガジン（月額500〜980円）で公開。「Xで無料→noteで深掘り」の二層構造を設計する。',tools:['note'],tip:'「ファンしか知らない情報」を有料コンテンツにする。設定集・プロンプト集・ポーズ集など。'},
+  ],income:'月3〜10万円（ファン100〜500人規模）'},
+  {title:'プロンプト集・スタイルガイドを高単価で販売するワークフロー',sub:'「再現性の証明」が購買のトリガー。スクショで成果を見せてから売る。',steps:[
+    {phase:'PHASE 1',title:'特化プロンプト集のテーマを決める',desc:'「NovelAI美少女キャラ完全プロンプト集」「Midjourney商用イラスト量産テクニック」など、ニーズが明確なテーマを選ぶ。Xで「〇〇のプロンプト知りたい人RT」で反応をテストする。',tools:['NovelAI','Midjourney'],tip:'100人以上がRTしたテーマで商品を作ると初速が出やすい。'},
+    {phase:'PHASE 2',title:'プロンプト集を制作・PDF化',desc:'プロンプトを検証し、出力結果のスクショを取る。Canvaで見栄えのいいPDFに仕上げ、各プロンプトに「このプロンプトで何ができるか」の説明を付ける。',tools:['Canva Pro','Claude'],tip:'PDFの表紙に最高傑作の生成画像を使う。第一印象で購買意欲が7割決まる。'},
+    {phase:'PHASE 3',title:'Brain・noteで販売→Xで告知キャンペーン',desc:'Brain（手数料10%）またはnote（手数料15%）で1,980〜9,800円で販売。Xで「フォロー＆RTで一部プレゼント」キャンペーンを打つと購買転換率が上がる。',tools:['Brain','note'],tip:'「サンプルを無料配布してから有料版に誘導」が最も転換率が高い戦術。'},
+  ],income:'月5〜20万円（バズると1日で50〜100本売れることもある）'},
+  {title:'AI画像テンプレをGumroad英語展開で販売するワークフロー',sub:'ドル建て×Pinterest集客で寝ながら稼ぐ仕組みを作る。',steps:[
+    {phase:'PHASE 1',title:'売れるテンプレのリサーチ',desc:'Gumroadで「AI image template」「Canva template」を検索し、レビュー数が多い商品のデザインを参考にする。Pinterestで「Instagram template」の検索数もチェック。',tools:['Perplexity'],tip:'英語圏で売れているデザインのテイストを把握してから制作を始める。日本のトレンドとは別物。'},
+    {phase:'PHASE 2',title:'テンプレ50〜100枚セットを制作',desc:'MidjourneyまたはSD（無料）で素材を生成→Canvaでテンプレートに仕上げ。英語のテキストを使い、Canvaのリンク形式またはPSD形式で納品できるようにする。',tools:['Midjourney','Canva Pro'],tip:'テンプレの「使用前・使用後」のサンプルを作ると購買転換率が3倍上がる。'},
+    {phase:'PHASE 3',title:'Gumroad出品→Pinterest毎日投稿で自動集客',desc:'Gumroadで$9〜$29で出品。Pinterestにプレビュー画像を毎日5〜10枚投稿。PinterestはGoogleと同様に検索で発見されるため、投稿が積み上がると自動集客になる。',tools:['Gumroad'],tip:'Pinterestは効果が出るまで3〜6ヶ月かかる。最初の3ヶ月は収益ゼロでも続けることが重要。'},
+  ],income:'月3〜15万円（英語展開で日本語版の2〜3倍の市場にアクセスできる）'},
+  {title:'AI画像をn8n×ComfyUIで自動量産するワークフロー',sub:'生成から投稿まで全自動。自分は「テーマを決めるだけ」の状態を作る。',steps:[
+    {phase:'PHASE 1',title:'ComfyUI＋SD環境を構築',desc:'Windows+WSL2環境でComfyUIをインストール。好みのモデル（AnythingV5・Counterfeit等）を導入し、基本ワークフロー（txt2img・img2img）を動作確認する。',tools:['Stable Diffusion'],tip:'GALLERIA XA7C-R70SのGPUスペックを確認してから動作するモデルを選ぶ。VRAM 6GB以上あれば快適に動く。'},
+    {phase:'PHASE 2',title:'n8nでバッチ生成ワークフローを構築',desc:'n8n→ComfyUI APIを叩くワークフローを作成。「プロンプトリスト」をNotionで管理→n8nが毎朝自動で10枚生成→Notionに保存。',tools:['n8n','Notion'],tip:'ComfyUIにはAPIモードがある。n8nのHTTPリクエストノードで叩けばバッチ生成が可能。'},
+    {phase:'PHASE 3',title:'生成画像を自動選別→X自動投稿',desc:'生成した10枚の中からClaudeに「最もアニメ的に綺麗な1枚を選んで」と依頼（APIで画像を渡す）→選ばれた1枚をBuffer API経由でXに自動投稿。',tools:['Claude Pro','n8n','Buffer'],tip:'自動選別はまだ精度が完璧ではないので、最初は「生成→人間が選ぶ→投稿」のハイブリッドで運用するのが安全。'},
+  ],income:'月5〜15万円（量産体制完成後はコンテンツ資産が雪だるま式に増える）'},
+],examples:[
+  {num:'01',color:'var(--teal)',title:'AIキャラクター連載×有料マガジン',desc:'オリジナルAIキャラをNovelAIで生成し、X・noteで世界観ごと連載。キャラのファンを作って有料マガジン（月額500〜1,000円）やグッズに展開。',strategy:'Xで毎日投稿して反応を集め、熱狂ファンが生まれやすい構造を作る。「音楽」と「感情・共感」を組み合わせた新ジャンルで競合がほぼゼロ。',flow:[{icon:'🎨',label:'NovelAI',desc:'キャラ・シーン生成'},{icon:'✍️',label:'短編ストーリー',desc:'AIで添削・補完'},{icon:'🐦',label:'X毎日投稿',desc:'無料でファン獲得'},{icon:'📝',label:'noteマガジン',desc:'月額課金で安定収益'}],income:'月3〜10万円（ファン100〜500人規模）'},
+  {num:'02',color:'var(--teal)',title:'プロンプト集・スタイルガイド販売',desc:'「NovelAI美少女キャラ完全プロンプト集300選」などの情報商品をnote・Brainで販売。需要が爆発的に高く、1,980〜9,800円で設定できる。',strategy:'Xで「フォロー＆RTで一部プレゼント」キャンペーンを定期的に打ち、メリットを体感させてから有料版へ誘導。',flow:[{icon:'🎨',label:'AI画像生成',desc:'プロンプト検証・スクショ'},{icon:'📋',label:'Notion整理',desc:'プロンプトDB化'},{icon:'🎨',label:'Canva',desc:'PDF仕上げ'},{icon:'💰',label:'note/Brain',desc:'1,980〜9,800円で販売'}],income:'月5〜20万円（拡散で爆発的に伸びる）'},
+  {num:'03',color:'var(--teal)',title:'AI画像×Canvaテンプレ販売',desc:'MidjourneyやSDで生成した画像をCanvaで組み合わせ、SNSバナー・Xヘッダー・YouTubeサムネイルのテンプレ集を販売。',strategy:'Gumroadで英語圏にも展開するとPinterestの流入で不労所得化できる。まずnoteで日本語版→評価が取れたら英語版でGumroadに展開。',flow:[{icon:'🖼️',label:'Midjourney',desc:'背景・素材画像生成'},{icon:'🎨',label:'Canva Pro',desc:'テンプレ化・セット制作'},{icon:'💰',label:'Gumroad',desc:'ドル建てで世界販売'},{icon:'📊',label:'GA4分析',desc:'流入元把握して改善'}],income:'月2〜8万円（英語展開で2〜3倍に）'},
+  {num:'04',color:'var(--teal)',title:'AI画像×Framer高単価LP販売',desc:'FramerでAI画像を使った高品質LPを制作→高単価デジタル商品（3万〜10万円）を販売。LPの見た目とコピーがセールスを左右する。',strategy:'「LP制作代行」としてサービス化すると1件5万〜20万円で受注できる。自分の商品販売と代行の二刀流が最強パターン。',flow:[{icon:'🎨',label:'Midjourney',desc:'LP用ビジュアル生成'},{icon:'🌐',label:'Framer',desc:'ノーコードLP制作'},{icon:'💎',label:'高単価商品',desc:'3万〜10万円で販売'},{icon:'📢',label:'X告知',desc:'LP完成報告で集客'}],income:'月10〜30万円（LP代行と組み合わせると爆発的に伸びる）'},
+]},
+{color:'var(--rose)',patterns:[
+  {rank:'01',color:'var(--rose)',title:'音声コンテンツ最小構成',sub:'無料ツールだけでスタート',cost_mo:'¥0',tools:[{icon:'🎙️',name:'VOICEVOX（無料）',url:'https://voicevox.hiroshiba.jp/'},{icon:'🤖',name:'Claude（無料）',url:'https://claude.ai/'},{icon:'📝',name:'note',url:'https://note.com/'}],purpose:'Claudeで台本生成→VOICEVOXで音声化→noteで音声コンテンツとして販売。完全ゼロ円スタート。',features:[
+    {icon:'🎙️',title:'VOICEVOXでずんだもん・四国めたんなどキャラボイスの音声コンテンツを作る',desc:'VOICEVOXは完全無料・商用OK・ローカルで動く音声合成ソフト。人気キャラのずんだもん・四国めたん・春日部つむぎなどを使って個性的な音声コンテンツを作れる。Claude無料版で台本を書いて、VOICEVOXで音声化→Audacityで軽く編集→stand.fmやnoteに投稿する流れが最短ルート。'},
+    {icon:'📝',title:'台本をClaudeで5分以内に生成してコンテンツ制作を時短する',desc:'Claude無料版に「〇〇のテーマについて10分で読み上げられる音声台本を書いて。口語調・テンポよく・3章構成」と入れると5分以内に台本が完成する。1日1本の台本を量産してVOICEVOXで音声化するだけで、週7本の音声コンテンツが溜まっていく。'},
+    {icon:'💰',title:'noteで音声ファイルを300〜500円で販売する',desc:'noteは音声ファイル（mp3）を有料コンテンツとして販売できる。「聴き流せる〇〇入門講座」「作業BGM×解説ナレーション」などの形式が人気。最初の3本を無料公開→4本目から有料という導線で自然に収益化できる。月10本買われれば3,000〜5,000円になる。'},
+    {icon:'📢',title:'stand.fmで無料配信しながら投げ銭とサポーター課金を受け取る',desc:'stand.fmはフォロワーゼロでも「投げ銭（レター）」と「月額サポーター」の設定ができる。毎週月曜7時に配信予約を入れる習慣を作るだけで、リスナーが「毎週月曜にチェックする」という行動パターンが生まれる。熱心なリスナー10人が月300円サポーターになると月3,000円の安定収益になる。'},
+  ]},
+  {rank:'02',color:'var(--rose)',title:'AI音楽×MV制作セット',sub:'音楽コンテンツで差別化',cost_mo:'¥4,500',tools:[{icon:'🎵',name:'Suno Pro',url:'https://suno.com/'},{icon:'🎨',name:'NovelAI',url:'https://novelai.net/'},{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'}],purpose:'Sunoでオリジナル楽曲生成→NovelAIでMV用ビジュアル制作→YouTubeとnoteで公開。',features:[
+    {icon:'🎵',title:'Suno ProでジャンルとムードからAI楽曲を10分以内に量産する',desc:'Suno Proは月額$10（¥1,500）で商用利用OKの楽曲を無制限生成できる。「Style: Lo-Fi Chill、Mood: Nostalgic、テーマ: 夜の作業BGM」のように指定するだけで1〜3分の楽曲が完成する。1日5〜10曲を生成して「週間ベスト1曲」をYouTubeに上げる選球眼が育てば、半年でチャンネルが育ちやすい。'},
+    {icon:'🎨',title:'NovelAIで楽曲のイメージビジュアルを生成してMV素材にする',desc:'Sunoで生成した楽曲のイメージ（夜の街・星空・キャラクター）をNovelAIで生成する。5〜10枚の画像をCanvaでスライドショー動画に変換→SunoのBGMを乗せると1本のMV動画が10〜20分で完成する。YouTubeのBGMチャンネルとして育てるとアドセンス×再生リストで長期収益になる。'},
+    {icon:'🤖',title:'Claude Proで「楽曲のコンセプト解説記事」を書いてnoteと連動させる',desc:'各楽曲のコンセプト・制作背景・使ったプロンプトをClaude Proで記事化してnoteに投稿する。「この曲はこういう感情から生まれた」という制作ストーリーが読者の共感を生み、YouTube視聴者をnote有料読者に転換できる。月額マガジン（楽曲フル版＋制作記録）の形が収益化として機能する。'},
+    {icon:'📈',title:'YouTube BGMチャンネルで再生リスト戦略を使い長期再生を狙う',desc:'AI生成BGMをYouTubeに上げる際は「作業用BGM」「勉強用Lo-Fi」「睡眠用アンビエント」などの再生リストに分類して管理する。再生リストは単体動画より長時間視聴されやすくアドセンス収益が高くなる。チャンネル登録1,000人・再生時間4,000時間でアドセンスが動き始め、月5,000〜3万円の継続収益になる。'},
+  ]},
+  {rank:'03',color:'var(--rose)',title:'AIアバター解説動画量産',sub:'Heygenで顔出し不要',cost_mo:'¥7,500',tools:[{icon:'🎬',name:'Heygen',url:'https://www.heygen.com/'},{icon:'🎤',name:'ElevenLabs',url:'https://elevenlabs.io/'},{icon:'🤖',name:'ChatGPT Plus',url:'https://chat.openai.com/'}],purpose:'ChatGPTで台本→ElevenLabsでナレーション→HeygenでAIアバター動画生成。顔出し不要で本格的な解説動画を量産できる。',features:[
+    {icon:'🤖',title:'ChatGPTで「5分解説動画」の台本を15分で量産する',desc:'ChatGPTに「〇〇ツールを使ったことがない人向けに5分で理解できる解説動画の台本を書いて。テンポよく・具体例あり・行動促進ありで」と入れると15分以内に台本が完成する。「AIツール30秒解説シリーズ」「副業ツール比較シリーズ」のようなシリーズ化で動画制作を高速化できる。'},
+    {icon:'🎤',title:'ElevenLabsで自分の声をクローニングしてAIアバターに使わせる',desc:'ElevenLabsは自分の声を10〜20分分アップロードするだけで声のクローンを作れる。HeygenのAIアバターにそのクローン音声を使わせると「自分の声で話すAIアバター」が完成する。顔を出す必要がなく、台本を貼り付けるだけで自分そっくりの解説動画が自動生成される。'},
+    {icon:'🎬',title:'HeygenのStreaming Avatar機能で動画1本を10分以内に完成させる',desc:'Heygenに台本テキストを貼り付けると、AIアバターが台本を読み上げる動画を自動生成する。字幕・背景・テロップの設定を一度テンプレ化しておけば、次から台本を入れ替えるだけで動画が完成する。YouTubeへの直接エクスポートが可能で、制作から投稿まで10分以内が目標。'},
+    {icon:'💰',title:'YouTube×アフィリエイトで「紹介したツールが使われるたびに収益が入る」仕組みを作る',desc:'解説した各AIツールのアフィリエイトプログラム（Claude・Midjourney・Notion・n8n等）に登録し、動画説明欄にリンクを貼る。「このツールを実際に使ってみた」系の動画は購買意欲の高い視聴者が来るため、アフィリエイト転換率が高い。チャンネル登録1,000人でアドセンスも加わり二重収益になる。'},
+  ]},
+  {rank:'04',color:'var(--rose)',title:'動画×AI全自動ショート制作',sub:'Runway＋自動化でショート量産',cost_mo:'¥9,000',tools:[{icon:'🎬',name:'Runway',url:'https://runwayml.com/'},{icon:'🎤',name:'ElevenLabs',url:'https://elevenlabs.io/'},{icon:'⚙️',name:'n8n（ローカル無料）',url:'https://n8n.io/'},{icon:'🖥️',name:'Descript',url:'https://www.descript.com/'}],purpose:'台本生成→ElevenLabsナレーション→Runway動画生成→Descript編集→自動投稿のパイプライン構築。',features:[
+    {icon:'⚙️',title:'n8nで「台本生成→ナレーション→動画生成→投稿」を全自動パイプライン化する',desc:'n8nでワークフローを組む：①Webhookでテーマを受信→②Claude APIで30秒台本生成→③ElevenLabs APIで音声生成→④Runway APIで映像生成→⑤完成動画をファイル保存→⑥Buffer APIでYouTube/TikTok予約投稿。これが動けば毎日のショート動画投稿が完全自動になる。'},
+    {icon:'🎬',title:'RunwayのGen-3で「テキスト→映像」を使ってビジュアルを自動生成する',desc:'RunwayのGen-3はテキストから高品質な動画クリップを生成できる。「夕暮れの東京・時間経過・シネマティック」のようなプロンプトで5〜10秒のクリップを作り、ElevenLabsのナレーションを乗せるとショート動画の映像部分が完成する。1クリップ生成に30〜60秒なので量産できる。'},
+    {icon:'🖥️',title:'Descriptの「テキスト編集→動画編集」機能で誤りを文字を消すように修正する',desc:'Descriptは動画をアップロードすると自動で文字起こしされ、テキストを編集するだけで動画のその部分が削除・修正される革新的なツール。「えー」「あー」などの無言部分を一括削除する機能もある。AIが生成した動画に微修正が必要なときに1分以内で対応できる。'},
+    {icon:'📊',title:'Pika×Runwayを用途別に使い分けて映像スタイルを多様化する',desc:'Pikaは月$8（¥1,200）とRunwayの半額以下でテキスト・画像から動画を生成できる。Runwayは映画的・リアル系、Pikaはアニメ・ポップ系が得意。チャンネルのジャンルやターゲットに合わせて使い分けることで、一本調子にならない多様なビジュアル表現が可能になる。'},
+  ]},
+],goals:[
+  {icon:'🎵',name:'AI音楽×感情コンテンツで差別化',sub:'Suno×noteサブスク',color:'var(--rose)'},
+  {icon:'📺',name:'ショート動画×アフィリエイト',sub:'YouTube Shorts毎日投稿',color:'var(--gold)'},
+  {icon:'🎙️',name:'Podcast×テキスト二刀流',sub:'音声→note有料化',color:'var(--teal)'},
+  {icon:'🤖',name:'AIアバター解説動画で収益化',sub:'Heygen×YouTube',color:'var(--violet)'},
+],workflows:[
+  {title:'AI音楽×感情日記サブスクのワークフロー',sub:'毎週「今週の感情テーマ」に合わせてAI楽曲を生成し、制作プロセスをnoteで公開するサブスクモデル。',steps:[
+    {phase:'PHASE 1',title:'週テーマ設定→Sunoで楽曲生成',desc:'月曜に「今週の感情テーマ」を1つ決める（例：焦燥・解放感・郷愁）。Sunoに「テーマ＋ジャンル（Lo-Fi/Cinematic等）」を入力して5〜10パターン生成。最も良い2本を選ぶ。',tools:['Suno Pro'],tip:'テーマを感情系にするとリスナーの共感が生まれやすい。「月曜の憂鬱」「金曜の解放感」のような具体的な感情を選ぶ。'},
+    {phase:'PHASE 2',title:'NovelAIでビジュアルを生成',desc:'選んだ楽曲のイメージに合わせてNovelAIでイラストを生成。Canvaで楽曲タイトル・テーマテキストを重ねてアートワーク化。15秒の試聴クリップ用に動画化。',tools:['NovelAI','Canva'],tip:'アートワークの雰囲気が楽曲の世界観を強化する。統一テーマで作ると世界観が出る。'},
+    {phase:'PHASE 3',title:'Xに試聴クリップ→noteマガジンに誘導',desc:'Xに「15秒試聴クリップ＋今週のテーマ」を投稿→「フル音源＋制作記録はnoteマガジンで」と誘導。noteマガジンには楽曲フル版・プロンプト・制作ビハインドを掲載。',tools:['note'],tip:'「試聴できるが全部は聞けない」という制限が課金の動機になる。15秒は「気持ちいい部分」を切り取る。'},
+  ],income:'月2〜8万円（独自ジャンルで熱狂読者が生まれやすい）'},
+  {title:'ショート動画×アフィリエイトで月10万円稼ぐワークフロー',sub:'1本3〜5分で作れるショート動画を週10本以上投稿する量産体制を作る。',steps:[
+    {phase:'PHASE 1',title:'量産テーマと台本テンプレを設計',desc:'「AIツール30秒で分かるシリーズ」など、毎週作れるシリーズものを設計。ChatGPTに「〇〇のツールを30秒で説明する台本テンプレ」を作らせ、変数部分を入れ替えるだけで台本を量産できるようにする。',tools:['ChatGPT Plus'],tip:'シリーズものはチャンネル登録者が増えやすい。「次回も同じ人が解説する」という継続性がカギ。'},
+    {phase:'PHASE 2',title:'ElevenLabs＋Pika/Runwayで動画生成',desc:'ChatGPTで台本→ElevenLabsでナレーション音声生成→CanvaまたはPikaで動画・テロップ作成。1本15〜20分で完成させるフローを最初の1週間で確立する。',tools:['ElevenLabs','Pika','Canva'],tip:'最初は質より量。1本あたりの制作時間を短縮することが収益化への最短路。'},
+    {phase:'PHASE 3',title:'YouTube Shorts・TikTokに毎日投稿＋アフィリンク',desc:'動画説明欄に「今回紹介したツールのリンク」を貼る。各AIツールのアフィリエイトプログラムに登録し、ツールが契約されるたびに報酬が入る仕組みを設定。',tools:['Google Analytics'],tip:'最初の3ヶ月は収益ゼロでも投稿し続ける。チャンネル登録1,000人を超えるとアドセンスも同時に動き出す。'},
+  ],income:'月3〜15万円（投稿数×再生数×アフィ単価）'},
+  {title:'Podcast×noteテキスト二刀流のワークフロー',sub:'音声は無料でファンを作り→有料テキスト版に誘導するコンテンツ二次利用モデル。',steps:[
+    {phase:'PHASE 1',title:'週1回15分のPodcast台本をAIで生成',desc:'Claude Proに「〇〇のジャンルで今週話す内容の台本（15分・会話形式・3トピック）を生成して」と投げる。5分で台本完成。VOICEVOXで音声化し、Audacityで軽く編集。',tools:['Claude Pro','VOICEVOX'],tip:'VOICEVOXのキャラ選びが重要。「聴きやすい・飽きない」キャラを複数試して決める。四国めたんやずんだもんが人気。'},
+    {phase:'PHASE 2',title:'stand.fm・Spotifyで無料配信',desc:'stand.fmとSpotifyに音声をアップロード。どちらも無料で配信でき、stand.fmには「応援」機能があり投げ銭収益も狙える。毎週月曜AM7時に予約投稿で習慣化。',tools:['VOICEVOX'],tip:'stand.fmのライブ配信機能を使うと、リスナーとのリアルタイムコミュニケーションでファンが急増する。'},
+    {phase:'PHASE 3',title:'noteでテキスト版（有料）を販売',desc:'台本をClaudeで整理→見出し・図解を追加してnote有料記事（300〜500円）として販売。Podcastを聴いた人が「テキストでもう一度確認したい」というニーズに応える。',tools:['Claude Pro','note'],tip:'「音声では言えなかった補足情報」「Podcast要約+追記版」という形にすると有料感が出やすい。'},
+  ],income:'月1〜5万円（地道だが複利的に伸びる）'},
+  {title:'HeygenAIアバター解説動画でYouTube×アフィリエイトを構築するワークフロー',sub:'顔出し不要でプロ品質の解説動画を量産。自分が動画に映る必要はない。',steps:[
+    {phase:'PHASE 1',title:'AIアバターを作成・設定',desc:'Heygenでアバターを作成。声はElevenLabsで自分の声を学習させるか、Heygenの内蔵音声を選択。アバターの外見・声・言語設定を完了させる。',tools:['Heygen','ElevenLabs'],tip:'自分の顔を使ったアバターの方が「本物感」が出て視聴維持率が高い傾向がある。10〜20分の動画素材を提供するとHeygenが高品質なアバターを生成できる。'},
+    {phase:'PHASE 2',title:'ChatGPTで台本→Heygenで動画生成',desc:'ChatGPTで「5分以内のAIツール解説台本」を生成→Heygenのテキスト入力欄に台本を貼り付け→動画を生成。生成に5〜10分かかるが、その間他の作業ができる。',tools:['ChatGPT Plus','Heygen'],tip:'台本は「問題提起→解決策（ツール紹介）→使い方→まとめ」の4部構成にすると視聴維持率が上がる。'},
+    {phase:'PHASE 3',title:'YouTubeにアップ→アフィリエイトリンクで収益化',desc:'HeygenはYouTubeに直接エクスポート可能。動画説明欄にアフィリエイトリンクを貼る。月20本投稿を3ヶ月続けるとチャンネルが育ち始める。',tools:['Google Analytics'],tip:'YouTubeのサムネイルとタイトルが再生数の9割を決める。「〇〇を使ったら△△になった」「知らないと損する〇〇」などの感情を動かすコピーを使う。'},
+  ],income:'月3〜20万円（チャンネル登録者1万人でアドセンス＋アフィで安定収益）'},
+],examples:[
+  {num:'01',color:'var(--rose)',title:'AI音楽×感情日記サブスクコンテンツ',desc:'毎週「今週のテーマ感情」に合わせてSunoでAI楽曲を生成し、その曲が生まれるまでのプロセスをnoteマガジンで公開。音楽＋日記＋制作ログの三位一体コンテンツ。',strategy:'最初の1ヶ月は週2回X投稿で「試聴クリップ」をばらまく。noteマガジンは月額980円で設定し、初月は「100人達成まで半額キャンペーン」で勢いをつける。',flow:[{icon:'💭',label:'テーマ決定',desc:'今週の感情・テーマを設定'},{icon:'🎵',label:'Suno Pro',desc:'AI楽曲生成（複数パターン）'},{icon:'🎨',label:'NovelAI',desc:'曲のビジュアルイメージ生成'},{icon:'📝',label:'noteマガジン',desc:'楽曲＋制作ログを月額公開'}],income:'月2〜8万円'},
+  {num:'02',color:'var(--rose)',title:'AI解説ショート動画×アフィリエイト',desc:'「AIツール30秒で分かるシリーズ」をRunway＋ElevenLabsで量産し、YouTube ShortsやTikTokに毎日投稿。動画説明欄にアフィリエイトリンク。',strategy:'1本3〜5分で作れるショート動画を週10本以上投稿するのが成功パターン。最初の3か月は収益ゼロでも投稿し続け、チャンネル登録1000人を超えるとアドセンスも動く。',flow:[{icon:'🤖',label:'ChatGPT',desc:'30秒台本を量産'},{icon:'🎤',label:'ElevenLabs',desc:'AIナレーション生成'},{icon:'🎬',label:'Runway/Pika',desc:'映像・アニメーション生成'},{icon:'📺',label:'YouTube Shorts',desc:'毎日投稿＋アフィリンク'}],income:'月3〜15万円'},
+  {num:'03',color:'var(--rose)',title:'Podcast×ノウハウnote 二刀流',desc:'VOICEVOXで音声番組を毎週配信しSpotify・stand.fmに投稿→同じ内容をテキスト化してnoteで有料販売する「コンテンツ二次利用」モデル。',strategy:'音声は無料でファンを作り→有料のテキスト版・まとめPDFに誘導する漏斗設計が鉄則。',flow:[{icon:'🤖',label:'Claude',desc:'台本・記事構成を生成'},{icon:'🎙️',label:'VOICEVOX',desc:'音声化（完全無料）'},{icon:'🎧',label:'stand.fm/Spotify',desc:'無料配信でファン獲得'},{icon:'📝',label:'note有料版',desc:'テキストまとめ版を販売'}],income:'月1〜5万円'},
+  {num:'04',color:'var(--rose)',title:'HeygenAIアバター解説×YouTube収益化',desc:'Heygenで自分のAIアバターを作成→ChatGPTで台本生成→動画化→YouTube毎日投稿。顔出し不要でプロ品質の解説動画を量産し、アドセンス×アフィリエイトで二重収益。',strategy:'アバターを使った解説動画はまだ競合が少ないブルーオーシャン。早く始めた人が有利。月20本×3ヶ月続けると、1年後に月10万円以上が期待できる。',flow:[{icon:'🤖',label:'ChatGPT',desc:'解説台本生成'},{icon:'🎤',label:'ElevenLabs',desc:'ナレーション音声生成'},{icon:'🤖',label:'Heygen',desc:'AIアバター動画生成'},{icon:'📺',label:'YouTube',desc:'毎日投稿+アドセンス+アフィリ'}],income:'月3〜20万円（チャンネル成長で伸び続ける）'},
+]},
+{color:'var(--violet)',patterns:[
+  {rank:'01',color:'var(--violet)',title:'n8n×Claude 自動化入門セット',sub:'まず自動化を体感する最小構成',cost_mo:'¥3,000',tools:[{icon:'⚙️',name:'n8n（ローカル無料）',url:'https://n8n.io/'},{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'},{icon:'📋',name:'Notion（無料）',url:'https://www.notion.so/'}],purpose:'n8nローカルで自動化を構築→その過程と成果をnoteで記事化して販売。「自動化した経緯＋ワークフロー解説」がそのままコンテンツになる。',features:[
+    {icon:'⚙️',title:'WSL2＋DockerでローカルにN8nをセットアップして自動化を体感する',desc:'WSL2（Windows上のLinux環境）＋Docker Desktopを使えばn8nをローカルで完全無料で動かせる。インストール手順：①Docker Desktop起動→②WSL2ターミナルで「docker run -d -p 5678:5678 n8nio/n8n」→③ブラウザでlocalhost:5678を開く。30分以内に環境構築が終わる。GALLERIA XA7C-R70Sのスペックなら快適に動く。'},
+    {icon:'🤖',title:'Claude APIとN8nを繋いで「質問→AI回答→Notion保存」ワークフローを作る',desc:'N8nのHTTPリクエストノードでClaude API（claude-sonnet）を呼び出し、回答をNotionデータベースに自動保存する最初のワークフローを作る。「何のAIを使った自動化か」より「自動化が動いた体験」が最重要。この体験が次のアイデアを生む。API費用はClaude APIで月1,000円以下に収まる。'},
+    {icon:'📋',title:'Notionで「自動化アイデアDB」を作って実験を記録する',desc:'自動化を試みたこと・うまくいったこと・失敗したことをNotionのデータベースに記録していく。このデータベース自体が「自動化の実験ログ」になり、後でnote記事の素材になる。「こんな自動化を試みて、こうなった」というリアルな体験記は読者の共感を生みやすく、有料記事として売れやすい。'},
+    {icon:'📝',title:'自動化した経緯をそのままnote記事にして販売する',desc:'「WSL2＋DockerでN8nをセットアップしてClaude APIと繋いだ話」をnoteに書くと、同じことをやりたい人が買ってくれる。技術的な内容でも「自分がつまずいた点を解決した記録」は需要が高い。1本500〜1,980円で販売でき、自動化の実験を続けるほど記事が積み上がっていく。'},
+  ]},
+  {rank:'02',color:'var(--violet)',title:'自動化×コンサル販売セット',sub:'ワークフローを商品として売る',cost_mo:'¥6,000',tools:[{icon:'⚙️',name:'n8n Starter',url:'https://n8n.io/'},{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'},{icon:'💰',name:'Brain',url:'https://brain-market.com/'}],purpose:'n8n＋ClaudeのAI自動化ワークフローをテンプレ化→Brainで高単価販売（5,000〜30,000円）。コンサル・セットアップ代行に展開。',features:[
+    {icon:'⚙️',title:'N8nワークフローをJSONでエクスポートして「すぐ使えるテンプレ」として販売する',desc:'N8nには作成したワークフローをJSONファイルで書き出す機能がある。このJSONを購入者がインポートするだけで自分の環境に同じワークフローが再現される。「コンテンツ自動生成ワークフロー（JSON付き）」「SNS自動投稿システム（JSON付き）」などをBrainで5,000〜30,000円で販売する。「動くものをそのまま渡す」価値が高単価を正当化する。'},
+    {icon:'🤖',title:'Claude Proで「ワークフローの解説ガイドブック」を30分で作る',desc:'N8nのワークフロースクリーンショットをClaude Proに見せて「このワークフローの解説記事を初心者向けに書いて」と入れると30分で解説ガイドが完成する。JSONファイル＋解説PDFのセットにするとBrainの販売ページの説明文もClaudeに書かせると1時間以内に商品が完成する。'},
+    {icon:'💰',title:'Brainの紹介アフィリエイトを使って販売を加速する',desc:'Brainには購入者が他の人に紹介するとその人にも報酬が入る「紹介アフィリエイト」機能がある。自分の商品を買った人が布教してくれる仕組みを最初から設計しておくと、自分が何もしなくても口コミで広がっていく。紹介報酬を10〜30%に設定すると紹介者のモチベーションが上がりやすい。'},
+    {icon:'🎓',title:'コンサル・セットアップ代行で1件3〜10万円の高単価受注に発展させる',desc:'Brainで商品を購入した人からコンサル依頼が来るケースが多い。「n8nの環境構築を一緒にやってほしい」「自分の業務に合わせてカスタマイズしてほしい」というニーズに対して1件3〜10万円でサービス提供できる。Zoomでの1〜2時間セッション×Loom録画を納品物にすると時間単価が高い。'},
+  ]},
+  {rank:'03',color:'var(--violet)',title:'自動化×Loom動画教材販売',sub:'録画解説で高付加価値化',cost_mo:'¥5,250',tools:[{icon:'⚙️',name:'n8n',url:'https://n8n.io/'},{icon:'🎥',name:'Loom',url:'https://www.loom.com/'},{icon:'💰',name:'Gumroad',url:'https://gumroad.com/'}],purpose:'n8nワークフローをLoomで録画解説→ステップアイ動画教材としてGumroadで販売。英語で解説すれば英語圏にも展開できる。',features:[
+    {icon:'🎥',title:'Loomで「実際の操作画面を見せながら解説」する動画教材を量産する',desc:'LoomはURLを送るだけで動画を見られるシンプルな画面録画ツール。N8nの操作画面をLoomで録画しながら「今ここでこのノードを追加して…」と実況解説するだけで動画教材が完成する。「完璧な編集」は不要。むしろ「つまずいてリアルタイムで解決する」シーンがある方が視聴者の共感を生む。'},
+    {icon:'🌍',title:'英語で解説して世界市場にアクセスする',desc:'N8nはグローバルなツールで英語での情報需要が高い。日本語でやっていることをそのまま英語で解説するだけで市場が10倍になる。英語解説は完璧な発音より「わかりやすさ」が重要。ElevenLabsで英語ナレーションを生成してスライドと合わせる方法でも動画教材が作れる。'},
+    {icon:'💰',title:'GumroadでS29〜$97の動画教材バンドルを作って自動収益化する',desc:'Gumroadは動画ファイル・PDFファイル・ZIPファイルをセットにして販売できる。「N8n入門講座（動画10本＋ワークフローJSON10本＋解説PDF）」を$49〜$97で販売する。YouTubeに無料サンプル（最初の1本）を公開してGumroadに誘導する流れが最も転換率が高い。'},
+    {icon:'📺',title:'YouTubeに無料サンプルを定期投稿してGumroadへの集客を自動化する',desc:'動画教材の最初の1本（15〜20分）をYouTubeに無料公開する。動画説明欄に「続きはGumroadで→リンク」を貼る。YouTubeは動画が蓄積するほど検索流入が増えるため、月2〜4本のペースで投稿を続けると半年後に自動集客が始まる。チャンネル登録1,000人でアドセンス収益も上乗せされる。'},
+  ]},
+  {rank:'04',color:'var(--violet)',title:'AI代行×コンサル高単価ライン',sub:'自動化代行で月30〜100万',cost_mo:'¥6,000',tools:[{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'},{icon:'⚙️',name:'n8n',url:'https://n8n.io/'},{icon:'🎥',name:'Loom',url:'https://www.loom.com/'},{icon:'📋',name:'Notion',url:'https://www.notion.so/'}],purpose:'企業・個人事業主向けにAI自動化システムを構築代行。n8n＋Claude＋NotionでDXツールを1件5万〜30万円で受注。月2〜3件で月収100万超も現実的。',features:[
+    {icon:'📝',title:'noteとXで「AI自動化できます」という発信を積み上げて案件を引き寄せる',desc:'「n8n×Claude×Notionで〇〇業務を自動化した」という実績をnoteとXで発信し続ける。初案件は「無料モニター」で受けて実績を作る。実績投稿を見た中小企業・個人事業主から「うちにも導入したい」という問い合わせが来るまで発信を続ける。発信量が引き合いの数に直結する。'},
+    {icon:'🎥',title:'Loomでヒアリング内容の確認動画を送って信頼感を2〜3倍高める',desc:'問い合わせが来たらZoomやメールより先にLoomで「ヒアリング内容の確認動画（3〜5分）」を録画して送る。「このような課題を解決するためにこのシステムを提案します」という動画を事前に送ると、テキストでの同じ説明より信頼感が格段に上がる。受注率が2〜3倍高くなるとされている手法。'},
+    {icon:'⚙️',title:'N8n＋Claude＋Notionで要件に合わせたシステムを構築して納品する',desc:'要件ヒアリング→ワークフロー設計書（Notion）→N8nで実装→テスト→Loomで操作説明動画を録画して納品。納品物は「N8nワークフローJSONファイル＋Notion管理DB＋Loom操作動画」のセット。これに「月額3万円の保守・改善サポート」を提案することで継続収益にできる。'},
+    {icon:'💰',title:'月額サポートプランで1社3万円×複数社の安定収益基盤を作る',desc:'納品後に「月額サポートプラン（3万円/月）」を標準で提案する。内容は「月1回の改善作業1時間＋チャットサポート＋障害対応」。5社と継続契約すれば月15万円の安定収益になる。案件の単発収益より継続サポートの月額収益が積み上がる方が総収益は大きくなる。'},
+  ]},
+],goals:[
+  {icon:'⚙️',name:'n8n×Claude 自動化システムを構築する',sub:'コンテンツ生成ラインを自動化',color:'var(--violet)'},
+  {icon:'💰',name:'自動化ノウハウをBrainで高単価販売',sub:'ワークフローテンプレ販売',color:'var(--gold)'},
+  {icon:'🏢',name:'企業向けAI代行コンサルで高単価受注',sub:'月1件5万〜30万円',color:'var(--teal)'},
+  {icon:'🎓',name:'動画教材×Gumroadで自動収益化',sub:'Loom録画×英語展開',color:'var(--sky)'},
+],workflows:[
+  {title:'n8n×ClaudeでAI自動化システムを構築するワークフロー',sub:'まず自分のコンテンツビジネスで使い→それ自体をコンテンツとして販売する二段ロケット戦略。',steps:[
+    {phase:'PHASE 1',title:'n8nローカル環境をセットアップ',desc:'WSL2＋Docker Desktopでn8nをローカルに構築。localhost:5678でアクセス確認。Claude API・Notion API・Gmail APIを設定し、基本的なHello Worldワークフローを動かす。',tools:['n8n'],tip:'n8nのローカル環境は完全無料。まずローカルで習熟してからクラウド版に移行するかを判断する。'},
+    {phase:'PHASE 2',title:'コンテンツ生成ワークフローを構築',desc:'①キーワード入力（Webhook）→②Perplexity APIで最新情報収集→③Claude APIで記事生成→④Notionに保存→⑤Bufferで予約投稿。このパイプラインを最初の1週間で動かす。',tools:['n8n','Claude Pro','Notion'],tip:'エラーが出ても諦めない。n8nのエラーログを読みながら1ノードずつ動作確認するのが最速の習得法。'},
+    {phase:'PHASE 3',title:'自動化の「経緯と手順」をnoteで記事化',desc:'構築したワークフローのスクショ・設定値・つまずいた点をそのままnoteに書く。「自動化できた感動」をリアルタイムで発信すると、同じことをやりたい人が集まってくる。',tools:['note','Claude Pro'],tip:'「完璧な記事」じゃなくていい。「やってみた記録」のリアルさが読者の共感を生む。'},
+    {phase:'PHASE 4',title:'ワークフローをテンプレ化→Brain/Gumroadで販売',desc:'n8nのワークフローをJSONファイルでエクスポート→Brainで「コンテンツ生成自動化ワークフロー（n8n設定ファイル付き）」として5,000〜30,000円で販売。セットアップ解説動画をLoomで作ると高単価化できる。',tools:['Brain','Loom'],tip:'「ダウンロードしてインポートするだけ」のワークフローは需要が高い。設定の煩雑さを解消してあげることに価値がある。'},
+  ],income:'月5〜20万円（情報販売＋コンサルで複数収益源）'},
+  {title:'自動化ノウハウをBrainで高単価販売するワークフロー',sub:'「俺が1ヶ月かかって作ったものを、あなたは1時間で使える」という価値を売る。',steps:[
+    {phase:'PHASE 1',title:'売れる自動化ノウハウのテーマを選ぶ',desc:'「SNS自動投稿システム構築ガイド」「AIブログ記事自動生成ライン n8n設定集」など、ビジネス効率化に直結するテーマを選ぶ。Xで「〇〇を自動化できた」と報告するとリプライで需要が確認できる。',tools:['Claude Pro'],tip:'「自動化した結果こうなった」という成果報告ツイートが最強のリサーチ。反応が多かったテーマで商品を作る。'},
+    {phase:'PHASE 2',title:'テンプレ＋解説ガイドを制作',desc:'n8nワークフローをJSONでエクスポート→Claudeで解説テキスト作成→Canvaでガイドブックを制作（PDF+動画のセット）。Loomでセットアップ動画を録画して同梱。',tools:['Claude Pro','Canva Pro','Loom'],tip:'「サポートなし」と「Discord質問サポート付き」で価格差を3倍にする販売設計が効く。'},
+    {phase:'PHASE 3',title:'Brain・Gumroadで販売→Xで実績ツイート',desc:'Brain（5,000〜30,000円）またはGumroad（英語版$39〜$99）で販売。購入者の「使えた」「こんな結果が出た」レビューをXに引用リツイートして社会的証明を積む。',tools:['Brain','Gumroad'],tip:'最初の5人は「モニター価格（50%OFF）」で売る。レビューが集まってから正規価格に戻す。'},
+  ],income:'月5〜30万円（1本の商品が長期間売れ続ける）'},
+  {title:'企業向けAI代行コンサルで高単価受注するワークフロー',sub:'個人クリエイター向けと違い、企業向けは1件あたり5万〜30万円以上が当たり前。',steps:[
+    {phase:'PHASE 1',title:'「AI自動化代行できます」をXとnoteで発信',desc:'「n8n×Claude×Notionで業務自動化を支援しています」という発信を続ける。noteで「〇〇業務をAIで自動化した事例」を記事にして、実績を積み上げる。',tools:['note','Claude Pro'],tip:'最初の事例は「無料モニター」で作る。実績ゼロのうちに有料受注しようとすると断られる。'},
+    {phase:'PHASE 2',title:'Loomで「事前ヒアリング動画」を送る',desc:'問い合わせがきたらすぐにLoomで「ヒアリング内容の確認動画」を録画して送る。テキストより動画の方が信頼感が出て、受注率が2〜3倍上がる。見積もりはNotionで共有する。',tools:['Loom','Notion'],tip:'「動画でヒアリングを確認する」という丁寧なプロセス自体が差別化になる。同業他社はほぼやっていない。'},
+    {phase:'PHASE 3',title:'n8n＋Claude＋Notionでシステムを構築・納品',desc:'要件定義→ワークフロー設計→n8nで実装→テスト→Loomで操作説明動画を録画して納品。月額サポートプランを追加することで継続収益に転換できる。',tools:['n8n','Claude Pro','Loom','Notion'],tip:'「月額3万円の保守・改善サポート」を標準で提案する。1社でも継続契約が取れると毎月の安定収益になる。'},
+  ],income:'月10〜100万円（企業案件は単価が高く、継続契約で安定する）'},
+  {title:'Loom動画教材×Gumroadで自動収益を作るワークフロー',sub:'一度撮影した動画が24時間売れ続ける仕組みを作る。',steps:[
+    {phase:'PHASE 1',title:'売れる動画教材のテーマを選ぶ',desc:'「n8n入門：はじめての自動化ワークフロー構築」「Claude APIを使ったコンテンツ生成システムの作り方」など、手順が明確なテーマを選ぶ。英語で作ると世界市場にアクセスできる。',tools:['Claude Pro'],tip:'日本語の自動化教材はまだ少ない。英語市場と比べると競合がほぼゼロ。'},
+    {phase:'PHASE 2',title:'Loomで画面録画しながら解説動画を作る',desc:'Loomで画面録画+顔出し（任意）しながら、実際に操作しながら解説。1動画15〜30分を5〜10本作成してシリーズ化。Notionでワークフロー資料も同梱。',tools:['Loom','Notion'],tip:'「一発録り」で問題ない。むしろ「リアルなつまずき」を見せる方が視聴者の共感を得られる。'},
+    {phase:'PHASE 3',title:'Gumroadで販売→YouTubeで無料サンプルを公開',desc:'Gumroadで$29〜$97で販売。YouTubeに「動画の最初15分を無料公開」してGumroadの有料版に誘導。YouTubeの動画説明欄にGumroadリンクを貼る。',tools:['Gumroad'],tip:'YouTubeへの無料サンプル公開はGumroadの購買転換率を大幅に上げる。「続きが見たい」という状態を作ってから誘導する。'},
+  ],income:'月3〜15万円（教材1本が長期間売れ続ける）'},
+],examples:[
+  {num:'01',color:'var(--violet)',title:'n8n×Claude コンテンツ自動化システム販売',desc:'n8n×Claudeで構築したコンテンツ生成自動化ワークフローをJSONテンプレ＋解説PDF＋セットアップ動画にまとめてBrainで販売。',strategy:'「自動化した経緯」をXとnoteでリアルタイム発信→興味を持った人を有料商品に誘導。実装した時のスクショやデモ動画が最強の販促ツール。',flow:[{icon:'⚙️',label:'n8n構築',desc:'自動化ワークフローを作る'},{icon:'📹',label:'Loom録画',desc:'セットアップ解説動画を作成'},{icon:'🎨',label:'Canvaでガイド',desc:'PDF解説資料を作成'},{icon:'💰',label:'Brainで販売',desc:'5,000〜30,000円で販売'}],income:'月5〜20万円'},
+  {num:'02',color:'var(--violet)',title:'AI業務自動化コンサル代行',desc:'中小企業・個人事業主向けにn8n＋Claude＋Notionを使った業務自動化システムを構築代行。1件5万〜30万円で受注し、月額保守サポートで継続収益化。',strategy:'「AI自動化」の需要は急拡大中。技術を持っている人はまだ少ないので、今すぐ参入すると競合がほぼゼロの状態で案件を取れる。',flow:[{icon:'📋',label:'要件ヒアリング',desc:'Loom動画でヒアリング確認'},{icon:'⚙️',label:'n8nで実装',desc:'Claude×APIで自動化構築'},{icon:'🎥',label:'Loomで納品',desc:'操作説明動画を作成'},{icon:'🔄',label:'月額サポート',desc:'3万円/月の継続契約'}],income:'月10〜100万円'},
+  {num:'03',color:'var(--violet)',title:'Loom動画教材×Gumroad英語販売',desc:'「n8n入門講座」「Claude API活用講座」などの動画教材をLoomで録画→GumroadでS29〜$97で英語圏に販売。YouTubeに無料サンプルを公開して誘導する。',strategy:'英語市場は日本語市場の10倍以上の規模。日本で得た自動化ノウハウを英語で展開するだけで市場が一気に拡大する。',flow:[{icon:'🎥',label:'Loom録画',desc:'画面操作しながら解説'},{icon:'📝',label:'テキスト資料',desc:'Notionでサポート資料作成'},{icon:'💰',label:'Gumroadで販売',desc:'$29〜$97（英語圏向け）'},{icon:'📺',label:'YouTube無料サンプル',desc:'最初15分を無料公開して誘導'}],income:'月3〜15万円'},
+  {num:'04',color:'var(--violet)',title:'AI自動化×X発信 ノウハウ販売',desc:'「毎日AI自動化の実験結果をXに投稿→フォロワーが増えたらBrainで詳細ノウハウを販売」という発信×商品販売の組み合わせ。',strategy:'Xの発信内容自体が「実力の証明」になる。「このレベルの自動化ができる人から買いたい」という信頼感が高単価販売を可能にする。',flow:[{icon:'🐦',label:'X毎日投稿',desc:'実験結果・自動化の成果を発信'},{icon:'📈',label:'フォロワー獲得',desc:'技術系フォロワーが集まる'},{icon:'💰',label:'Brain販売',desc:'詳細ノウハウを高単価で販売'},{icon:'🔄',label:'コンサル受注',desc:'X経由で企業案件に繋がる'}],income:'月5〜30万円'},
+]},
+{color:'var(--sky)',patterns:[
+  {rank:'01',color:'var(--sky)',title:'デジタル商品 最小構成',sub:'月0円から始める商品販売',cost_mo:'¥0',tools:[{icon:'📝',name:'note',url:'https://note.com/'},{icon:'🤖',name:'Claude（無料）',url:'https://claude.ai/'},{icon:'🎨',name:'Canva（無料）',url:'https://www.canva.com/ja_jp/'}],purpose:'Claudeで商品内容を設計→Canvaで表紙制作→noteで販売開始。完全無料でデジタル商品販売をスタートできる最小構成。',features:[
+    {icon:'🤖',title:'Claudeに「売れる商品の目次」を作らせてから中身を埋める',desc:'Claudeに「〇〇が悩む人向けに、問題を解決するPDF教材の目次を10章で作って」と入れる。目次が出来たら章ごとに「この章の内容を800字で書いて」と続けるだけで1商品が1〜2時間で完成する。完成度60点でも出してみることが重要。フィードバックを見ながら改善する方が一人で悩むより100倍速い。'},
+    {icon:'🎨',title:'Canvaの無料テンプレでプロ品質の表紙を10分で作る',desc:'Canvaで「プレゼンテーション」→「プロフェッショナル」系のテンプレを選び、タイトルと色だけ変える。表紙1枚のクオリティが購買判断の7割を左右する。フォントは2種類以内・カラーはメインカラー1色に絞るとまとまって見える。'},
+    {icon:'📝',title:'noteの有料記事として300〜980円で出して反応を見る',desc:'最初の商品は完璧にしようとしない。300〜500円で出してまず5本売れるかを試す。5本売れたらフィードバックを元に改善→値段を上げる。「出す→反応を見る→改善する」のサイクルを3ヶ月回すと、自分のジャンルで何が売れるかが見えてくる。'},
+    {icon:'🔄',title:'売れた商品の「上位版」を作って単価を上げていく',desc:'300円の記事が売れたら「もっと詳しい版（PDF10ページ）」を1,980円で出す。さらに売れたら「完全攻略版（PDF30ページ＋テンプレ付き）」を4,980円で出す。同じテーマで単価を上げる「アップセル設計」が月収を複利的に伸ばす。'},
+  ]},
+  {rank:'02',color:'var(--sky)',title:'テンプレ集 × Gumroad英語展開',sub:'ドル建て販売で収益最大化',cost_mo:'¥2,250',tools:[{icon:'🎨',name:'Canva Pro',url:'https://www.canva.com/ja_jp/'},{icon:'💰',name:'Gumroad',url:'https://gumroad.com/'},{icon:'🤖',name:'ChatGPT Plus',url:'https://chat.openai.com/'}],purpose:'Canva Proでテンプレ量産→Gumroadで日英両方で販売。英語圏のマーケットに乗ることで日本語だけの販売と比べて3〜5倍の売上が期待できる。',features:[
+    {icon:'🎨',title:'Canva ProのAI機能でテンプレを時短量産する',desc:'Canva Proはブランドキット・AI背景生成・マジックリサイズが使える。SNS投稿テンプレなら1枚のデザインを作ってマジックリサイズで全サイズに展開。1セット50枚のテンプレ集を2〜3時間で完成できる。「Instagramフィード用15枚＋ストーリー用10枚＋X（Twitter）用10枚＋YouTube用15枚」のように用途別セットが最も売れやすい。'},
+    {icon:'🌐',title:'ChatGPTで英語の商品説明文を5分で生成してGumroadに出品',desc:'ChatGPT Plusに「このデジタル商品（テンプレ集）のGumroad用英語説明文を500ワードで書いて。ターゲットはInstagramクリエイター・コーチ・フリーランサー」と投げる。タイトル・説明・ターゲット・FAQ・購入後の流れまで一気に生成される。英語圏への展開は「翻訳の手間」さえ解決すれば市場が一気に10倍になる。'},
+    {icon:'💰',title:'$9〜$29の価格帯で出品してレビューを集めてから値上げ',desc:'最初は$9〜$14で出品してレビューを5件集める。レビューが入ったら$19〜$29に値上げ。Gumroadは購入後のメールに「レビューをお願いします」と自動送信する設定ができる。レビューがある商品とない商品では購買転換率が3倍以上違う。'},
+    {icon:'📌',title:'Pinterestに毎日5〜10枚投稿して3ヶ月後の自動集客を仕込む',desc:'CanvaでテンプレのBefore/After画像や使用例を縦型（1000×1500px）で作り、Pinterestに毎日投稿。各ピンの説明文に「Canva template」「social media template」などのキーワードを入れてGumroadのURLをリンクに貼る。3〜6ヶ月後から検索経由のクリックが毎日発生するようになる。'},
+  ]},
+  {rank:'03',color:'var(--sky)',title:'教材×LP 高単価販売セット',sub:'Framerで高品質LP制作',cost_mo:'¥5,250',tools:[{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'},{icon:'🌐',name:'Framer',url:'https://www.framer.com/'},{icon:'💰',name:'Brain',url:'https://brain-market.com/'},{icon:'🎨',name:'Canva Pro',url:'https://www.canva.com/ja_jp/'}],purpose:'Claudeで高品質な教材を制作→FramerでセールスLPを制作→Brainで高単価販売。LPのクオリティで購買転換率が3〜5倍変わる。',features:[
+    {icon:'🤖',title:'Claude ProでA4×30ページ以上の高品質教材を半日で作る',desc:'Claude Proに「〇〇の完全攻略ガイド・30ページ・章立て付き・図解の説明付き・初心者向け」と指示する。章ごとに深掘りしながら肉付けしていくと、半日で3万字以上のコンテンツが完成する。Canvaで表紙・目次・図解を追加してPDF化。これが高単価販売（2,980〜9,800円）の本体になる。'},
+    {icon:'🌐',title:'FramerでセールスLPを作って購買転換率を3〜5倍にする',desc:'Framerは「AI LP生成→カスタマイズ」で高品質なセールスLPが30分で完成する。ページ構成は「課題提示→解決策（商品）→内容紹介→購入者の声→FAQ→CTA」の順番が鉄板。Brainの購入ページにリンクを貼る設計にする。LPがあるとないとでは購買転換率が3〜5倍変わるというデータがある。'},
+    {icon:'💡',title:'Brain特有の「アフィリエイト機能」で読者に売ってもらう仕組みを作る',desc:'Brainは購入者が紹介リンクを作れるアフィリエイト機能がある。購入後に「この商品を紹介してくれたら20〜30%の報酬を払います」と案内するだけで、購入者が勝手に口コミしてくれる仕組みになる。自分が集客しなくても収益が広がる「他人の発信を使ったマーケティング」が最強。'},
+    {icon:'📈',title:'Xでの販売告知は「ストーリー形式」のスレッドが最も効果が高い',desc:'「1ヶ月前の自分→壁にぶつかった→試行錯誤した→解決した→それをまとめた→今日販売します」という時系列のストーリーをXのスレッドで投稿する。単なる「商品公開しました」より感情移入が生まれ、購買転換率が2〜3倍上がる。'},
+  ]},
+  {rank:'04',color:'var(--sky)',title:'デジタル商品×自動化 販売マシン',sub:'商品生成から販売まで自動化',cost_mo:'¥8,250',tools:[{icon:'🤖',name:'Claude Pro',url:'https://claude.ai/'},{icon:'⚙️',name:'n8n（ローカル無料）',url:'https://n8n.io/'},{icon:'💰',name:'Brain',url:'https://brain-market.com/'},{icon:'🌐',name:'Framer',url:'https://www.framer.com/'}],purpose:'n8n×Claudeで教材の下書き自動生成→人間が品質チェック→Brainで販売→ConvertKitで購入者フォローを自動化。',features:[
+    {icon:'⚙️',title:'n8n×Claude APIで「トレンドキーワード→教材下書き」を全自動生成',desc:'n8nワークフローで①Perplexity APIでその週のAI副業トレンドを収集→②Claude APIで「トレンドに合わせた教材の目次＋各章200字の概要」を自動生成→③Notionに保存。月〜金で毎日1本の下書きが自動で溜まる。週末に人間が1〜2本を選んで肉付けして販売する「週次リリース体制」が完成する。'},
+    {icon:'📦',title:'商品バンドルをConvertKitで購入者に自動フォローして追加購入を促す',desc:'Brainで商品を購入した人のメールをConvertKitに自動登録する設定を組む。購入3日後に「購入ありがとう＋使い方のコツ」→7日後に「関連商品のご案内」→30日後に「新商品先行案内」を自動配信。一度顧客になった人への追加販売は新規顧客獲得の5〜10倍コストが低い。'},
+    {icon:'🌐',title:'FramerでAI自動生成した内容をセールスLPに自動反映させる',desc:'n8nからFramer APIを叩いてLPの文章を自動更新する仕組みを作る。「今週の新商品」セクションを毎週自動で書き換えることで、常に最新商品が目立つLPになる。人間がやることはBrainへの商品登録と最終確認だけになる。'},
+    {icon:'🔄',title:'Xへの販売告知も自動化して「商品生成→告知→販売」を全自動にする',desc:'n8nワークフローにBuffer APIを追加して、新商品がBrainに登録されたら→Claude APIで「告知ツイート文（3パターン）」を自動生成→Bufferに予約投稿。自分がやることは「商品の品質チェック」だけになり、それ以外は全て自動化された販売マシンが動き続ける。'},
+  ]},
+],goals:[
+  {icon:'📄',name:'PDF教材・テンプレを量産して販売',sub:'note・Brain・Gumroadで多展開',color:'var(--sky)'},
+  {icon:'🌍',name:'英語圏Gumroadで自動収益化',sub:'Pinterest集客でドル建て販売',color:'var(--gold)'},
+  {icon:'💎',name:'高単価バンドル商品を作る',sub:'複数商品を束ねて3〜10万円で販売',color:'var(--violet)'},
+  {icon:'🔄',name:'サブスク型デジタル商品で安定収益',sub:'月額会員制×デジタル商品配信',color:'var(--teal)'},
+],workflows:[
+  {title:'PDF教材・テンプレを量産して販売するワークフロー',sub:'1商品を作るのに3時間かかっていたのを30分にする制作テンプレートを作ることが最初のゴール。',steps:[
+    {phase:'PHASE 1',title:'売れる商品テーマのリサーチ',desc:'noteで「売れているデジタル商品」を検索し、いいね数・有料販売数が多い商品のテーマを把握する。Perplexityで「noteで売れているデジタル商品 ランキング」を調べて需要を確認。',tools:['Perplexity','Claude Pro'],tip:'「自分が欲しかったもの」が最も売れやすい。「あれば絶対買っていた」と思えるテーマを選ぶ。'},
+    {phase:'PHASE 2',title:'Claude×Canvaで商品を高速制作',desc:'Claudeに「〇〇向けの〇〇ページのガイドブックの目次と各章の内容を作って」と投げる→章ごとに本文を生成→Canvaでデザインに仕上げ。1商品の制作時間を3時間→30分に圧縮。',tools:['Claude Pro','Canva Pro'],tip:'Canvaでテンプレートを1つ作ってしまえば、次からは中身を差し替えるだけで新商品が完成する。'},
+    {phase:'PHASE 3',title:'note・Brain・Gumroadで多展開',desc:'同じ商品を日本語版（note・Brain）と英語版（Gumroad）で販売。価格は日本語版980〜4,980円、英語版$9〜$29に設定。Xで「新商品公開」を告知するたびに売上が立つ。',tools:['note','Brain','Gumroad'],tip:'同じ商品を複数プラットフォームで売ることで、どこから買っても買える状態を作る。'},
+  ],income:'月3〜10万円（商品数が増えるほど複利的に伸びる）'},
+  {title:'英語圏Gumroadで自動収益化するワークフロー',sub:'Pinterest×Gumroadの組み合わせが最強。一度仕込んだら放置でも売れ続ける仕組みになる。',steps:[
+    {phase:'PHASE 1',title:'英語テンプレを制作',desc:'Canva Proで「Instagram templates」「YouTube thumbnail templates」「Notion templates」など英語圏で需要の高いデジタル商品を制作。英語テキストを使い、海外ユーザーが即使えるデザインにする。',tools:['Canva Pro'],tip:'英語圏で売れているテンプレのデザインスタイルは日本とは異なる。MinimalistかBoldが人気。'},
+    {phase:'PHASE 2',title:'Gumroadで出品→SEO設定を丁寧に行う',desc:'商品名・説明文・タグを英語で丁寧に設定。Gumroad内で検索された時に上位表示されるように、ニーズと一致するキーワードを商品説明に盛り込む。',tools:['Gumroad'],tip:'Gumroadは商品説明をロングテールキーワードで書くと検索からの流入が増える。'},
+    {phase:'PHASE 3',title:'Pinterestに毎日プレビュー画像を投稿',desc:'商品のプレビュー画像を縦型（1000×1500px）に作り直し、Pinterestに毎日5〜10枚投稿。各ピンにGumroadのURLを貼る。3ヶ月投稿を続けると検索からの自動集客が始まる。',tools:['Canva Pro'],tip:'Pinterestへの投稿は「使用例」「ビフォーアフター」を見せると保存率が上がり、検索順位が上昇する。'},
+  ],income:'月2〜10万円（Pinterest×Gumroadは仕込みが完成すると不労所得に近い）'},
+  {title:'高単価バンドル商品を作るワークフロー',sub:'単品3,000円を10本より、バンドル3万円を3本売る方が楽で稼げる。',steps:[
+    {phase:'PHASE 1',title:'既存商品を棚卸しして束ねる',desc:'既に作ったPDF・テンプレ・ノウハウを一覧化する。共通テーマでまとめられるものをグルーピングし、「〇〇完全攻略セット」というバンドルを設計する。',tools:['Notion','Claude Pro'],tip:'単品では売れなかった商品も、バンドルに入れると価値が上がる。「全部入り」という安心感が高単価を正当化する。'},
+    {phase:'PHASE 2',title:'Framerで高品質セールスLPを制作',desc:'Framerで商品の価値訴求・ビフォーアフター・購入者の声・FAQ・購入CTAをまとめたセールスLPを制作。LP1枚で「なぜ高いのか」を説明しきる。',tools:['Framer','Claude Pro'],tip:'セールスLPのコピーはClaudeに「〇〇向けのセールスコピーを作って」と依頼する。ターゲットを具体的に伝えるほど刺さるコピーが生まれる。'},
+    {phase:'PHASE 3',title:'Brainで2〜10万円で販売→メルマガ読者に先行案内',desc:'Brainで高単価バンドルを販売。まずConvertKitのメルマガ読者に「読者限定先行販売」として案内→反応を見て→Xで一般公開。先行購入者のレビューが社会的証明になる。',tools:['Brain','ConvertKit'],tip:'先行販売で10人以上が買えば、一般公開でさらに広がる。最初の10人が最も大切。'},
+  ],income:'月10〜30万円（高単価×少ない本数で月収目標を達成しやすい）'},
+  {title:'サブスク型デジタル商品で安定収益を作るワークフロー',sub:'毎月決まった収益が入る「月額会員制」の仕組みを作る。',steps:[
+    {phase:'PHASE 1',title:'月額コンテンツの設計',desc:'「毎月5本の新テンプレ配信」「月1回のAIツール活用レポート」など、継続して価値を提供できるコンテンツを設計する。月額500〜1,980円が解約率を下げやすい価格帯。',tools:['Claude Pro','Notion'],tip:'月額コンテンツは「内容が分かって安心してから課金したい」というユーザーのために、最初の1ヶ月分を無料トライアルにすると登録率が上がる。'},
+    {phase:'PHASE 2',title:'noteメンバーシップで運用',desc:'noteのメンバーシップ機能を使って月額会員制を設定。会員限定記事・テンプレDL・Q&Aコーナーを毎月コンスタントに更新する。Xで「今月の会員限定コンテンツ」の予告を定期的に投稿。',tools:['note'],tip:'解約を防ぐには「来月も楽しみ」という期待感を作ることが大切。「次回予告」を毎月の最後に必ず入れる。'},
+    {phase:'PHASE 3',title:'会員数×単価の最適化',desc:'最初は低価格（月額500円）から始めて、会員数が50人を超えたら「新規は月額980円・既存は据え置き」に値上げ。段階的に単価と会員数を両方伸ばす。',tools:['note','ConvertKit'],tip:'会員数100人×月額980円＝98,000円が現実的な最初のマイルストーン。最初の100人を獲得するまでが最も重要な期間。'},
+  ],income:'月3〜15万円（会員数が積み上がるほど安定した収益基盤になる）'},
+],examples:[
+  {num:'01',color:'var(--sky)',title:'AIツール特化テンプレ集 多プラットフォーム販売',desc:'「AIライティングプロンプトテンプレ100選」「Notion AIコンテンツ管理テンプレ」などを制作し、note（日本語）・Gumroad（英語）・Brain（高単価版）で同時展開。',strategy:'同じコンテンツを3つのプラットフォームで売ることで収益源を分散。英語版は日本語版の制作から1週間後にリリースするとスピードを保てる。',flow:[{icon:'🤖',label:'Claude Pro',desc:'商品内容を高速設計'},{icon:'🎨',label:'Canva Pro',desc:'PDF・テンプレをデザイン'},{icon:'📝',label:'note（日本語版）',desc:'980〜4,980円で販売'},{icon:'🌐',label:'Gumroad（英語版）',desc:'$9〜$29でドル建て販売'}],income:'月3〜12万円'},
+  {num:'02',color:'var(--sky)',title:'高単価バンドル商品 Brainで販売',desc:'「AI副業完全攻略セット（note設計法+プロンプト集+n8nワークフロー）」などの複数商品バンドルをBrainで2〜5万円で販売。',strategy:'単品を5本作ってからバンドル化する。「全部まとめて買える」という利便性が高単価を正当化する。FramerでセールスLPを作ると購買転換率が上がる。',flow:[{icon:'📦',label:'商品バンドル設計',desc:'既存コンテンツを束ねる'},{icon:'🌐',label:'Framer LP制作',desc:'価値訴求セールスLP作成'},{icon:'💰',label:'Brainで販売',desc:'2〜5万円で高単価販売'},{icon:'📧',label:'メルマガ先行案内',desc:'読者限定で先行販売'}],income:'月10〜30万円'},
+  {num:'03',color:'var(--sky)',title:'noteメンバーシップ×デジタル商品配信',desc:'月額500〜980円のnoteメンバーシップを運営。毎月5本の新テンプレ・AIプロンプト・ノウハウ記事を配信。会員が増えるほど収益が安定する。',strategy:'「入会するほど過去コンテンツが全部読める」という設計が離脱防止に効く。Xで「今月の会員限定コンテンツ予告」を定期投稿して新規会員を獲得し続ける。',flow:[{icon:'🤖',label:'Claude Pro',desc:'毎月のコンテンツを生成'},{icon:'🎨',label:'Canvaテンプレ',desc:'月次テンプレを制作・配信'},{icon:'📝',label:'noteメンバーシップ',desc:'月額500〜980円で運営'},{icon:'🐦',label:'X毎月告知',desc:'「今月号」を投稿して新規獲得'}],income:'月3〜15万円（会員数×単価で安定成長）'},
+  {num:'04',color:'var(--sky)',title:'Gumroad×Pinterest 英語デジタル商品 自動収益',desc:'Canva Proで英語テンプレを量産→Gumroadに出品→Pinterestに毎日プレビュー画像を投稿。3〜6ヶ月後から検索流入で自動集客が始まり、寝ている間に売れる仕組みが完成。',strategy:'初期の3ヶ月間の投稿継続が全て。毎日5枚のPinterest投稿を続けるためにn8nで自動化する（Canva API→Pinterest APIの連携）。',flow:[{icon:'🎨',label:'Canva Pro',desc:'英語テンプレを量産'},{icon:'💰',label:'Gumroad出品',desc:'$9〜$29で英語圏販売'},{icon:'📌',label:'Pinterest毎日投稿',desc:'プレビュー画像を自動投稿'},{icon:'😴',label:'自動収益化',desc:'3ヶ月後から検索で自動集客'}],income:'月2〜10万円（仕込み完成後は不労所得に近い）'},
+]},
+];
+
+// ─── テーブル関連 ───
+function priceClass(t){
+  if(t.free||t.moUSD===0)return'price-free';
+  if(t.moUSD<=10)return'price-low';
+  if(t.moUSD<=25)return'price-mid';
+  return'price-high';
+}
+function buildAllTable(){
+  const tb=document.getElementById('all-table');
+  let h='';
+  TOOLS.forEach((t,i)=>{
+    const nb=t.cat===7?'<span class="new-badge">NEW</span>':'';
+    h+=`<tr id="row-all-${i}"><td class="td-check"><input type="checkbox" class="tool-checkbox" data-idx="${i}" onchange="toggleTool(${i},this.checked)"></td><td class="td-num">${String(i+1).padStart(2,'0')}</td><td class="td-name"><button class="tool-name-btn" onclick="openModal(${i})">${t.n}</button>${nb}</td><td><span class="td-cat">${t.catName}</span></td><td class="td-price ${priceClass(t)}">${t.mo}</td><td class="td-price ${priceClass(t)}">${t.yr}</td><td class="td-note">${t.note}</td></tr>`;
+  });
+  tb.innerHTML=h;
+}
+function buildCatTable(catId){
+  const filtered=TOOLS.filter(t=>t.cat===catId);
+  const tb=document.getElementById(`cat${catId}-table`);
+  if(!tb)return;
+  let h='';
+  filtered.forEach((t,li)=>{
+    const i=TOOLS.indexOf(t);
+    const catCol=(catId===7||catId===8)?`<td><span style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;color:#a8b2d0;">${t.catName}</span></td>`:'';
+    const noteCol=catId===8
+      ?`<td style="font-size:12px;color:#c8cfea;line-height:1.6;">${t.note} <button onclick="openModal(${i})" style="background:rgba(255,171,96,0.15);border:1px solid rgba(255,171,96,0.4);border-radius:6px;padding:2px 8px;font-size:11px;color:var(--orange);cursor:pointer;font-family:inherit;margin-left:4px;">収益化条件 →</button></td>`
+      :`<td class="td-note">${t.note}</td>`;
+    h+=`<tr id="row-cat${catId}-${i}"><td class="td-check"><input type="checkbox" class="tool-checkbox" data-idx="${i}" onchange="toggleTool(${i},this.checked)"></td><td class="td-num">${String(li+1).padStart(2,'0')}</td><td class="td-name"><button class="tool-name-btn" onclick="openModal(${i})">${t.n}</button></td>${catCol}<td class="td-price ${priceClass(t)}">${t.mo}</td><td class="td-price ${priceClass(t)}">${t.yr}</td>${noteCol}</tr>`;
+  });
+  tb.innerHTML=h;
+}
+function switchTab(n){
+  document.querySelectorAll('.table-pane').forEach((p,i)=>{p.classList.toggle('active',i===n);});
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.classList.toggle('active',i===n);});
+  selectedTools.forEach((billing,idx)=>{syncAllCheckboxes(idx,true);});
+  if(n===8)buildSNSCards();
+}
+
+// SNS収益化条件カード
+const SNS_MONETIZE=[
+  {icon:'▶️',name:'YouTube',color:'#ff4444',
+   conditions:[
+     {label:'アドセンス広告',req:'登録者1,000人以上＋過去12ヶ月の総再生時間4,000時間以上（またはショート動画再生1,000万回/90日）'},
+     {label:'メンバーシップ',req:'登録者500人以上＋収益化済み'},
+     {label:'スーパーサンクス/スパチャ',req:'収益化済み（YPP参加後）'},
+     {label:'ショッピング機能',req:'登録者1,000人以上＋収益化済み'},
+   ],
+   tips:'最初はショート動画で再生数を稼ぎ、チャンネル登録者を集めるのが最速ルート。'},
+  {icon:'🐦',name:'X（旧Twitter）',color:'#1da1f2',
+   conditions:[
+     {label:'広告収益分配',req:'X Premiumに加入済み＋フォロワー500人以上＋過去3ヶ月のインプレッション500万以上'},
+     {label:'サブスクリプション',req:'フォロワー500人以上（有料コンテンツ販売機能）'},
+     {label:'チップ機能（Tips）',req:'18歳以上のアカウント。フォロワー数制限なし'},
+   ],
+   tips:'広告収益分配の条件「500万インプレッション」はかなりハードル高め。X収益はアフィリエイト・note誘導・デジタル商品販売で稼ぐのが現実的。'},
+  {icon:'🎵',name:'TikTok',color:'#69C9D0',
+   conditions:[
+     {label:'Creativity Program（旧Creator Fund）',req:'18歳以上＋フォロワー1万人以上＋過去30日の動画再生10万回以上（日本では未展開の機能あり）'},
+     {label:'TikTok LIVE ギフト',req:'18歳以上＋フォロワー1,000人以上'},
+     {label:'Series（有料コンテンツ）',req:'フォロワー10,000人以上＋過去30日に投稿あり'},
+   ],
+   tips:'日本のTikTok広告単価は欧米の1/5〜1/10程度。集客ツールとして使い、noteやBrainに誘導する戦略の方がはるかに稼げる。'},
+  {icon:'📷',name:'Instagram',color:'#e1306c',
+   conditions:[
+     {label:'リールボーナス（Reels Play）',req:'招待制（Meta公式から招待が必要）'},
+     {label:'サブスクリプション',req:'フォロワー10,000人以上（申請制）'},
+     {label:'ライブバッジ',req:'フォロワー10,000人以上'},
+     {label:'アフィリエイト',req:'制限なし（Amazonアソシエイトリンク投稿可能）'},
+   ],
+   tips:'InstagramはAmazonアフィリエイトリンクを直接投稿できる数少ないSNS。フォロワーよりも「エンゲージメント率」が高い小さなアカウントの方が転換率が高い。'},
+  {icon:'🎙️',name:'stand.fm',color:'#ff6b6b',
+   conditions:[
+     {label:'レター（投げ銭）',req:'制限なし。すぐ使える'},
+     {label:'月額サポーター',req:'制限なし。すぐ設定可能（300〜1,000円/月）'},
+     {label:'有料チャンネル',req:'制限なし。月額課金チャンネルを作成可能'},
+   ],
+   tips:'stand.fmは収益化のハードルが最も低いプラットフォームの1つ。フォロワーゼロでも投げ銭設定ができる。まず配信を始めてファンを作る→サポーター課金の流れが最短ルート。'},
+  {icon:'🎮',name:'Twitch',color:'#9146ff',
+   conditions:[
+     {label:'Affiliateプログラム',req:'30日間で500分以上配信＋7日間のユニーク配信日3日以上＋平均同時視聴者3人以上＋フォロワー50人以上'},
+     {label:'Partnerプログラム',req:'過去30日間の配信25日以上＋平均同時視聴者75人以上（審査制）'},
+     {label:'収益化手段',req:'サブスクリプション（$4.99〜）・ビッツ（チップ）・広告'},
+   ],
+   tips:'Twitchは日本語圏での競合が少ない。ゲーム実況やコーディング配信、AI系の技術配信で差別化できる。毎日配信が収益化への最短ルート。'},
+  {icon:'🎧',name:'Spotify Podcast',color:'#1db954',
+   conditions:[
+     {label:'広告収益化',req:'Spotify Audience Network経由（招待制・要申請）'},
+     {label:'有料サブスク',req:'Spotify for Podcastersから設定可能（月額$2.99〜）'},
+     {label:'配信自体',req:'制限なし。完全無料で世界配信可能'},
+   ],
+   tips:'Podcastの広告収益化は再生数1万回/月を超えると現実的になる。それまではnote・Brain・Beehiivへの誘導ツールとして活用するのが正解。'},
+];
+
+function buildSNSCards(){
+  const wrap=document.getElementById('sns-monetize-cards');
+  if(!wrap||wrap.innerHTML!=='')return;
+  let h='';
+  SNS_MONETIZE.forEach(s=>{
+    h+=`<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+      <div style="background:${s.color}18;border-bottom:1px solid ${s.color}44;padding:12px 16px;display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">${s.icon}</span>
+        <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:${s.color};">${s.name}</span>
+        <span style="margin-left:auto;font-size:10px;font-family:'JetBrains Mono',monospace;color:#a8b2d0;letter-spacing:0.1em;">収益化条件</span>
+      </div>
+      <div style="padding:12px 16px;">
+        ${s.conditions.map(c=>`<div style="margin-bottom:8px;"><div style="font-size:11px;font-weight:700;color:${s.color};margin-bottom:2px;">● ${c.label}</div><div style="font-size:12px;color:#c8cfea;line-height:1.6;">${c.req}</div></div>`).join('')}
+        <div style="margin-top:10px;background:rgba(255,213,79,0.08);border:1px solid rgba(255,213,79,0.25);border-radius:8px;padding:8px 11px;font-size:11px;color:#e8ecfa;line-height:1.7;">💡 ${s.tips}</div>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML=h;
+}
+
+// ─── 選択・計算 ───
+const selectedTools=new Map();
+const YR_USD2=[96,120,0,600,120,240,204,240,200,240,144,120,60,0,96,0,0,0,0,0,240,108,240,96,120,120,0,0,144,264,96,96,240,149,396,30,144,96,96,990,999,70,264,299,144,396,948,348,19,132,0,0,0,84,264,0,0,0,0,0];
+
+function toggleTool(idx,checked){
+  if(checked){const t=TOOLS[idx];selectedTools.set(idx,(t.free||t.moUSD===0)?'free':'mo');}
+  else{selectedTools.delete(idx);}
+  syncAllCheckboxes(idx,checked);
+  renderCalcList();
+  document.getElementById('calcResult').style.display='none';
+}
+function syncAllCheckboxes(idx,checked){
+  document.querySelectorAll(`.tool-checkbox[data-idx="${idx}"]`).forEach(el=>{
+    el.checked=checked;
+    const row=el.closest('tr');
+    if(row)row.classList.toggle('selected',checked);
+  });
+}
+function setItemBilling(idx,mode){
+  if(!selectedTools.has(idx))return;
+  selectedTools.set(idx,mode);
+  renderCalcList();
+  document.getElementById('calcResult').style.display='none';
+}
+function removeItem(idx){
+  selectedTools.delete(idx);
+  syncAllCheckboxes(idx,false);
+  renderCalcList();
+  document.getElementById('calcResult').style.display='none';
+}
+function clearAll(){
+  selectedTools.clear();
+  document.querySelectorAll('.tool-checkbox').forEach(el=>{el.checked=false;const row=el.closest('tr');if(row)row.classList.remove('selected');});
+  renderCalcList();
+  document.getElementById('calcResult').style.display='none';
+}
+function renderCalcList(){
+  const listEl=document.getElementById('calcItemList');
+  const emptyEl=document.getElementById('calcEmpty');
+  const countEl=document.getElementById('selectedCount');
+  if(selectedTools.size===0){listEl.style.display='none';emptyEl.style.display='block';countEl.textContent='';return;}
+  emptyEl.style.display='none';
+  listEl.style.display='flex';
+  countEl.textContent=`${selectedTools.size}ツール選択中`;
+  let h='';
+  selectedTools.forEach((billing,idx)=>{
+    const t=TOOLS[idx];
+    const isFree=t.free||t.moUSD===0;
+    if(isFree){
+      h+=`<div class="calc-item-row"><div><div class="calc-item-name">${t.n}</div><div class="calc-item-cat">${t.catName}</div></div><span class="bill-toggle free-tag">無料</span><button class="calc-item-remove" onclick="removeItem(${idx})">✕</button></div>`;
+    }else{
+      const moPart=t.mo.split('(')[0];
+      const yrPart=t.yr.split('(')[0];
+      h+=`<div class="calc-item-row"><div><div class="calc-item-name">${t.n}</div><div class="calc-item-cat">${t.catName}</div></div><div class="calc-item-billing"><button class="bill-toggle ${billing==='mo'?'active-mo':''}" onclick="setItemBilling(${idx},'mo')">月払い<br><span style="font-size:10px;font-weight:400;">${moPart}</span></button><button class="bill-toggle ${billing==='yr'?'active-yr':''}" onclick="setItemBilling(${idx},'yr')">年払い<br><span style="font-size:10px;font-weight:400;">${yrPart}</span></button></div><button class="calc-item-remove" onclick="removeItem(${idx})">✕</button></div>`;
+    }
+  });
+  listEl.innerHTML=h;
+}
+function runCalc(){
+  if(selectedTools.size===0)return;
+  let moTotal=0,yrTotal=0;
+  const freeItems=[],paidItems=[];
+  selectedTools.forEach((billing,idx)=>{
+    const t=TOOLS[idx];
+    const isFree=t.free||t.moUSD===0;
+    if(isFree){freeItems.push(t);}
+    else{
+      const moUSD=t.moUSD;
+      const yrUSD=YR_USD2[idx]||moUSD*12;
+      if(billing==='mo'){moTotal+=moUSD;yrTotal+=moUSD*12;}
+      else{yrTotal+=yrUSD;moTotal+=Math.round(yrUSD/12);}
+      paidItems.push({t,billing,moUSD,yrUSD});
+    }
+  });
+  document.getElementById('total-jpy').textContent=`¥${(moTotal*150).toLocaleString()}`;
+  document.getElementById('total-usd').textContent=`$${moTotal} / month`;
+  document.getElementById('total-annual-jpy').textContent=`¥${(yrTotal*150).toLocaleString()}`;
+  document.getElementById('total-annual-usd').textContent=`$${yrTotal} / year`;
+  document.getElementById('free-count').textContent=`${freeItems.length} 個`;
+  document.getElementById('free-names').textContent=freeItems.map(t=>t.n).join('・');
+  let bd='';
+  paidItems.forEach(({t,billing,moUSD,yrUSD})=>{
+    const dp=billing==='mo'?`¥${(moUSD*150).toLocaleString()}/月`:`¥${(yrUSD*150).toLocaleString()}/年`;
+    bd+=`<div class="breakdown-row"><span class="breakdown-name">${t.n}</span><span class="breakdown-billing ${billing}">${billing==='mo'?'月払い':'年払い'}</span><span class="breakdown-price">${dp}</span></div>`;
+  });
+  freeItems.forEach(t=>{bd+=`<div class="breakdown-row"><span class="breakdown-name">${t.n}</span><span class="breakdown-billing free">無料</span><span class="breakdown-price" style="color:var(--green)">¥0</span></div>`;});
+  document.getElementById('calcBreakdown').innerHTML=bd;
+  const r=document.getElementById('calcResult');
+  r.style.display='block';
+  r.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ─── モーダル ───
+function openModal(idx){
+  const t=TOOLS[idx];
+  document.getElementById('modalCat').textContent=t.catName;
+  document.getElementById('modalName').textContent=t.n;
+  document.getElementById('modalPrice').textContent=`月額 ${t.mo}　／　年額 ${t.yr}`;
+  document.getElementById('modalDesc').textContent=TOOL_DESC[idx];
+  document.getElementById('modalUrl').href=t.url;
+  document.getElementById('toolModal').style.display='flex';
+}
+function closeModal(e){
+  if(!e||e.target===document.getElementById('toolModal')||e.target.tagName==='BUTTON'){
+    document.getElementById('toolModal').style.display='none';
+  }
+}
+
+// ─── ジャンル表示 ───
+let currentGenre=-1,currentWF=-1,currentPattern=-1;
+function selectGenre(n){
+  document.querySelectorAll('.genre-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+  currentGenre=n;currentWF=-1;currentPattern=-1;
+  renderGenreContent(n);
+}
+function selectPattern(genreIdx,patIdx){
+  const g=GENRES[genreIdx];
+  const p=g.patterns[patIdx];
+  const colors=['var(--gold)','var(--teal)','var(--rose)','var(--violet)','var(--sky)'];
+  const c=colors[genreIdx];
+  // 同じパターンを再クリックで閉じる
+  if(currentPattern===patIdx){
+    currentPattern=-1;
+    document.getElementById(`pattern-detail-area-${genreIdx}`).innerHTML='';
+    g.patterns.forEach((_,i)=>{
+      const card=document.getElementById(`pc-${genreIdx}-${i}`);
+      if(!card)return;
+      card.style.borderColor='';card.style.boxShadow='';card.style.transform='';
+      const hint=document.getElementById(`ph-${genreIdx}-${i}`);
+      if(hint) hint.textContent='▼ クリックしてできること4選を見る';
+    });
+    return;
+  }
+  // カードのアクティブ切り替え
+  g.patterns.forEach((_,i)=>{
+    const card=document.getElementById(`pc-${genreIdx}-${i}`);
+    const hint=document.getElementById(`ph-${genreIdx}-${i}`);
+    if(!card)return;
+    if(i===patIdx){
+      card.style.borderColor=c;
+      card.style.boxShadow='0 0 0 1px '+c+', 0 12px 32px rgba(0,0,0,0.5)';
+      card.style.transform='translateY(-4px)';
+      if(hint) hint.textContent='▲ 閉じる';
+    } else {
+      card.style.borderColor='';card.style.boxShadow='';card.style.transform='';
+      if(hint) hint.textContent='▼ クリックしてできること4選を見る';
+    }
+  });
+  currentPattern=patIdx;
+  // featuresを展開
+  var h='<div style="animation:fadeUp 0.35s ease;background:var(--surface);border:1px solid '+c+'44;border-radius:20px;overflow:hidden;">';
+  h+='<div style="padding:18px 24px;background:rgba(0,0,0,0.2);border-bottom:1px solid '+c+'33;display:flex;align-items:center;gap:12px;">';
+  h+='<span style="font-family:\'Syne\',sans-serif;font-size:22px;font-weight:800;color:'+c+';">'+p.rank+'</span>';
+  h+='<div><div style="font-family:\'Syne\',sans-serif;font-size:17px;font-weight:800;color:var(--text);">'+p.title+'　でできること</div>';
+  h+='<div style="font-size:12px;color:#a8b2d0;margin-top:2px;">'+p.sub+'　／　月額 '+p.cost_mo+'</div></div></div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0;">';
+  p.features.forEach(function(f,fi){
+    var borderL=fi%2===1?'border-left:1px solid var(--border2);':'';
+    var borderT=fi>=2?'border-top:1px solid var(--border2);':'';
+    var btnId='pcopy-'+genreIdx+'-'+patIdx+'-'+fi;
+    h+='<div style="padding:22px 24px;'+borderL+borderT+'">';
+    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:11px;">';
+    h+='<span style="font-size:22px;">'+f.icon+'</span>';
+    h+='<div style="background:rgba(0,0,0,0.2);border:1px solid '+c+'44;border-radius:6px;padding:2px 9px;font-family:\'JetBrains Mono\',monospace;font-size:10px;color:'+c+';letter-spacing:0.1em;">0'+(fi+1)+'</div></div>';
+    h+='<div style="font-size:14px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:9px;">'+f.title+'</div>';
+    h+='<div style="font-size:13px;color:#c8cfea;line-height:1.85;margin-bottom:14px;">'+f.desc+'</div>';
+    h+='<button id="'+btnId+'" onclick="copyFeaturePrompt(\''+btnId+'\',\''+genreIdx+'\',\''+patIdx+'\','+fi+')" style="display:inline-flex;align-items:center;gap:6px;background:rgba(196,168,255,0.08);border:1px solid rgba(196,168,255,0.3);border-radius:8px;padding:7px 13px;font-size:11px;font-weight:700;color:var(--violet);cursor:pointer;font-family:\'Zen Kaku Gothic New\',sans-serif;transition:all 0.2s;">🤖 このテクニックをAIに深掘りさせる</button>';
+    h+='</div>';
+  });
+  h+='</div>';
+  // AI投入用コピーボタン
+  h+='<div style="padding:16px 22px;border-top:1px solid var(--border);background:rgba(0,0,0,0.15);">';
+  h+='<div style="font-size:12px;color:#a8b2d0;margin-bottom:10px;line-height:1.7;">👇 このパターンの構成・できること4選をまるごとAIに投入して、さらに具体的なアドバイスを引き出せます。</div>';
+  h+='<button id="pcopy-btn-'+genreIdx+'-'+patIdx+'" onclick="copyPatternPrompt('+genreIdx+','+patIdx+')" style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,168,255,0.12);border:1px solid rgba(196,168,255,0.4);border-radius:11px;padding:10px 20px;font-size:13px;font-weight:700;color:var(--violet);cursor:pointer;font-family:\'Zen Kaku Gothic New\',sans-serif;transition:all 0.2s;">🤖 AI投入用プロンプトをコピー</button>';
+  h+='</div></div>';
+  document.getElementById('pattern-detail-area-'+genreIdx).innerHTML=h;
+  setTimeout(function(){
+    var el=document.getElementById('pattern-detail-area-'+genreIdx);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },50);
+}
+function renderGenreContent(n){
+  const g=GENRES[n];
+  const colors=['var(--gold)','var(--teal)','var(--rose)','var(--violet)','var(--sky)'];
+  const c=colors[n];
+  let h=`<div class="patterns-wrap show">`;
+  // パターン
+  h+=`<div class="divider"><div class="divider-line"></div><div class="divider-label">Step 02　ツール構成4パターン</div><div class="divider-line" style="background:linear-gradient(90deg,transparent,var(--border));"></div></div>`;
+  h+=`<div class="pattern-cards">`;
+  g.patterns.forEach((p,pi)=>{
+    h+=`<div class="pattern-card" id="pc-${n}-${pi}" onclick="selectPattern(${n},${pi})" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;">
+      <div class="pattern-card-header">
+        <span class="pattern-rank" style="color:${c}">${p.rank}</span>
+        <div><div class="pattern-card-title">${p.title}</div><div class="pattern-card-sub">${p.sub}</div></div>
+        <div class="pattern-cost"><div class="mo" style="color:${c}">${p.cost_mo}</div><div class="lb">/月</div></div>
+      </div>
+      <div class="pattern-body">
+        <div class="tool-list">${p.tools.map(t=>`<a class="tool-tag" href="${t.url}" target="_blank" onclick="event.stopPropagation()">${t.icon} ${t.name}</a>`).join('')}</div>
+        <div class="pattern-purpose">${p.purpose}</div>
+        <div style="margin-top:10px;font-size:11px;color:${c};font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;" id="ph-${n}-${pi}">▼ クリックしてできること4選を見る</div>
+      </div>
+    </div>`;
+  });
+  h+=`</div>`;
+  // パターンfeatures展開エリア
+  h+=`<div id="pattern-detail-area-${n}" style="margin-bottom:40px;"></div>`;
+  // ワークフロー選択
+  h+=`<div class="wf-area"><div class="wf-title">Step 03　やりたいことを選ぶと<span class="hl">詳細ワークフロー</span>が出てきます</div><div class="wf-goals">`;
+  g.goals.forEach((goal,gi)=>{
+    h+=`<button class="wf-goal-btn" style="--wc:${goal.color}" onclick="selectWF(${n},${gi})" id="wg-${n}-${gi}"><span class="wg-icon">${goal.icon}</span><div class="wg-name">${goal.name}</div><div class="wg-sub">${goal.sub}</div></button>`;
+  });
+  h+=`</div><div id="wf-detail-area"></div></div>`;
+  // コンテンツ例（2行分の余白）
+  h+=`<div style="height:48px;"></div>`;
+  h+=`<div class="divider"><div class="divider-line"></div><div class="divider-label">今熱いコンテンツビジネス例 × 4</div><div class="divider-line" style="background:linear-gradient(90deg,transparent,var(--border));"></div></div>`;
+  h+=`<div class="ex-cards">`;
+  g.examples.forEach(ex=>{
+    h+=`<div class="ex-card"><div class="ex-inner"><div class="ex-content"><div class="ex-num">EXAMPLE ${ex.num}</div><div class="ex-title" style="color:${c}">${ex.title}</div><div class="ex-desc">${ex.desc}</div><div class="strategy-box">${ex.strategy}</div></div><div class="diagram-box"><div class="diagram-title">実践フロー</div>`;
+    ex.flow.forEach((f,fi)=>{
+      if(fi>0)h+=`<div class="flow-arrow">↓</div>`;
+      h+=`<div class="flow-step"><div class="flow-step-box"><strong>${f.icon} ${f.label}</strong>${f.desc}</div></div>`;
+    });
+    h+=`<div class="flow-income"><span class="flow-income-label">💰 想定収益</span><span class="flow-income-amount">${ex.income}</span></div></div></div></div>`;
+  });
+  h+=`</div></div>`;
+  document.getElementById('genre-content').innerHTML=h;
+}
+function copyFeaturePrompt(btnId,genreIdx,patIdx,fi){
+  var genreNames=['テキスト発信','イラスト・画像','動画・音声','AI自動化','デジタル商品'];
+  var p=GENRES[genreIdx].patterns[patIdx];
+  var f=p.features[fi];
+  var prompt='以下のコンテンツビジネステクニックを実践したいです。\n';
+  prompt+='具体的な手順・つまずきポイントと対処法・今日からできる最初のアクションを教えてください。\n\n';
+  prompt+='【ジャンル】\n'+genreNames[genreIdx]+'\n\n';
+  prompt+='【ツール構成】\n'+p.rank+'. '+p.title+'（月額'+p.cost_mo+'）\n';
+  prompt+='【使用ツール】\n'+p.tools.map(function(t){return t.name;}).join('、')+'\n\n';
+  prompt+='【実践したいテクニック】\n'+f.title+'\n\n';
+  prompt+='【テクニックの概要】\n'+f.desc+'\n\n';
+  prompt+='上記を踏まえて以下をお願いします：\n';
+  prompt+='1. 今日から始められる具体的な手順（ステップ形式）\n';
+  prompt+='2. 必要な準備・事前に揃えるもの\n';
+  prompt+='3. つまずきやすいポイントとその解決策\n';
+  prompt+='4. このテクニックで期待できる成果と目安の期間';
+  var btn=document.getElementById(btnId);
+  function onSuccess(){
+    if(btn){
+      btn.textContent='✅ コピーしました！';
+      btn.style.background='rgba(110,232,154,0.2)';
+      btn.style.borderColor='rgba(110,232,154,0.5)';
+      btn.style.color='var(--green)';
+      setTimeout(function(){
+        btn.textContent='🤖 このテクニックをAIに深掘りさせる';
+        btn.style.background='';btn.style.borderColor='';btn.style.color='';
+      },2500);
+    }
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(prompt).then(onSuccess).catch(function(){fallbackCopy(prompt,onSuccess);});
+  }else{
+    fallbackCopy(prompt,onSuccess);
+  }
+}
+function buildPatternPrompt(genreIdx,patIdx){
+  var genreNames=['テキスト発信','イラスト・画像','動画・音声','AI自動化','デジタル商品'];
+  var p=GENRES[genreIdx].patterns[patIdx];
+  var prompt='以下のコンテンツビジネスのツール構成パターンを実践しようとしています。\n';
+  prompt+='このパターンでできること4つをさらに深掘りして、今日から動き出せる具体的なアクションプランを作ってください。\n\n';
+  prompt+='【ジャンル】\n'+genreNames[genreIdx]+'\n\n';
+  prompt+='【パターン名】\n'+p.rank+'. '+p.title+'\n';
+  prompt+='【概要】\n'+p.sub+'\n';
+  prompt+='【月額コスト】\n'+p.cost_mo+'\n';
+  prompt+='【使用ツール】\n'+p.tools.map(function(t){return t.name;}).join('、')+'\n';
+  prompt+='【パターンの目的】\n'+p.purpose+'\n\n';
+  prompt+='【このパターンでできること4選】\n';
+  p.features.forEach(function(f,i){
+    prompt+='\n▼ 0'+(i+1)+' '+f.title+'\n';
+    prompt+=f.desc+'\n';
+  });
+  prompt+='\n上記の内容を踏まえて、以下をお願いします：\n';
+  prompt+='1. 各「できること」を実践する際の具体的な手順と注意点\n';
+  prompt+='2. 最初の1週間でやるべき最優先アクション3つ\n';
+  prompt+='3. このパターンで月3万円を達成するまでのロードマップ\n';
+  prompt+='4. つまずきやすいポイントとその対処法';
+  return prompt;
+}
+function copyPatternPrompt(genreIdx,patIdx){
+  var prompt=buildPatternPrompt(genreIdx,patIdx);
+  var btn=document.getElementById('pcopy-btn-'+genreIdx+'-'+patIdx);
+  function onSuccess(){
+    if(btn){
+      btn.textContent='✅ コピーしました！';
+      btn.style.background='rgba(110,232,154,0.2)';
+      btn.style.borderColor='rgba(110,232,154,0.5)';
+      btn.style.color='var(--green)';
+      setTimeout(function(){
+        btn.textContent='🤖 AI投入用プロンプトをコピー';
+        btn.style.background='';btn.style.borderColor='';btn.style.color='';
+      },2500);
+    }
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(prompt).then(onSuccess).catch(function(){fallbackCopy(prompt,onSuccess);});
+  }else{
+    fallbackCopy(prompt,onSuccess);
+  }
+}
+function buildAIPrompt(wf){
+  let prompt=`以下のコンテンツビジネスワークフローを実践したいです。各フェーズをさらに詳細に展開して、具体的な手順・使うツールの設定方法・つまずきやすいポイントと対処法・1週間の行動スケジュール例も含めて教えてください。\n\n`;
+  prompt+=`【ワークフロー名】\n${wf.title}\n\n`;
+  prompt+=`【概要】\n${wf.sub}\n\n`;
+  prompt+=`【想定収益】\n${wf.income}\n\n`;
+  prompt+=`【フェーズ別の内容】\n`;
+  wf.steps.forEach((s,i)=>{
+    prompt+=`\n▼ PHASE ${i+1}：${s.title}\n`;
+    prompt+=`・フェーズ概要：${s.phase}\n`;
+    prompt+=`・やること：${s.desc}\n`;
+    prompt+=`・使うツール：${s.tools.join('、')}\n`;
+    prompt+=`・ポイント：${s.tip}\n`;
+  });
+  prompt+=`\n上記を踏まえて、私が今日から実際に動き出せるレベルの詳細な実践ガイドを作成してください。`;
+  return prompt;
+}
+
+function copyAIPrompt(genreIdx,wfIdx){
+  const wf=GENRES[genreIdx].workflows[wfIdx];
+  const prompt=buildAIPrompt(wf);
+  const btn=document.getElementById(`copy-btn-${genreIdx}-${wfIdx}`);
+  function onSuccess(){
+    if(btn){
+      btn.textContent='✅ コピーしました！';
+      btn.style.background='rgba(110,232,154,0.2)';
+      btn.style.borderColor='rgba(110,232,154,0.5)';
+      btn.style.color='var(--green)';
+      setTimeout(()=>{
+        btn.textContent='🤖 AI投入用プロンプトをコピー';
+        btn.style.background='';btn.style.borderColor='';btn.style.color='';
+      },2500);
+    }
+  }
+  // clipboard API → 失敗したらdocument.execCommand方式にフォールバック
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(prompt).then(onSuccess).catch(()=>fallbackCopy(prompt,onSuccess));
+  }else{
+    fallbackCopy(prompt,onSuccess);
+  }
+}
+function fallbackCopy(text,cb){
+  const ta=document.createElement('textarea');
+  ta.value=text;
+  ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  try{document.execCommand('copy');if(cb)cb();}catch(e){alert('コピーできませんでした。手動でテキストを選択してコピーしてください。');}
+  document.body.removeChild(ta);
+}
+
+function selectWF(genreIdx,wfIdx){
+  document.querySelectorAll(`[id^="wg-${genreIdx}-"]`).forEach((b,i)=>b.classList.toggle('active',i===wfIdx));
+  currentWF=wfIdx;
+  const wf=GENRES[genreIdx].workflows[wfIdx];
+  const stepColors=['var(--gold)','var(--teal)','var(--rose)','var(--violet)','var(--sky)'];
+  let h=`<div class="wf-detail show"><div class="wf-detail-header"><div class="wf-detail-title">${wf.title}</div><div class="wf-detail-sub">${wf.sub}</div></div><div class="wf-steps">`;
+  wf.steps.forEach((s,si)=>{
+    const sc=stepColors[si%stepColors.length];
+    const isLast=si===wf.steps.length-1;
+    h+=`<div class="wf-step"><div class="wf-step-left"><div class="wf-step-num" style="background:${sc}">${si+1}</div>${!isLast?'<div class="wf-step-line"></div>':''}</div><div class="wf-step-body"><div class="wf-step-phase">${s.phase}</div><div class="wf-step-title">${s.title}</div><div class="wf-step-desc">${s.desc}</div><div class="wf-step-tools">${s.tools.map(t=>`<span class="wf-tool-chip">🔧 ${t}</span>`).join('')}</div><div class="wf-step-tip">${s.tip}</div></div></div>`;
+  });
+  h+=`</div>`;
+  h+=`<div class="wf-income"><div class="wf-income-label">💰 このワークフローの想定収益</div><div class="wf-income-val">${wf.income}</div></div>`;
+  // AI投入用コピーボタン
+  h+=`<div style="margin-top:20px;padding:18px 20px;background:rgba(196,168,255,0.06);border:1px dashed rgba(196,168,255,0.35);border-radius:14px;">
+    <div style="font-size:12px;color:#a8b2d0;margin-bottom:10px;line-height:1.7;">👇 このワークフローの内容を丸ごとAIに投入して、さらに詳細な実践ガイドを出力させるプロンプトをコピーできます。Claude・ChatGPT・Geminiどれにでも使えます。</div>
+    <button id="copy-btn-${genreIdx}-${wfIdx}" onclick="copyAIPrompt(${genreIdx},${wfIdx})" style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,168,255,0.12);border:1px solid rgba(196,168,255,0.4);border-radius:11px;padding:11px 22px;font-size:13px;font-weight:700;color:var(--violet);cursor:pointer;font-family:'Zen Kaku Gothic New',sans-serif;transition:all 0.2s;">🤖 AI投入用プロンプトをコピー</button>
+  </div></div>`;
+  document.getElementById('wf-detail-area').innerHTML=h;
+}
+
+// ─── 初期化 ───
+window.addEventListener('DOMContentLoaded',()=>{
+  buildAllTable();
+  [1,2,3,4,5,6,7,8].forEach(c=>buildCatTable(c));
+});
+</script>
+</div>
+</body>
+</html>
